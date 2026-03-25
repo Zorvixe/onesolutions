@@ -1123,6 +1123,7 @@ const handleSelect = (sql, questionData) => {
           return String(row[col]).toLowerCase().includes(value);
         }
 
+        
         // ----------------------------------
         // 3️⃣ Handle numeric comparisons
         // ----------------------------------
@@ -1179,7 +1180,11 @@ const handleSelect = (sql, questionData) => {
     );
 
     // If any aggregate exists
-    if (countMatch || maxMatch || minMatch || sumMatch || avgMatch) {
+    const isOnlyAggregate =
+  /^(count|max|min|sum|avg)\s*\(/i.test(selectPart.trim()) &&
+  !selectPart.includes(",");
+
+if (isOnlyAggregate) {
       const result = {};
 
       if (countMatch) {
@@ -1431,6 +1436,29 @@ const handleSelect = (sql, questionData) => {
       };
     });
   }
+
+    // ==========================
+// CUSTOM COLUMN: rating_variance
+// ==========================
+if (selectPart.toLowerCase().includes("rating_variance")) {
+
+  // find rating column dynamically
+  const ratingColumn = tableInfo.columns.find(
+  col =>
+    col.toLowerCase().includes("rating") &&
+    col.toLowerCase() !== "rating_variance"
+);
+  if (ratingColumn) {
+    const avgRating =
+      rows.reduce((acc, r) => acc + Number(r[ratingColumn] || 0), 0) /
+      rows.length;
+
+    rows = rows.map(row => ({
+      ...row,
+      rating_variance: Number(row[ratingColumn] || 0) - avgRating
+    }));
+  }
+}
   // ==========================
 // APPLY SELECT COLUMN FILTERING (FIXED)
 // ==========================
@@ -1466,6 +1494,7 @@ if (selectPart !== "*") {
 
       const aliasMatch = col.match(/(.+)\s+as\s+(\w+)/i);
 
+
       if (aliasMatch) {
         const originalColumn = aliasMatch[1].trim();
         const alias = aliasMatch[2];
@@ -1489,6 +1518,8 @@ if (selectPart !== "*") {
     return filteredRow;
   });
 }
+
+
 
   // ==========================
   // ORDER BY (multi-column)

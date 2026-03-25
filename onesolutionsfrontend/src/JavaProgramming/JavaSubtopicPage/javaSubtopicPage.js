@@ -288,31 +288,46 @@ const JavaSubtopicPage = () => {
     });
   };
 
-  const renderContent = () => {
-    if (content) {
-      const props = {
-        contentId: content.id,
-        contentUuid: content.content_uuid,
-        goalId: selectedGoal?.id || content.goal_id,
-        moduleId: selectedModule?.id || content.module_id,
-        topicId: selectedTopic?.id || content.topic_id,
-        subtopicId: selectedSubtopic?.id || content.subtopic_id,
-        onComplete: markAsCompleted,
-        preLoadedContent: content,
-      };
-      switch (content.content_type) {
-        case "video": return <JavaClasses {...props} />;
-        case "cheatsheet": return <JavaCheatSheet {...props} />;
-        case "mcq": return <JavaMcqs {...props} />;
-        case "coding": return <JavaCodingPractice {...props} isSingleProblem={true} />;
-        default: return <JavaClasses {...props} />;
-      }
+const renderContent = () => {
+  // Compute actual names from state or content fallback
+  const actualModuleName = selectedModule?.name 
+    || (content?.module_name) 
+    || "Java Module";
+  const actualTopicName = selectedTopic?.name 
+    || (content?.topic_name) 
+    || "Java Topic";
+
+  if (content) {
+    const props = {
+      contentId: content.id,
+      contentUuid: content.content_uuid,
+      goalId: selectedGoal?.id || content.goal_id,
+      moduleId: selectedModule?.id || content.module_id,
+      topicId: selectedTopic?.id || content.topic_id,
+      subtopicId: selectedSubtopic?.id || content.subtopic_id,
+      onComplete: markAsCompleted,
+      preLoadedContent: content,
+      moduleName: actualModuleName,   // <-- Added
+      topicName: actualTopicName,     // <-- Added
+    };
+    switch (content.content_type) {
+      case "video": return <JavaClasses {...props} />;
+      case "cheatsheet": return <JavaCheatSheet {...props} />;
+      case "mcq": return <JavaMcqs {...props} />;
+      case "coding": return <JavaCodingPractice {...props} isSingleProblem={true} />;
+      default: return <JavaClasses {...props} />;
     }
-    if (practice) {
-      return <JavaCodingPractice practice={practice} onComplete={markAsCompleted} />;
-    }
-    return null;
-  };
+  }
+  if (practice) {
+    return <JavaCodingPractice 
+      practice={practice} 
+      onComplete={markAsCompleted} 
+      moduleName={actualModuleName}   // <-- Added
+      topicName={actualTopicName}     // <-- Added
+    />;
+  }
+  return null;
+};
 
   if (loading) return (
     <div className="subtopic-page-sub">

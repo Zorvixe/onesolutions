@@ -58,8 +58,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["'integer'", "'number'", "'string'", "'object'"],
-    answer: "'number'",
+    options: ["integer", "number", "string", "object"],
+    answer: "number",
   },
   {
     question: (
@@ -71,8 +71,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["'null'", "'undefined'", "'object'", "'string'"],
-    answer: "'undefined'",
+    options: ["null", "undefined", "object", "string"],
+    answer: "undefined",
   },
   {
     question: (
@@ -84,8 +84,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["'boolean'", "'string'", "'object'", "'undefined'"],
-    answer: "'boolean'",
+    options: ["boolean", "string", "object", "undefined"],
+    answer: "boolean",
   },
   {
     question: (
@@ -97,8 +97,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["'object'", "'string'", "'number'", "'symbol'"],
-    answer: "'string'",
+    options: ["object", "string", "number", "symbol"],
+    answer: "string",
   },
   {
     question: (
@@ -110,8 +110,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["'null'", "'undefined'", "'object'", "'boolean'"],
-    answer: "'object'",
+    options: ["null", "undefined", "object", "boolean"],
+    answer: "object",
   },
   {
     question: (
@@ -123,8 +123,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["7", "'7'", "'52'", "Error"],
-    answer: "'52'",
+    options: ["7", "8", "52", "Error"],
+    answer: "52",
   },
   {
     question: (
@@ -136,7 +136,7 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["'25'", "25", "NaN", "undefined"],
+    options: ["25", "20", "NaN", "undefined"],
     answer: "25",
   },
   {

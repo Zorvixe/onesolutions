@@ -302,7 +302,7 @@ export default function JavaCourses() {
                                   <div className="content-area">
                                     <div className="module_topic_names" onClick={() => setExpandedTopic(isExpandedTopic ? null : topic.id)}>
                                       <div className="module-header-row">
-                                        <div className="topic-label"><h6>JAVA TOPIC</h6></div>
+                                        <div className="topic-label"><h6>TOPIC</h6></div>
                                         <div className="module-title"><h5>{topic.name}</h5></div>
                                       </div>
                                       <div className="active-module_subtopic">

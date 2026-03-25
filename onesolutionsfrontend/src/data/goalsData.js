@@ -4030,7 +4030,7 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Test 1",
+                name: "Flexbox MCQ Test 1",
                 accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -4040,7 +4040,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Test 1",
+                name: "Flexbox MCQ Test 2",
                 accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {

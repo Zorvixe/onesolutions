@@ -40,12 +40,12 @@ p { color: gray; }
       </div>
     ),
     options: [
-      "p selector (type)",
-      ".warning selector (class wins)",
+      "p selector",
+      ".warning selector",
       "Both applied",
       "No color",
     ],
-    answer: ".warning selector (class wins)", // Class > Type
+    answer: ".warning selector", // Class > Type
   },
   {
     question: (
@@ -64,8 +64,8 @@ p { color: gray; }
         />
       </div>
     ),
-    options: ["Red (class)", "Blue (ID wins)", "Purple", "Black"],
-    answer: "Blue (ID wins)", // ID > Class
+    options: ["Red", "Blue", "Purple", "Black"],
+    answer: "Blue", // ID > Class
   },
   {
     question: (
@@ -84,8 +84,8 @@ p { color: gray; }
         />
       </div>
     ),
-    options: ["Red", "Blue (last wins)", "Both", "None"],
-    answer: "Blue (last wins)", // Same specificity → cascade
+    options: ["Red", "Blue", "Both", "None"],
+    answer: "Blue", // Same specificity → cascade
   },
   {
     question: (
@@ -145,8 +145,8 @@ p { color: gray; }
         />
       </div>
     ),
-    options: ["Green", "Yellow", "Orange (last make-green)", "Black"],
-    answer: "Orange (last make-green)", // Last declaration wins
+    options: ["Green", "Yellow", "Orange", "Black"],
+    answer: "Orange", // Last declaration wins
   },
   {
     question: (
@@ -163,12 +163,12 @@ p { color: red !important; }
       </div>
     ),
     options: [
-      "Blue (ID wins)",
-      "Red (!important wins)",
+      "Blue",
+      "Red",
       "No color",
       "Both applied",
     ],
-    answer: "Red (!important wins)",
+    answer: "Red",
   },
   {
     question: (
@@ -186,11 +186,11 @@ h1 { color: black; }
     ),
     options: [
       "h1 (type selector)",
-      ".title (class wins)",
+      ".title (class selector)",
       "Both same",
       "No style",
     ],
-    answer: ".title (class wins)",
+    answer: ".title (class selector)",
   },
   {
     question: (
@@ -213,10 +213,10 @@ div { padding: 10px; }
     options: [
       "div rule",
       "container rule",
-      "main rule (ID wins)",
+      "main rule",
       "All applied",
     ],
-    answer: "main rule (ID wins)",
+    answer: "main rule",
   },
 
   {

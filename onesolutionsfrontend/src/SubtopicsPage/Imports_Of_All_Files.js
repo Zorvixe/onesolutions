@@ -1023,6 +1023,9 @@ import Introductionto_CSS_Flexbox_MCQ_3 from "../FlexBox/CSS_Flexbox/Introductio
 import Introductionto_CSS_Flexbox_MCQ_2 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_MCQ_2.js";
 import Introductionto_CSS_Flexbox_MCQ from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_MCQ.js";
 import Sizing_Ele_Handling_Overflow_MCQ from "../FlexBox/CSS_Flexbox/Sizing_Ele_Handling_Overflow_MCQ.js";
+import Flexbox_MockTest_1 from "../FlexBox/Mock_Tests/Flexbox_MockTest_1.js";
+import Flexbox_MockTest_2 from "../FlexBox/Mock_Tests/Flexbox_MockTest_2.js";
+
 export const subtopicComponents = {
   "MCQ Pratice - Box Sizing": Box_Sizing_MCQ,
   "MCQ Pratice - CSS Flexbox 3": Introductionto_CSS_Flexbox_MCQ_3,
@@ -1059,6 +1062,8 @@ export const subtopicComponents = {
   "Flexbox Coding Assignment 2": Flexbox_Coding_Assignment_2,
   "Flexbox Coding Assignment 3": Flexbox_Coding_Assignment_3,
   "Flexbox Coding Assignment 4": Flexbox_Coding_Assignment_4,
+  "Flexbox MCQ Test 1":  Flexbox_MockTest_1,
+  "Flexbox MCQ Test 2":  Flexbox_MockTest_2,
   //Js Essentials
   "JS Essential Coding Practice 1": JS_Essentials_Coding_Pratice_1,
   "JS Essential Coding Practice 2": JS_Essentials_Coding_Pratice_2,

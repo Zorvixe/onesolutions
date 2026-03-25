@@ -349,6 +349,15 @@ const JavaPractice = ({
     );
   }, [practiceMetadata, localProgress]);
 
+  const practiceName = useMemo(() => {
+    if (practiceMetadata) {
+      // For regular practice: practiceMetadata.title
+      // For single content: practiceMetadata.practice?.title
+      return practiceMetadata.title || practiceMetadata.practice?.title || "Java Practice";
+    }
+    return "Java Practice";
+  }, [practiceMetadata]);
+
   useEffect(() => {
     const markComplete = async () => {
       if (
@@ -442,6 +451,47 @@ const JavaPractice = ({
       return `Network Error: ${error.message}`;
     }
   };
+
+  // 1. Compute current question index and navigation flags
+  const currentQuestionIndex = useMemo(() => {
+    if (!practiceMetadata?.problems || !selectedQuestion) return -1;
+    return practiceMetadata.problems.findIndex(p => p.content_uuid === selectedQuestion.content_uuid);
+  }, [practiceMetadata, selectedQuestion]);
+
+  const hasPrevQuestion = useMemo(() => {
+    return practiceMetadata?.problems?.length > 1 && currentQuestionIndex > 0;
+  }, [practiceMetadata, currentQuestionIndex]);
+
+  const hasNextQuestion = useMemo(() => {
+    return practiceMetadata?.problems?.length > 1 && currentQuestionIndex < practiceMetadata.problems.length - 1;
+  }, [practiceMetadata, currentQuestionIndex]);
+
+  // 2. Navigation handlers
+  const handlePrevQuestion = useCallback(() => {
+    if (!hasPrevQuestion) return;
+    const prevQuestion = practiceMetadata.problems[currentQuestionIndex - 1];
+    navigate(`/java-practice/${practiceMetadata.practice.id}/${prevQuestion.content_uuid}`, {
+      replace: true,
+      state: location.state,
+    });
+  }, [hasPrevQuestion, practiceMetadata, currentQuestionIndex, navigate, location.state]);
+
+  const handleNextQuestion = useCallback(() => {
+    if (!hasNextQuestion) return;
+    const nextQuestion = practiceMetadata.problems[currentQuestionIndex + 1];
+    navigate(`/java-practice/${practiceMetadata.practice.id}/${nextQuestion.content_uuid}`, {
+      replace: true,
+      state: location.state,
+    });
+  }, [hasNextQuestion, practiceMetadata, currentQuestionIndex, navigate, location.state]);
+
+  const handleQuestionSelect = useCallback((questionUuid) => {
+    if (!practiceMetadata?.practice?.id) return;
+    navigate(`/java-practice/${practiceMetadata.practice.id}/${questionUuid}`, {
+      replace: true,
+      state: location.state,
+    });
+  }, [practiceMetadata, navigate, location.state]);
 
   const handleCompile = async () => {
     if (!selectedQuestion) return;
@@ -725,11 +775,11 @@ const JavaPractice = ({
   }, []);
 
   // Update code when localProgress loads and selected question exists
-useEffect(() => {
-  if (selectedQuestion && localProgress[selectedQuestion.id]?.code) {
-    setCode(localProgress[selectedQuestion.id].code);
-  }
-}, [selectedQuestion, localProgress]);
+  useEffect(() => {
+    if (selectedQuestion && localProgress[selectedQuestion.id]?.code) {
+      setCode(localProgress[selectedQuestion.id].code);
+    }
+  }, [selectedQuestion, localProgress]);
 
 
 
@@ -765,7 +815,17 @@ useEffect(() => {
       {showSuccessToast && <div className="success-toast-center">{toastMessage}</div>}
       <div className="full-question-header-prac">
         <button className="back-button-prac" onClick={() => navigate(-1)}>
-          ← Back
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            viewBox="0 0 24 24"
+          >
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg> {practiceName.length > 30 ? practiceName.slice(0, 27) + "..." : practiceName}
         </button>
         <div className="full-question-title-prac">
           <div className="full-question-meta-prac">
@@ -1064,14 +1124,7 @@ useEffect(() => {
               </button>
 
               <div style={{ display: "flex", gap: "10px" }}>
-                <button
-                  className="run-button-prac"
-                  onClick={handleCompile}
-                  disabled={isRunning}
-                  style={{ backgroundColor: "#2563eb" }}
-                >
-                  {isRunning && consoleTab === "output" && isConsoleOpen ? <span className="loader-prac"></span> : "Compile & Run"}
-                </button>
+
                 <button className="run-button-prac" onClick={handleRunCode} disabled={isRunning}>
                   {isRunning && (!isConsoleOpen || consoleTab !== "output") ? <span className="loader-prac"></span> : "Run Tests"}
                 </button>
@@ -1080,6 +1133,47 @@ useEffect(() => {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="prac-footer">
+        <div className="full-question-meta-prac" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          {/* Left empty spacer to keep dots centered (optional) */}
+          <div style={{ width: "80px" }}></div>
+
+          {/* Navigation Dots – centered */}
+          {practiceMetadata?.problems?.length > 1 && (
+            <div className="prac-navigation-dots">
+              {practiceMetadata.problems.map((problem, idx) => {
+                const isCurrent = idx === currentQuestionIndex;
+                return (
+                  <button
+                    key={problem.content_uuid}
+                    className={`prac-nav-dot ${isCurrent ? "active" : ""}`}
+                    onClick={() => handleQuestionSelect(problem.content_uuid)}
+                    aria-label={`Go to question ${idx + 1}`}
+                    title={`Question ${idx + 1}`}
+                  >
+                    {idx + 1}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Button group on the right */}
+          <div className="prac-button-group">
+            {hasPrevQuestion && (
+              <button className="prac-back-btn" onClick={handlePrevQuestion}>
+                Back
+              </button>
+            )}
+            {hasNextQuestion && (
+              <button className="prac-next-btn" onClick={handleNextQuestion}>
+                Next
+              </button>
+            )}
           </div>
         </div>
       </div>

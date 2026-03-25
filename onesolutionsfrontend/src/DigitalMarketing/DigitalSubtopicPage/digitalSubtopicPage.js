@@ -180,106 +180,84 @@ const DigitalSubtopicPage = () => {
     }
 
     const loadContent = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+  try {
+    setLoading(true);
+    setError(null);
 
-        // Try to load from state first (navigation click)
-        if (location.state && location.state.contentItem) {
-          const contentFromState = location.state.contentItem;
+    // First try to use location.state (navigation from courses page)
+    if (location.state && location.state.contentItem) {
+      const contentFromState = location.state.contentItem;
+      contentFromState.content_type = contentFromState.content_type || getContentType(contentFromState);
+      setContent(contentFromState);
+      setIsAccessible(true);
+      setIsMobileContentVisible(true);  // slide up on mobile
 
-          contentFromState.content_type =
-            contentFromState.content_type || getContentType(contentFromState);
-
-          setContent(contentFromState);
-          setIsAccessible(true);
-
-          // ✅ Trigger slide up when loaded directly via URL/state on mobile
-          setIsMobileContentVisible(true);
-
-          // Set navigation context from state
-          if (location.state.goalId) {
-            setSelectedGoal({
-              id: location.state.goalId,
-              name: location.state.goalName || "Digital Marketing",
-            });
-
-            // Find goal index from digitalMarketingGoals
-            const goalIdx = digitalMarketingGoals?.findIndex(
-              (g) => g.id === location.state.goalId
-            );
-            if (goalIdx !== -1) setGoalIndex(goalIdx);
-          }
-
-          if (location.state.moduleId) {
-            setSelectedModule({
-              id: location.state.moduleId,
-              name: location.state.moduleName,
-            });
-            setExpandedModule(location.state.moduleId);
-          }
-
-          if (location.state.topicId) {
-            setSelectedTopic({
-              id: location.state.topicId,
-              name: location.state.topicName,
-            });
-            setExpandedTopic(location.state.topicId);
-          }
-
-          if (location.state.subtopicId) {
-            setSelectedSubtopic({
-              id: location.state.subtopicId,
-              name: location.state.subtopicName,
-            });
-          }
-
-          await loadModuleStructure(location.state.moduleId, contentFromState);
-
-          setLoading(false);
-          return;
-        }
-
-        // If no state, fetch by UUID
-        if (contentUuid) {
-          const response = await getContentByUuid(contentUuid);
-
-          if (response?.success) {
-            const contentData = response.data;
-            contentData.content_type =
-              contentData.content_type || getContentType(contentData);
-
-            setContent(contentData);
-            setIsAccessible(true);
-
-            // ✅ Trigger slide up when loaded directly via URL on mobile
-            setIsMobileContentVisible(true);
-
-            if (contentData.goal_id) {
-              setSelectedGoal({
-                id: contentData.goal_id,
-                name: contentData.goal_name || "Digital Marketing",
-              });
-
-              // Find goal index
-              const goalIdx = digitalMarketingGoals?.findIndex(
-                (g) => g.id === contentData.goal_id
-              );
-              if (goalIdx !== -1) setGoalIndex(goalIdx);
-            }
-          } else {
-            setError("Content not found");
-            setIsAccessible(false);
-          }
-        }
-      } catch (err) {
-        console.error("Error loading digital content:", err);
-        setError(err.message || "Failed to load content");
-        setIsAccessible(false);
-      } finally {
-        setLoading(false);
+      // Set navigation context from state
+      if (location.state.goalId) setSelectedGoal({ id: location.state.goalId, name: location.state.goalName || "Digital Marketing" });
+      if (location.state.moduleId) {
+        setSelectedModule({ id: location.state.moduleId, name: location.state.moduleName });
+        setExpandedModule(location.state.moduleId);
       }
-    };
+      if (location.state.topicId) {
+        setSelectedTopic({ id: location.state.topicId, name: location.state.topicName });
+        setExpandedTopic(location.state.topicId);
+      }
+      if (location.state.subtopicId) setSelectedSubtopic({ id: location.state.subtopicId, name: location.state.subtopicName });
+
+      await loadModuleStructure(location.state.moduleId, contentFromState);
+      setLoading(false);
+      return;
+    }
+
+    // If no state, fetch by UUID
+    if (contentUuid) {
+      const response = await getContentByUuid(contentUuid);
+      if (response?.success) {
+        const contentData = response.data;
+        contentData.content_type = contentData.content_type || getContentType(contentData);
+        setContent(contentData);
+        setIsAccessible(true);
+        setIsMobileContentVisible(true);  // slide up on mobile
+
+        // Set goal if present
+        if (contentData.goal_id) {
+          setSelectedGoal({ id: contentData.goal_id, name: contentData.goal_name || "Digital Marketing" });
+        }
+
+        // --- NEW: Find module and topic from digitalMarketingGoals ---
+        // Ensure we have the full structure loaded
+        if (digitalMarketingGoals.length === 0) {
+          await loadDigitalMarketingAllStructure();
+        }
+
+        // Search for module and topic by IDs from the content
+        for (const goal of digitalMarketingGoals) {
+          const foundModule = goal.modules?.find(m => m.id === contentData.module_id);
+          if (foundModule) {
+            const foundTopic = foundModule.topics?.find(t => t.id === contentData.topic_id);
+            if (foundTopic) {
+              setSelectedModule({ id: foundModule.id, name: foundModule.name });
+              setSelectedTopic({ id: foundTopic.id, name: foundTopic.name });
+              setExpandedModule(foundModule.id);
+              setExpandedTopic(foundTopic.id);
+              setGoalModules([foundModule]); // for sidebar
+              break;
+            }
+          }
+        }
+      } else {
+        setError("Content not found");
+        setIsAccessible(false);
+      }
+    }
+  } catch (err) {
+    console.error("Error loading digital content:", err);
+    setError(err.message || "Failed to load content");
+    setIsAccessible(false);
+  } finally {
+    setLoading(false);
+  }
+};
 
     loadContent();
   }, [contentUuid, hasDigitalAccess, location.state, digitalMarketingGoals]);
@@ -290,33 +268,39 @@ const DigitalSubtopicPage = () => {
     }
   }, [goalModules, content]);
 
-  const renderContentComponent = () => {
-    if (!content || !isAccessible) return null;
+ const renderContentComponent = () => {
+  if (!content || !isAccessible) return null;
 
-    const contentType = getContentType(content);
+  const contentType = getContentType(content);
 
-    const commonProps = {
-      contentId: content.id,
-      contentUuid: content.content_uuid,
-      goalId: selectedGoal?.id || content.goal_id,
-      moduleId: selectedModule?.id || content.module_id,
-      topicId: selectedTopic?.id || content.topic_id,
-      subtopicId: selectedSubtopic?.id || content.subtopic_id,
-      onComplete: markAsCompleted,
-      preLoadedContent: content,
-    };
+  // Determine the actual module and topic names
+  const actualModuleName = selectedModule?.name || content.module_name || "Digital Module";
+  const actualTopicName = selectedTopic?.name || content.topic_name || "Digital Topic";
 
-    switch (contentType) {
-      case "video":
-        return <DigitalClasses {...commonProps} />;
-      case "cheatsheet":
-        return <DigitalCheatsheet {...commonProps} />;
-      case "mcq":
-        return <DigitalMcqs {...commonProps} />;
-      default:
-        return <DigitalClasses {...commonProps} />;
-    }
+  const commonProps = {
+    contentId: content.id,
+    contentUuid: content.content_uuid,
+    goalId: selectedGoal?.id || content.goal_id,
+    moduleId: selectedModule?.id || content.module_id,
+    topicId: selectedTopic?.id || content.topic_id,
+    subtopicId: selectedSubtopic?.id || content.subtopic_id,
+    onComplete: markAsCompleted,
+    preLoadedContent: content,
+    moduleName: actualModuleName,
+    topicName: actualTopicName,
   };
+
+  switch (contentType) {
+    case "video":
+      return <DigitalClasses {...commonProps} />;
+    case "cheatsheet":
+      return <DigitalCheatsheet {...commonProps} />;
+    case "mcq":
+      return <DigitalMcqs {...commonProps} />;
+    default:
+      return <DigitalClasses {...commonProps} />;
+  }
+};
 
   const handleTopicClick = (topicId) => {
     setExpandedTopic(expandedTopic === topicId ? null : topicId);

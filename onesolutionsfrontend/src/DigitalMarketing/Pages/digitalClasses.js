@@ -492,7 +492,7 @@ const DigitalClasses = ({
       <div className="subtopic-header-clss">
         <div className="breadcrumb-clss">
           <span className="module-name-clss">
-            {content.type === "video" ? content.video_title : moduleName}
+            {topicName}
           </span>
           <span className="separator-clss">
             <svg
@@ -510,7 +510,7 @@ const DigitalClasses = ({
             </svg>
           </span>
           <span className="topic-name-clss">
-            {content.video_title || topicName}
+            {content.video_title}
           </span>
         </div>
       </div>

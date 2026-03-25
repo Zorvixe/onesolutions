@@ -1086,8 +1086,18 @@ const Practice = () => {
 
         <div className="full-question-header-prac">
           <button className="back-button-prac" onClick={handleBackToPractice}>
-            ←{" "}
-            <span className="practice-name-prac">{selectedPractice.title}</span>
+            <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            viewBox="0 0 24 24"
+          >
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+            {selectedPractice.title}
           </button>
           <div className="full-question-title-prac">
             <div className="full-question-meta-prac">

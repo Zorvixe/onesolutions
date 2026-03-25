@@ -60,7 +60,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          Why use <code>&lt;span&gt;</code> for styling this text?
+          Why use <b>&lt;span&gt;</b> for styling this text?
         </p>
         <CodeBlock
           language="html"
@@ -114,7 +114,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          How much total padding does <code>p-0</code> add?
+          How much total padding does <b>p-0</b> add?
         </p>
         <CodeBlock
           language="html"
@@ -129,7 +129,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What padding does <code>p-2</code> apply?
+          What padding does <b>p-2</b> apply?
         </p>
         <CodeBlock
           language="html"
@@ -160,7 +160,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          Can <code>&lt;span&gt;</code> be used inside a heading?
+          Can <b>&lt;span&gt;</b> be used inside a heading?
         </p>
         <CodeBlock
           language="html"

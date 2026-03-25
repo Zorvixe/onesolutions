@@ -26,7 +26,7 @@ export default function CodePlayground({
   initialLanguage = "web",
   initialCode,
   remoteRunners = {},
-  onCodeChange = () => {},
+  onCodeChange = () => { },
   iframeRef: externalIframeRef = null,
   customRunHandler = null,
   customHeight = "calc(90vh - 20px)", // Add this prop with default value
@@ -34,6 +34,8 @@ export default function CodePlayground({
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
+  const [webSrcDoc, setWebSrcDoc] = useState("");
+
 
   // Add these state variables at the top of your component
   const [showSaveModal, setShowSaveModal] = useState(false);
@@ -61,14 +63,14 @@ export default function CodePlayground({
 
 
 
- const [language, setLanguage] = useState(() => {
+  const [language, setLanguage] = useState(() => {
     // Check if user is enrolled in Java programming
     if (user?.courseSelection === 'java_programming') {
       return "java";
     }
     return initialLanguage;
-  });  
-  
+  });
+
   const [output, setOutput] = useState("");
   const [isRunning, setIsRunning] = useState(false);
   const [theme, setTheme] = useState("monokai");
@@ -244,6 +246,7 @@ export default function CodePlayground({
     };
   }, []);
 
+
   // Combine HTML, CSS, JS for preview
   const combineWebSrcDoc = useMemo(() => {
     return `<!DOCTYPE html>
@@ -325,7 +328,6 @@ export default function CodePlayground({
         console.error('JavaScript Error:', err.message);
       }
       
-      console.log('Code executed successfully');
     </script>
   </body>
   </html>`;
@@ -357,16 +359,6 @@ export default function CodePlayground({
     };
   }, []);
 
-  useEffect(() => {
-    if (consoleOutput.length === 0) return;
-
-    const hasError = consoleOutput.some((log) => log.type === "error");
-
-    if (hasError && !showConsole) {
-      setShowConsole(true);
-      setAutoOpenedConsole(true);
-    }
-  }, [consoleOutput]);
 
   // Function to clear console
   const clearConsole = () => {
@@ -397,6 +389,9 @@ export default function CodePlayground({
         setLanguage(loadedLanguage);
 
         const newCode = { ...defaultCode };
+
+        setCode(newCode);
+        setOriginalCode({ ...newCode });
 
         // Handle the snippet data
         if (loadedLanguage === "web") {
@@ -662,29 +657,15 @@ sys.stderr = OutputCapture()
     loadSqlJs();
   }, []);
 
-  // Add this ref to track iframe updates
-  const iframeUpdateCountRef = useRef(0);
-
-  // Add this useEffect to force iframe refresh when code changes
-  useEffect(() => {
-    if (language === "web" && iframeRef.current) {
-      iframeUpdateCountRef.current++;
-      iframeRef.current.srcdoc = combineWebSrcDoc;
-    }
-  }, [combineWebSrcDoc, language]);
-
-  // Modify the runWeb function to be more reliable
   const runWeb = useCallback(() => {
-    if (iframeRef.current) {
-      // Force a complete reload
-      iframeRef.current.srcdoc = combineWebSrcDoc;
+    // Clear previous console output
+    setConsoleOutput([]);
 
-      // Log for debugging
-      console.log(
-        "CodePlayground: Running web preview, update count:",
-        iframeUpdateCountRef.current
-      );
-    }
+    // Force a reload by first setting to empty, then to the new content
+    setWebSrcDoc("");
+    setTimeout(() => {
+      setWebSrcDoc(combineWebSrcDoc);
+    }, 0);
   }, [combineWebSrcDoc]);
 
   const runJavaScriptStandalone = useCallback(async () => {
@@ -731,7 +712,7 @@ sys.stderr = OutputCapture()
       }
 
       setOutput(
-        logs.join("\n") || "Code executed successfully (no console output)"
+        logs.join("\n") || "Code executed successfully"
       );
     } catch (err) {
       setOutput(`Error: ${err.message}`);
@@ -871,51 +852,51 @@ sys.stderr = OutputCapture()
 
   // ... (all your imports and other code remain the same until runJava function)
 
-const runJava = useCallback(async () => {
-  setIsRunning(true);
-  setOutput("");
+  const runJava = useCallback(async () => {
+    setIsRunning(true);
+    setOutput("");
 
-  try {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setOutput("⚠️ Please login to run Java code");
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setOutput("⚠️ Please login to run Java code");
+        setIsRunning(false);
+        return;
+      }
+
+      const response = await fetch(`${API_URL}/api/java/execute`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          code: code.java,
+          input: inputValue
+        })
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Server error: ${response.status} - ${errorText}`);
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        setOutput(data.output || "Program executed successfully (no output)");
+      } else {
+        setOutput(data.output || data.error || "Execution failed");
+      }
+    } catch (err) {
+      console.error('Java execution error:', err);
+      setOutput(`Java Execution Error: ${err.message}`);
+    } finally {
       setIsRunning(false);
-      return;
     }
+  }, [code.java, inputValue]);
 
-    const response = await fetch(`${API_URL}/api/java/execute`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        code: code.java,
-        input: inputValue
-      })
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Server error: ${response.status} - ${errorText}`);
-    }
-
-    const data = await response.json();
-    
-    if (data.success) {
-      setOutput(data.output || "Program executed successfully (no output)");
-    } else {
-      setOutput(data.output || data.error || "Execution failed");
-    }
-  } catch (err) {
-    console.error('Java execution error:', err);
-    setOutput(`Java Execution Error: ${err.message}`);
-  } finally {
-    setIsRunning(false);
-  }
-}, [code.java, inputValue]);
-
-// ... (rest of your component remains the same)
+  // ... (rest of your component remains the same)
 
   const runSQL = useCallback(async () => {
     setIsRunning(true);
@@ -1001,9 +982,8 @@ const runJava = useCallback(async () => {
             } else {
               db.run(statement);
               const changes = db.getRowsModified();
-              outputText += `${
-                statement.split(" ")[0]
-              } executed successfully. ${changes} row(s) affected.\n\n`;
+              outputText += `${statement.split(" ")[0]
+                } executed successfully. ${changes} row(s) affected.\n\n`;
             }
           } catch (err) {
             outputText += `Error in statement: ${err.message}\n\n`;
@@ -1024,15 +1004,7 @@ const runJava = useCallback(async () => {
     console.log("Running code, language:", language);
 
     if (language === "web") {
-      // Force iframe to reload with new content
-      if (iframeRef.current) {
-        // First set empty, then set the actual content after a small delay
-        iframeRef.current.srcdoc = "";
-        setTimeout(() => {
-          iframeRef.current.srcdoc = combineWebSrcDoc;
-          console.log("Web code executed in iframe");
-        }, 50);
-      }
+      runWeb();
     } else if (language === "javascript_standalone") {
       runJavaScriptStandalone();
     } else if (language === "python") {
@@ -1044,7 +1016,7 @@ const runJava = useCallback(async () => {
     }
   }, [
     language,
-    combineWebSrcDoc,
+    runWeb,
     runJavaScriptStandalone,
     runPython,
     runJava,
@@ -1109,9 +1081,7 @@ const runJava = useCallback(async () => {
     setOutput("");
     setInputValue("");
     inputIndexRef.current = 0;
-    if (iframeRef.current && language === "web") {
-      iframeRef.current.srcdoc = "";
-    }
+
     if (sqlJs && language === "sql") {
       const newDb = new sqlJs.Database();
       setDb(newDb);
@@ -1220,6 +1190,17 @@ const runJava = useCallback(async () => {
     }
   };
 
+  useEffect(() => {
+    if (language !== "web") return;       // Only auto‑open for web
+    if (consoleOutput.length === 0) return;
+
+    const hasError = consoleOutput.some((log) => log.type === "error");
+    if (hasError && !showConsole) {
+      setShowConsole(true);
+      setAutoOpenedConsole(true);
+    }
+  }, [consoleOutput, language, showConsole]);
+
   return (
     <section
       className="code-playground-codep"
@@ -1236,9 +1217,8 @@ const runJava = useCallback(async () => {
                 {["html", "css", "javascript"].map((lang) => (
                   <button
                     key={lang}
-                    className={`tab-btn-codep ${
-                      currentWebLanguage === lang ? "active-codep" : ""
-                    }`}
+                    className={`tab-btn-codep ${currentWebLanguage === lang ? "active-codep" : ""
+                      }`}
                     onClick={() => setCurrentWebLanguage(lang)}
                   >
                     {getLanguageIcon(lang)}
@@ -1279,17 +1259,17 @@ const runJava = useCallback(async () => {
               </h3>
             )}
 
-<select
-  className="language-select-codep"
-  value={language}
-  onChange={(e) => setLanguage(e.target.value)}
->
-  <option value="web">Web</option>
-  <option value="javascript_standalone">JavaScript</option>
-  <option value="python">Python</option>
-  <option value="java">Java</option>
-  <option value="sql">SQL</option>
-</select>
+            <select
+              className="language-select-codep"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+            >
+              <option value="web">Web</option>
+              <option value="javascript_standalone">JavaScript</option>
+              <option value="python">Python</option>
+              <option value="java">Java</option>
+              <option value="sql">SQL</option>
+            </select>
           </div>
 
           <div className="editor-container-codep">
@@ -1487,24 +1467,40 @@ const runJava = useCallback(async () => {
             <div className="output-container-codep">
               {language === "web" ? (
                 <>
-                  {showConsole ? (
+                  <div className="web-output-container">
+                    {/* Preview – hidden when console is open */}
                     <div
-                      className={`console-output-codep ${
-                        autoOpenedConsole ? "auto-open" : ""
-                      }`}
+                      className="preview-wrapper-codep"
+                      style={{
+                        width: previewWidth,
+                        display: showConsole ? "none" : "block",
+                      }}
+                    >
+                      <iframe
+                        ref={iframeRef}
+                        className="preview-frame-codep"
+                        style={{ width: "100%" }}
+                        sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"
+                        srcDoc={webSrcDoc}
+                      />
+                    </div>
+
+                    {/* Console – hidden when preview is open */}
+                    <div
+                      className={`console-output-codep ${autoOpenedConsole ? "auto-open" : ""
+                        }`}
+                      style={{ display: showConsole ? "block" : "none" }}
                     >
                       <div className="console-header-codep">
                         <p>Console</p>
-
                         <div className="console-actions-codep">
                           <button
                             className="clear-console-btn-codep"
                             onClick={clearConsole}
                             disabled={consoleOutput.length === 0}
                           >
-                            Clear Console
+                            Clear
                           </button>
-
                           <button
                             className="close-console-btn-codep"
                             onClick={() => {
@@ -1522,66 +1518,19 @@ const runJava = useCallback(async () => {
                         {consoleOutput.length > 0 ? (
                           <div className="console-messages-codep">
                             {consoleOutput.map((log, index) => (
-                              <div
-                                key={index}
-                                className={`console-message ${log.type}`}
-                              >
-                                <span className="console-timestamp">
-                                  {log.timestamp}
-                                </span>
-                                <span className="console-type">
-                                  [{log.type}]
-                                </span>
-                                <span className="console-message-text">
-                                  {log.message}
-                                </span>
+                              <div key={index} className={`console-message ${log.type}`}>
+                                <span className="console-message-text">{log.message}</span>
                               </div>
                             ))}
                           </div>
                         ) : (
-                          <div className="no-console-output-codep">
-                            No console output yet.
-                          </div>
+                          <div className="no-console-output-codep">No console output yet.</div>
                         )}
                       </div>
                     </div>
-                  ) : (
-                    <div
-                      className="preview-wrapper-codep"
-                      style={{ width: previewWidth }}
-                    >
-                      <iframe
-                        ref={iframeRef}
-                        className="preview-frame-codep"
-                        style={{ width: "100%" }}
-                        sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"
-                        srcDoc={combineWebSrcDoc}
-                      />
-                    </div>
-                  )}
-
-                  {/* Preview/Output Tabs */}
-                  <div className="web-output-tabs-codep">
-                    <button
-                      className={`output-tab-codep ${!showConsole ? "active" : ""}`}
-                      onClick={() => {
-                        setShowConsole(false);
-                        setAutoOpenedConsole(false);
-                      }}
-                    >
-                      Preview
-                    </button>
-
-                    <button
-                      className={`output-tab-codep ${showConsole ? "active" : ""}`}
-                      onClick={() => {
-                        setShowConsole(true);
-                        setAutoOpenedConsole(false);
-                      }}
-                    >
-                      Console
-                    </button>
                   </div>
+
+
                 </>
               ) : (
                 <div
@@ -1606,11 +1555,21 @@ const runJava = useCallback(async () => {
 
       {/* Settings Modal */}
       {showSettingsModal && (
-        <div className="modal-overlay-codep">
+        <div className="modal-overlay-codep modal-codep-settings">
           <div className="modal-codep">
             <div className="modal-header-codep">
               <h3>Preview Settings</h3>
-              <button onClick={() => setShowSettingsModal(false)}>×</button>
+              <div className="console-checkbox">
+                 <input
+                 className="console-input-checkbox"
+                    type="checkbox"
+                    checked={showConsole}
+                    onChange={(e) => setShowConsole(e.target.checked)}
+                  />
+                <label className="codep-console-btn-lable">
+                 Cosole
+                </label>
+              </div>
             </div>
             <div className="modal-body-codep">
               <div className="form-group-codep">
@@ -1620,9 +1579,8 @@ const runJava = useCallback(async () => {
                   {Object.entries(deviceSizes).map(([key, { icon, label }]) => (
                     <button
                       key={key}
-                      className={`device-size-btn-codep ${
-                        deviceSize === key ? "active" : ""
-                      }`}
+                      className={`device-size-btn-codep ${deviceSize === key ? "active" : ""
+                        }`}
                       onClick={() => handleDeviceSizeSelect(key)}
                     >
                       <span className="device-icon-codep">{icon}</span>

@@ -291,18 +291,31 @@
 }
 
 .back-button-prac {
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  color: #1976d2;
-  padding: 10px 10px;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
+    font-family: Inter;
+    font-size: 16px;
+    color: rgb(22, 70, 135);
+    font-weight: bold;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+   display: flex;
+    align-items: center;
 }
-
 .back-button-prac:hover {
   background: #eff6ff;
+}
+
+.back-button-prac i {
+  font-size: 18px;  /* increase size */
+  transform: scale(1.1); /* slightly thicker look */
+  font-weight: bold;
 }
 
 .full-question-meta-prac {
@@ -1470,3 +1483,103 @@
   flex-direction: column;
   transition: width 0.2s;
 }
+.prac-footer {
+  padding: 12px 24px;
+  border-top: 1px solid #e2e8f0;
+  background-color: #f9fafb;
+}
+
+.full-question-meta-prac {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.prac-footer {
+  padding: 12px 24px;
+  border-top: 1px solid #e2e8f0;
+  background-color: #f9fafb;
+}
+
+.full-question-meta-prac {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.prac-footer-left {
+  width: 80px; /* optional, can be removed if not needed */
+  flex-shrink: 0;
+}
+.prac-footer {
+  padding: 12px 24px;
+  border-top: 1px solid #e2e8f0;
+  background-color: #f9fafb;
+}
+
+.full-question-meta-prac {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.prac-footer-left {
+  width: 80px; /* optional, balances the button group width */
+  flex-shrink: 0;
+}
+
+.prac-navigation-dots {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+
+.prac-nav-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #cbd5e1; /* default gray */
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.2s, transform 0.1s;
+  /* Remove any text */
+  font-size: 0;
+  line-height: 0;
+}
+
+.prac-nav-dot.active {
+  background-color: #f89820; /* active orange */
+  transform: scale(1.2);
+}
+
+
+.prac-nav-dot:hover:not(.active) {
+  background-color: #94a3b8;
+}
+
+.prac-button-group {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+
+
+/* Visually hidden helper for screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+

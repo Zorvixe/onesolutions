@@ -17107,11 +17107,13 @@ Get all the ids of directors who directed at least two movies, with rating great
             <table>
               <thead>
                 <tr>
-                  <th>avg</th>
+                  <th>name</th>
+                  <th>rating_variance</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
+                  <td>...</td>
                   <td>...</td>
                 </tr>
               </tbody>
