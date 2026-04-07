@@ -271,7 +271,7 @@ const  Threads_Courrency_MCQ = ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Threads & Concurrency - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

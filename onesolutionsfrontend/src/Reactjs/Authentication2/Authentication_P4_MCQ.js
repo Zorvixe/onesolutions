@@ -283,7 +283,7 @@ const Authentication_P4_MCQ = ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Authentication & Authorization | Part 4 - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

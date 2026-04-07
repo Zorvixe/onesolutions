@@ -263,7 +263,7 @@ const Rest_API_MCQ = ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="REST APIs - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

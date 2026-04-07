@@ -54,7 +54,7 @@ const SQL_Expression_CS = ({
 
   return (
     <div className="intro-container">
-      <h1>Expressions in Querying</h1>
+      <h1>SQL Expression | Cheat Sheet</h1>
 
       <section>
         <p>
@@ -94,9 +94,7 @@ FROM
         />
         <h4>Output</h4>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "20%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -131,9 +129,7 @@ FROM
         />
         <h4>Output</h4>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "20%" }}
+   className="custom-table"
         >
           <thead>
             <tr>
@@ -168,9 +164,7 @@ FROM
         />
         <h4>Output</h4>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "25%" }}
+   className="custom-table"
         >
           <thead>
             <tr>
@@ -205,9 +199,7 @@ FROM
         />
         <h4>Output</h4>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "25%" }}
+   className="custom-table"
         >
           <thead>
             <tr>
@@ -242,9 +234,7 @@ FROM
         />
         <h4>Output</h4>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "25%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -294,9 +284,7 @@ FROM
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
+        className="custom-table"
         >
           <thead>
             <tr>
@@ -353,9 +341,7 @@ FROM
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "28%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -399,9 +385,7 @@ WHERE
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "98%" }}
+        className="custom-table"
         >
           <thead>
             <tr>
@@ -488,13 +472,7 @@ HAVING
         />
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{
-            borderCollapse: "collapse",
-            width: "20%",
-            textAlign: "center",
-          }}
+           className="custom-table"
         >
           <thead>
             <tr>
@@ -528,9 +506,7 @@ HAVING
 
         <b>Expected Output</b>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -596,9 +572,7 @@ HAVING
 
         <b>Expected Output</b>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+      className="custom-table"
         >
           <thead>
             <tr>

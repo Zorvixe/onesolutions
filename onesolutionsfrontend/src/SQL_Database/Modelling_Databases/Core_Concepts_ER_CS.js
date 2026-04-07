@@ -54,7 +54,7 @@ const Core_Concepts_ER_CS = ({
 
   return (
     <div className="intro-container">
-      <h1>Modelling Databases: Part 1</h1>
+      <h1>Core Concepts of ER Model | Cheat Sheets</h1>
 
       <section>
         <p>

@@ -54,7 +54,7 @@ const Applying_ER_Model_Concepts_CS = ({
 
   return (
     <div className="intro-container">
-      <h1>Applying ER Model Concepts</h1>
+      <h1>Appliying ER Model Concepts | Cheat Sheets</h1>
 
       <section>
         <p>

@@ -238,7 +238,7 @@ const Nodejs_Mock_Test_1 = ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Nodejs MCQ Test 1 - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

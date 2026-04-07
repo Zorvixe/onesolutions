@@ -54,7 +54,7 @@ const SQL_Case_CS = ({
 
   return (
     <div className="intro-container">
-      <h1>CASE Clause</h1>
+      <h1>SQL Case | Cheat Sheet</h1>
 
       <section>
         <p>
@@ -131,9 +131,7 @@ FROM table;`}
         </p>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "80%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -179,9 +177,7 @@ FROM
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "70%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -227,9 +223,7 @@ FROM
         <p>Categorise movies as following.</p>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "50%" }}
+       className="custom-table"
         >
           <thead>
             <tr>
@@ -290,9 +284,7 @@ FROM
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+        className="custom-table"
         >
           <thead>
             <tr>
@@ -321,9 +313,7 @@ FROM
 
         <h4>Output</h4>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -347,9 +337,7 @@ FROM
 
         <h4>Output</h4>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "70%" }}
+      className="custom-table"
         >
           <thead>
             <tr>

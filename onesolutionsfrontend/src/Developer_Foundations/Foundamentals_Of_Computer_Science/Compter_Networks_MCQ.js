@@ -223,7 +223,7 @@ const  Compter_Networks_MCQ = ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Understanding Computer Networks - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

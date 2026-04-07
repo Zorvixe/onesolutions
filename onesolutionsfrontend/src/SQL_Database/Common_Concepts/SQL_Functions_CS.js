@@ -54,7 +54,7 @@ const SQL_Functions_CS = ({
 
   return (
     <div className="intro-container">
-      <h1>SQL Functions</h1>
+      <h1>SQL Functions | Cheat Sheet</h1>
 
       <section>
         <p>
@@ -131,9 +131,7 @@ const SQL_Functions_CS = ({
           Consider the datetime <code>2021-02-28 08:00:00</code>
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -242,9 +240,7 @@ FROM
         </ul>
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
+     className="custom-table"
         >
           <thead>
             <tr>
@@ -318,9 +314,7 @@ GROUP BY
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -371,9 +365,7 @@ GROUP BY
 
         <h4>Expected Output</h4>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "20%" }}
+       className="custom-table"
         >
           <thead>
             <tr>
@@ -420,9 +412,7 @@ FROM movie`}
         </p>
         <b>Expected Output</b>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "20%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -476,9 +466,7 @@ FROM movie`}
         </p>
         <b>Expected Output</b>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+        className="custom-table"
         >
           <thead>
             <tr>
@@ -534,9 +522,7 @@ FROM movie`}
         </p>
         <b>Expected Output</b>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
+         className="custom-table"
         >
           <thead>
             <tr>

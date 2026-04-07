@@ -286,7 +286,7 @@ const React_Context_MCQ = ({
   };
   return (
     <MCQLogic
-      title="Introduction to React JS - MCQs"
+      title="React Context - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

@@ -54,7 +54,7 @@ const Group_By_Having_CS = ({
 
   return (
     <div className="intro-container">
-      <h1>Group By with Having</h1>
+      <h1>Group By with Having | Cheat Sheet</h1>
 
       <section>
         <p>

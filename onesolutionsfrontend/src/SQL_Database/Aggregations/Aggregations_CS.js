@@ -54,7 +54,7 @@ const Aggregations_CS = ({
 
   return (
     <div className="intro-container">
-      <h1>Aggregations</h1>
+      <h1>Aggregations | Cheat Sheet</h1>
 
       <section>
         <p>

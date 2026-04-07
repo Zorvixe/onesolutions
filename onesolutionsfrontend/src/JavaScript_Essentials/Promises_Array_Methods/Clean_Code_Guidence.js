@@ -10,8 +10,8 @@ const Clean_Code_Guidence = ({
   goalName,
   courseName,
   subtopic,
-  moduleName = "Arrays and Objects",
-  topicName = "A Note On Software Compatibility",
+  moduleName = "Promises and Array Methods",
+  topicName = "Clean Code Guidelines",
   slidesUrl = "https://docs.google.com/presentation/d/1hGV77CS-H6JxjD9ssiUVO_EBga8Q8y8bXfpShFBGpTY/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =

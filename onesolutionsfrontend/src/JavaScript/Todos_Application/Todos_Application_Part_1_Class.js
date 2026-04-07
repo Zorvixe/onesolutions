@@ -11,7 +11,7 @@ const Todos_Application_Part_1_Class = ({
   courseName,
   subtopic,
   moduleName = "Todos Application",
-  topicName = "Todos Application Introduction",
+  topicName = "Todos Application | Part 1",
   slidesUrl = "https://docs.google.com/presentation/d/1s1_FQJiGCQM76WydyVjtf1igoGbsW1ArY3z6I4ePn9s/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =

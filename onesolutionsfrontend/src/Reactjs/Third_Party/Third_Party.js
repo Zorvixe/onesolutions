@@ -9,8 +9,8 @@ const Third_Party = ({
   goalName,
   courseName,
   subtopic,
-  moduleName = "Arrays and Objects",
-  topicName = "A Note On Software Compatibility",
+  moduleName = "Third Party Packages",
+  topicName = "Third Party Packages",
   slidesUrl = "https://docs.google.com/presentation/d/1hGV77CS-H6JxjD9ssiUVO_EBga8Q8y8bXfpShFBGpTY/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =

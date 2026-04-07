@@ -225,14 +225,7 @@ export const sqlCodingPracticesData = {
               type: "query-validation",
               expectedKeywords: ["department", "=", "'Engineering'"],
               visible: true,
-            },
-            {
-              id: 3,
-              description: "Query should return exactly 2 rows",
-              type: "result-validation",
-              expectedRowCount: 2,
-              visible: true,
-            },
+            }
           ],
         },
         {
@@ -885,39 +878,19 @@ export const sqlCodingPracticesData = {
           testCases: [
             {
               id: 1,
-              description: "Query should start with SELECT",
-              type: "syntax-validation",
-              expectedKeywords: ["select"],
-              visible: true,
-            },
-            {
-              id: 2,
               description: "Query should contain '*' to select all columns",
               type: "query-validation",
               expectedKeywords: ["*"],
               visible: true,
             },
             {
-              id: 3,
-              description: "Query should contain FROM keyword",
-              type: "syntax-validation",
-              expectedKeywords: ["from"],
-              visible: true,
-            },
-            {
-              id: 4,
+              id: 2,
               description: "Table name should be 'player'",
               type: "query-validation",
               expectedTableName: "player",
               expectedKeywords: ["player"],
               visible: true,
-            },
-            {
-              id: 5,
-              description: "Query should end with semicolon",
-              type: "syntax-validation",
-              visible: true,
-            },
+            }
           ],
         },
       ],
@@ -4152,10 +4125,9 @@ export const sqlCodingPracticesData = {
       questions: [
         {
           id: "sql-query-5-1",
-          title: "Get Products belongs to clothing",
+          title: "Get Products from Brands",
           description:
-            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. On such platforms, users often search for products by appling multiple conditions at once.For example, user could ask for shoes from Puma brand, that have ratings greater than 4.0 (and price less than 5000).With logical operators, we can perform queries based on multiple conditions. Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements. Note: Expected output format for all the queries, unless specified.",
-
+          "",
           difficulty: "Easy",
           score: 35,
           type: "sql",
@@ -4185,39 +4157,95 @@ export const sqlCodingPracticesData = {
             },
           },
 
-          descriptionDetails: `
-            <div class="desc-question-details">
-              <p class="desc-que-blue">Question</p>
-              <p>Get all the details of products that belong to "Clothing" category and price less than 700.
+        descriptionDetails: `
+<div class="desc-question-details">
 
 
-              </p>
-        
-              <div class="sql-table-desc">
-                <div class="sql-table-caption">Table: product</div>
-        
-             <table>
-            <thead>
-            <tr>
-            <th>name</th>
-            <th>category</th>
-            <th>price</th>
-            <th>brand</th>
-            <th>rating</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr><td>Black Shirt</td><td>Clothing</td><td>600</td><td>Puma</td><td>4.8</td></tr>
-            <tr><td>Black T-Shirt</td><td>Clothing</td><td>600</td><td>Roadster</td><td>4.2</td></tr>
-            <tr><td>Blue T-Shirt</td><td>Clothing</td><td>600</td><td>Nike</td><td>4.7</td></tr>
-            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
-            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+  <p>
+    With this practice set, you'll get thorough with:
+  </p>
 
-            </tbody>
-            </table>
+  <ul>
+    <li>How to filter based on multiple conditions and how to apply filters within a specified range.</li>
+    <li>Sort and limit the entries of the output making it easier to fetch meaningful insights.</li>
+   </ul>
+
+  <p>Here, the database consists of aproducttable that stores the name, category, price, rating and brand of the products. Let's go!</p>
+
+ <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>Expected output format for all the queries, unless specified.</p>
               </div>
-            </div>
-          `,
+
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: product</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>category</th>
+                  <th>price</th>
+                  <th>brand</th>
+                  <th>rating</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Black Shirt</td>
+                  <td>Clothing</td>
+                  <td>900</td>
+                  <td>Puma</td>
+                  <td>4.8</td>
+                </tr>
+                <tr>
+                  <td>Black T-Shirt</td>
+                  <td>Clothing</td>
+                  <td>600</td>
+                  <td>Roadster</td>
+                  <td>4.2</td>
+                </tr>
+                <tr>
+                  <td>Blue T-Shirt</td>
+                  <td>Clothing</td>
+                  <td>600</td>
+                  <td>Nike</td>
+                  <td>4.7</td>
+                </tr>
+                <tr>
+                  <td>Grey Jeans</td>
+                  <td>Clothing</td>
+                  <td>1200</td>
+                  <td>Levi's</td>
+                  <td>4.6</td>
+                </tr>
+                <tr>
+                  <td>--</td>
+                  <td>--</td>
+                  <td>--</td>
+                  <td>--</td>
+                  <td>--</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+           <p class="desc-que-blue">Question</p>
+           <p>Get all the products from "Roadster", "Levi's" or "Puma" brands.</p>
+            <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>Output must contain rows in the ascending order of price of the product. If two products are of same price, then sort by name in the alphabetical order.</p>
+              </div>
+        </div>
+
+`,
 
           testCases: [
             {
@@ -4258,33 +4286,400 @@ export const sqlCodingPracticesData = {
             },
             {
               id: 6,
-              description: "Query should filter category as 'Clothing'",
-              type: "query-validation",
-              expectedKeywords: ["category", "clothing"],
-              visible: true,
-            },
-            {
-              id: 7,
               description: "Query should use AND condition",
               type: "query-validation",
               expectedKeywords: ["and"],
               visible: true,
             },
             {
-              id: 8,
-              description: "Query should filter price less than 700",
-              type: "query-validation",
-              expectedKeywords: ["price", "<", "700"],
-              visible: true,
-            },
-            {
-              id: 9,
+              id: 7,
               description: "Query should end with semicolon",
               type: "syntax-validation",
               visible: true,
             },
           ],
         },
+        {
+  id: "sql-query-5-2",
+  title: "Get Products in Price Range",
+  description: "",
+  difficulty: "Easy",
+  score: 35,
+  type: "sql",
+
+  defaultCode: {
+    sql: ``,
+  },
+
+  tableData: {
+    product: {
+      columns: ["name", "category", "price", "brand", "rating"],
+      rows: [
+        ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+        ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+        ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+        ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+        ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+        ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+        ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+        ["White Shirt", "Clothing", 700, "Denim", 4.3],
+        ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+        ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+        ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+        ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+        ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+      ],
+    },
+  },
+
+  descriptionDetails: `
+<div class="desc-question-details">
+
+  <p>
+    With this practice set, you'll get thorough with:
+  </p>
+
+  <ul>
+    <li>How to filter based on multiple conditions and apply filters within a specified range.</li>
+    <li>Sorting the results to extract meaningful insights.</li>
+  </ul>
+
+  <p>
+    Here, the database consists of a <b>product</b> table that stores the name, category, price, brand and rating of products.
+  </p>
+
+  <div class="Note-container">
+    <div class="icon-note">
+      <h6><i class="bi bi-journal-text"></i>Note</h6>
+    </div>
+    <p>Expected output format for all the queries, unless specified.</p>
+  </div>
+
+  <div class="sql-table-desc">
+    <div class="sql-table-caption">Table: product</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>category</th>
+          <th>price</th>
+          <th>brand</th>
+          <th>rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Black Jeans</td>
+          <td>Clothing</td>
+          <td>750</td>
+          <td>Denim</td>
+          <td>4.5</td>
+        </tr>
+        <tr>
+          <td>Blue Shirt</td>
+          <td>Clothing</td>
+          <td>750</td>
+          <td>Denim</td>
+          <td>3.8</td>
+        </tr>
+        <tr>
+          <td>Blue Jeans</td>
+          <td>Clothing</td>
+          <td>800</td>
+          <td>Puma</td>
+          <td>3.6</td>
+        </tr>
+        <tr>
+          <td>Blue Shirt</td>
+          <td>Clothing</td>
+          <td>1000</td>
+          <td>Puma</td>
+          <td>4.3</td>
+        </tr>
+        <tr>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="desc-que-blue">Question</p>
+  <p>Get all the products that are in the price range of 750 to 1000.</p>
+
+  <div class="Note-container">
+    <div class="icon-note">
+      <h6><i class="bi bi-journal-text"></i>Note</h6>
+    </div>
+    <p>
+      Include the products with price 750 and 1000 as well. 
+      Output must be sorted in ascending order of price. 
+      If two products have the same price, sort them alphabetically by name.
+    </p>
+  </div>
+
+</div>
+`,
+
+  testCases: [
+    {
+      id: 1,
+      description: "Query should start with SELECT",
+      type: "syntax-validation",
+      expectedKeywords: ["select"],
+      visible: true,
+    },
+    {
+      id: 2,
+      description: "Query should contain FROM keyword",
+      type: "syntax-validation",
+      expectedKeywords: ["from"],
+      visible: true,
+    },
+    {
+      id: 3,
+      description: "Table name should be 'product'",
+      type: "query-validation",
+      expectedTableName: "product",
+      expectedKeywords: ["product"],
+      visible: true,
+    },
+    {
+      id: 4,
+      description: "Query should select all columns using *",
+      type: "query-validation",
+      expectedKeywords: ["*"],
+      visible: true,
+    },
+    {
+      id: 5,
+      description: "Query should contain WHERE clause",
+      type: "query-validation",
+      expectedKeywords: ["where"],
+      visible: true,
+    },
+    {
+      id: 6,
+      description: "Query should filter using BETWEEN",
+      type: "query-validation",
+      expectedKeywords: ["between"],
+      visible: true,
+    },
+    {
+      id: 7,
+      description: "Query should contain ORDER BY clause",
+      type: "query-validation",
+      expectedKeywords: ["order by"],
+      visible: true,
+    },
+    {
+      id: 8,
+      description: "Query should sort by price and name",
+      type: "query-validation",
+      expectedKeywords: ["price", "name"],
+      visible: true,
+    },
+    {
+      id: 9,
+      description: "Query should end with semicolon",
+      type: "syntax-validation",
+      visible: true,
+    },
+  ],
+        },
+       
+        {
+  id: "sql-query-5-4",
+  title: "High Rating Low Cost Clothing",
+  description: "",
+  difficulty: "Easy",
+  score: 40,
+  type: "sql",
+
+  defaultCode: {
+    sql: ``,
+  },
+
+  tableData: {
+    product: {
+      columns: ["name", "category", "price", "brand", "rating"],
+      rows: [
+        ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+        ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+        ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+        ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+        ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+        ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+        ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+        ["White Shirt", "Clothing", 700, "Denim", 4.3],
+        ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+        ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+        ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+        ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+        ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+      ],
+    },
+  },
+
+  descriptionDetails: `
+<div class="desc-question-details">
+
+  <p>
+    With this practice set, you'll get thorough with:
+  </p>
+
+  <ul>
+    <li>Filtering data using WHERE clause</li>
+    <li>Sorting results using ORDER BY with multiple columns</li>
+  </ul>
+
+  <p>
+    Here, the database consists of a <b>product</b> table that stores the name, category, price, brand, and rating of products.
+  </p>
+
+  <div class="Note-container">
+    <div class="icon-note">
+      <h6>
+        <i class="bi bi-journal-text"></i>Note
+      </h6>
+    </div>
+    <p>Expected output format for all the queries, unless specified.</p>
+  </div>
+
+  <div class="sql-table-desc">
+    <div class="sql-table-caption">Table: product</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>category</th>
+          <th>price</th>
+          <th>brand</th>
+          <th>rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Black Shirt</td>
+          <td>Clothing</td>
+          <td>600</td>
+          <td>Puma</td>
+          <td>4.8</td>
+        </tr>
+        <tr>
+          <td>Blue T-Shirt</td>
+          <td>Clothing</td>
+          <td>600</td>
+          <td>Nike</td>
+          <td>4.7</td>
+        </tr>
+        <tr>
+          <td>Black Jeans</td>
+          <td>Clothing</td>
+          <td>750</td>
+          <td>Denim</td>
+          <td>4.5</td>
+        </tr>
+        <tr>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="desc-que-blue">Question</p>
+  <p>
+    User wants to purchase clothes that have high-rating and low-cost.
+  </p>
+  <p>
+    Get the products from the <b>"Clothing"</b> category as per the user requirements:
+  </p>
+
+  <ul>
+    <li>Keep highly-rated products at the top</li>
+    <li>Sort the price from low to high</li>
+  </ul>
+
+</div>
+`,
+
+  testCases: [
+    {
+      id: 1,
+      description: "Query should start with SELECT",
+      type: "syntax-validation",
+      expectedKeywords: ["select"],
+      visible: true,
+    },
+    {
+      id: 2,
+      description: "Query should select all columns",
+      type: "query-validation",
+      expectedKeywords: ["*"],
+      visible: true,
+    },
+    {
+      id: 3,
+      description: "Query should contain FROM keyword",
+      type: "syntax-validation",
+      expectedKeywords: ["from"],
+      visible: true,
+    },
+    {
+      id: 4,
+      description: "Table name should be 'product'",
+      type: "query-validation",
+      expectedTableName: "product",
+      expectedKeywords: ["product"],
+      visible: true,
+    },
+    {
+      id: 5,
+      description: "Query should filter Clothing category",
+      type: "query-validation",
+      expectedKeywords: ["where", "clothing"],
+      visible: true,
+    },
+    {
+      id: 6,
+      description: "Query should contain ORDER BY clause",
+      type: "query-validation",
+      expectedKeywords: ["order by"],
+      visible: true,
+    },
+    {
+      id: 7,
+      description: "Query should sort by rating (DESC) first",
+      type: "query-validation",
+      expectedKeywords: ["rating", "desc"],
+      visible: true,
+    },
+    {
+      id: 8,
+      description: "Query should sort by price (ASC) next",
+      type: "query-validation",
+      expectedKeywords: ["price", "asc"],
+      visible: true,
+    },
+    {
+      id: 9,
+      description: "Query should end with semicolon",
+      type: "syntax-validation",
+      visible: true,
+    },
+  ],
+        },
+        
+     
       ],
     },
     // SQL Practice 6
@@ -6069,209 +6464,10 @@ export const sqlCodingPracticesData = {
             },
           ],
         },
-        // {
-        //   accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
-
-        //   id: "sql-query-7-5",
-        //   title: "Based on strike rate",
-        //   description:
-        //     "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
-
-        //   difficulty: "Medium",
-        //   score: 45,
-        //   type: "sql",
-
-        //   defaultCode: {
-        //     sql: ``,
-        //   },
-
-        //   tableData: {
-        //     player: {
-        //       columns: [
-        //         "name",
-        //         "match_date",
-        //         "team",
-        //         "score",
-        //         "match",
-        //         "no_of_balls",
-        //         "fours",
-        //         "sixes",
-        //       ],
-        //       rows: [
-        //         ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
-        //         ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
-        //         ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
-        //         ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
-
-        //         ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
-        //         ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
-        //         ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
-
-        //         ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
-        //         ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
-
-        //         ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
-        //         ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
-
-        //         ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
-
-        //         ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
-
-        //         ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
-
-        //         ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
-
-        //         ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
-        //       ],
-        //     },
-        //   },
-
-        //   descriptionDetails: `
-        //     <div class="desc-question-details">
-        //       <p class="desc-que-blue">Question</p>
-        //       <p>
-        //       For each player, get the number of matches in which their strike rate is less than 80.0, and the number of matches with strike rate greater than or equal to 80.0.
-
-        //       <br/>strike_rate = (score of the player / no_of_balls)*100</p>
-        //       <div class="Note-container">
-        //           <div class="icon-note">
-        //             <h6>
-        //               <i class="bi bi-journal-text"></i>Note
-        //             </h6>
-        //           </div>
-        //           <p>
-        //           <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
-        //           <li>Strike rate should always be a float value.</li>
-        //             <li>Output must be in the ascending order of name</li>
-        //           </ul>
-        //         </p>
-        //         </div>
-
-        //       <p class="desc-que-blue">Expected Output Format :</p>
-
-        //       <div class="sql-table-desc">
-
-        //      <table>
-        //     <thead>
-        //     <tr>
-        //     <th>name</th>
-        //     <th>strike_rate_less_than_80	</th>
-        //     <th>strike_rate_greater_than_or_equal_to_80</th>
-        //     </tr>
-        //     </thead>
-        //     <tbody>
-        //     <tr><td>--</td><td>--</td><td>--</td></tr>
-        //     </tbody>
-        //     </table>
-        //       </div>
-        //     </div>
-        //   `,
-
-        //   testCases: [
-        //     {
-        //       id: 1,
-        //       description: "Query should start with SELECT",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["select"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 2,
-        //       description: "Query should select from player table",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["from", "player"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 3,
-        //       description: "Query should select name column",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["name"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 4,
-        //       description:
-        //         "Query should calculate strike rate using score and no_of_balls",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["score", "no_of_balls", "100"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 5,
-        //       description: "Query should use CAST to convert score to FLOAT",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["cast", "float"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 6,
-        //       description: "Query should use CASE statement",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["case", "when", "then", "end"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 7,
-        //       description: "Query should count matches with strike rate < 80.0",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["< 80.0", "strike_rate_less_than_80"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 8,
-        //       description:
-        //         "Query should count matches with strike rate >= 80.0",
-        //       type: "syntax-validation",
-        //       expectedKeywords: [
-        //         ">= 80.0",
-        //         "strike_rate_greater_than_or_equal_to_80",
-        //       ],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 9,
-        //       description: "Query should use COUNT function",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["count"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 10,
-        //       description: "Query should group results by name",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["group by", "name"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 11,
-        //       description:
-        //         "Query should order results by name in ascending order",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["order by", "name", "asc"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 12,
-        //       description: "Query should define alias strike_rate_less_than_80",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["as strike_rate_less_than_80"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 13,
-        //       description:
-        //         "Query should define alias strike_rate_greater_than_or_equal_to_80",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["as strike_rate_greater_than_or_equal_to_80"],
-        //       visible: true,
-        //     },
-        //   ],
-        // },
         {
           accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
-          id: "sql-query-7-6",
+          id: "sql-query-7-5",
           title: "CSK and RCB",
           description:
             "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
@@ -6410,442 +6606,12 @@ export const sqlCodingPracticesData = {
             },
           ],
         },
-        {
-          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
-
-          id: "sql-query-7-7",
-          title: "SRH",
-          description:
-            "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
-
-          difficulty: "Medium",
-          score: 45,
-          type: "sql",
-
-          defaultCode: {
-            sql: ``,
-          },
-
-          tableData: {
-            player: {
-              columns: [
-                "name",
-                "match_date",
-                "team",
-                "score",
-                "match",
-                "no_of_balls",
-                "fours",
-                "sixes",
-              ],
-              rows: [
-                ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
-                ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
-                ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
-                ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
-
-                ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
-                ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
-                ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
-
-                ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
-                ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
-
-                ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
-                ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
-
-                ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
-
-                ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
-
-                ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
-
-                ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
-
-                ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
-              ],
-            },
-          },
-
-          descriptionDetails: `
-            <div class="desc-question-details">
-              <p class="desc-que-blue">Question</p>
-              <p>Get all the player/s who played only for SRH.</p>
-              <div class="Note-container">
-              <div class="icon-note">
-                <h6>
-                  <i class="bi bi-journal-text"></i>Note
-                </h6>
-              </div>
-              <p>
-              <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
-              <li>Names in the output must be in capital letters.</li>
-                <li>Output must be in the ascending order of name</li>
-              </ul>
-            </p>
-            </div>
-                </div>
-                 
-              <p class="desc-que-blue">Expected Output Format :</p>
-        
-              <div class="sql-table-desc">
-               
-             <table>
-            <thead>
-            <tr>
-            <th>name</th></tr>
-            </thead>
-            <tbody>
-            <tr><td>--</td></tr>
-            </tbody>
-            </table>
-              </div>
-            </div>
-          `,
-
-          testCases: [
-            {
-              id: 1,
-              description: "Query should start with SELECT",
-              type: "syntax-validation",
-              expectedKeywords: ["select"],
-              visible: true,
-            },
-            {
-              id: 2,
-              description: "Query should select name column",
-              type: "syntax-validation",
-              expectedKeywords: ["select name"],
-              visible: true,
-            },
-            {
-              id: 3,
-              description: "Query should contain FROM player",
-              type: "syntax-validation",
-              expectedKeywords: ["from player"],
-              visible: true,
-            },
-            {
-              id: 4,
-              description: 'Query should filter played_for_team = "SRH"',
-              type: "syntax-validation",
-              expectedKeywords: ['played_for_team = "SRH"'],
-              visible: true,
-            },
-            {
-              id: 5,
-              description:
-                "Query should ensure players played only for SRH using GROUP BY",
-              type: "syntax-validation",
-              expectedKeywords: ["group by name"],
-              visible: true,
-            },
-            {
-              id: 6,
-              description:
-                "Query should use HAVING clause to ensure only SRH team",
-              type: "syntax-validation",
-              expectedKeywords: ["having"],
-              visible: true,
-            },
-            {
-              id: 7,
-              description: "Query should convert names to capital letters",
-              type: "syntax-validation",
-              expectedKeywords: ["upper(name)"],
-              visible: true,
-            },
-            {
-              id: 8,
-              description: "Query should use ORDER BY name ASC",
-              type: "syntax-validation",
-              expectedKeywords: ["order by name asc"],
-              visible: true,
-            },
-          ],
-        },
-        // {
-        //   accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
-
-        //   id: "sql-query-7-8",
-        //   title: "SRH, CSK, or MI",
-        //   description:
-        //     "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
-
-        //   difficulty: "Medium",
-        //   score: 45,
-        //   type: "sql",
-
-        //   defaultCode: {
-        //     sql: ``,
-        //   },
-
-        //   tableData: {
-        //     player: {
-        //       columns: [
-        //         "name",
-        //         "match_date",
-        //         "team",
-        //         "score",
-        //         "match",
-        //         "no_of_balls",
-        //         "fours",
-        //         "sixes",
-        //       ],
-        //       rows: [
-        //         ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
-        //         ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
-        //         ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
-        //         ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
-
-        //         ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
-        //         ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
-        //         ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
-
-        //         ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
-        //         ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
-
-        //         ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
-        //         ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
-
-        //         ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
-
-        //         ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
-
-        //         ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
-
-        //         ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
-
-        //         ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
-        //       ],
-        //     },
-        //   },
-
-        //   descriptionDetails: `
-        //     <div class="desc-question-details">
-        //       <p class="desc-que-blue">Question</p>
-        //       <p>Get all the player/s who played either for SRH, CSK, or MI.</p>
-        //       <div class="Note-container">
-        //       <div class="icon-note">
-        //         <h6>
-        //           <i class="bi bi-journal-text"></i>Note
-        //         </h6>
-        //       </div>
-        //       <p>
-        //       <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
-        //       <li>Get unique players.</li>
-        //       <li>Output must be in the ascending order of name</li>
-        //       </ul>
-        //     </p>
-        //     </div>
-        //         </div>
-
-        //       <p class="desc-que-blue">Expected Output Format :</p>
-
-        //       <div class="sql-table-desc">
-
-        //      <table>
-        //     <thead>
-        //     <tr>
-        //     <th>name</th></tr>
-        //     </thead>
-        //     <tbody>
-        //     <tr><td>--</td></tr>
-        //     </tbody>
-        //     </table>
-        //       </div>
-        //     </div>
-        //   `,
-
-        //   testCases: [
-        //     {
-        //       id: 1,
-        //       description: "Query should start with SELECT",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["select"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 2,
-        //       description: "Query should select name column",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["select name"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 3,
-        //       description: "Query should contain FROM player",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["from player"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 4,
-        //       description: "Query should filter team for SRH, CSK, or MI",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["where team in"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 5,
-        //       description: "Query should return unique players",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["distinct"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 6,
-        //       description: "Query should convert names to uppercase",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["upper(name)"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 7,
-        //       description: "Query should use ORDER BY name ASC",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["order by name asc"],
-        //       visible: true,
-        //     },
-        //   ],
-        // },
-        // {
-        //   accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
-        //   id: "sql-query-7-9",
-        //   title: "Highest and lowest scores",
-        //   description:
-        //     "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
-
-        //   difficulty: "Medium",
-        //   score: 45,
-        //   type: "sql",
-
-        //   defaultCode: {
-        //     sql: ``,
-        //   },
-
-        //   tableData: {
-        //     player: {
-        //       columns: [
-        //         "name",
-        //         "match_date",
-        //         "team",
-        //         "score",
-        //         "match",
-        //         "no_of_balls",
-        //         "fours",
-        //         "sixes",
-        //       ],
-        //       rows: [
-        //         ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
-        //         ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
-        //         ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
-        //         ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
-
-        //         ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
-        //         ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
-        //         ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
-
-        //         ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
-        //         ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
-
-        //         ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
-        //         ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
-
-        //         ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
-
-        //         ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
-
-        //         ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
-
-        //         ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
-
-        //         ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
-        //       ],
-        //     },
-        //   },
-
-        //   descriptionDetails: `
-        //     <div class="desc-question-details">
-        //       <p class="desc-que-blue">Question</p>
-        //       <p>Fetch the name, highest and lowest scores of player/s for the matches in which strike rate is greater than 50.0.</p>
-
-        //       <p class="desc-que-blue">Expected Output Format :</p>
-
-        //       <div class="sql-table-desc">
-
-        //      <table>
-        //     <thead>
-        //     <tr><th>name</th><th>highest_score</th><th>lowest_score</th></tr>
-        //     </thead>
-        //     <tbody>
-        //     <tr><td>--</td>
-        //     <td>--</td>
-        //     <td>--</td></tr>
-        //     </tbody>
-        //     </table>
-        //       </div>
-        //     </div>
-        //   `,
-
-        //   testcases: [
-        //     {
-        //       id: 1,
-        //       description: "Query should start with SELECT",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["select"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 2,
-        //       description:
-        //         "Query should select name, MAX(score) as highest_score, and MIN(score) as lowest_score",
-        //       type: "syntax-validation",
-        //       expectedKeywords: [
-        //         "select name",
-        //         "max(score) as highest_score",
-        //         "min(score) as lowest_score",
-        //       ],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 3,
-        //       description: "Query should contain FROM player",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["from player"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 4,
-        //       description:
-        //         "Query should filter only matches where strike rate > 50.0",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["where", "/ no_of_balls", "> 50"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 5,
-        //       description: "Query should group results by name",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["group by name"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 6,
-        //       description:
-        //         "Output should have columns: name, highest_score, lowest_score",
-        //       type: "output-validation",
-        //       expectedColumns: ["name", "highest_score", "lowest_score"],
-        //       visible: true,
-        //     },
-        //   ],
-        // },
       ],
     },
     // SQL Assignment 1
     {
       id: "sql-Assignment-1",
-      title: "SQL Coding Practice 8",
+      title: "SQL Assignment 1",
       description: "Practice basic SQL queries",
       questions: [
         {
@@ -8349,1426 +8115,12 @@ export const sqlCodingPracticesData = {
             },
           ],
         },
-        // {
-        //   id: "sql-query-8-6",
-        //   title: "Distinct ids",
-        //   description:
-        //     "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
-
-        //   difficulty: "Easy",
-        //   score: 35,
-        //   type: "sql",
-
-        //   defaultCode: {
-        //     sql: ``,
-        //   },
-
-        //   tableData: {
-        //     video_genre: {
-        //       columns: ["video_id", "genre_id"],
-        //       rows: [
-        //         [1100, 201],
-        //         [1316, 202],
-        //         [1488, 203],
-        //         [1089, 211],
-        //         [1009, 201],
-        //         [1348, 202],
-        //         [1003, 203],
-        //         [1289, 211],
-        //         [1038, 201],
-        //         [1322, 202],
-        //         [1100, 202], // duplicate video in another allowed genre
-        //         [1488, 211], // duplicate video in another allowed genre
-        //         [1009, 203], // duplicate video in another allowed genre
-        //         [1348, 205], // not required genre
-        //         [1322, 210], // not required genre
-        //       ],
-        //     },
-        //   },
-
-        //   descriptionDetails: `
-        //     <div class="desc-question-details">
-        //       <p class="desc-que-blue">Database</p>
-        //       <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
-        // <p>NOTE:</p>
-        //       <div class="sql-table-desc">
-        //         <div class="sql-table-caption">Table: channel_user table
-        //         </div>
-        //         <table>
-        //         <thead>
-        //           <tr>
-        //             <th>channel_id</th>
-        //             <th>user_id</th>
-        //             <th>subscribed_datetime</th>
-        //           </tr>
-        //         </thead>
-        //         <tbody>
-        //           <tr>
-        //             <td>100</td>
-        //             <td>1</td>
-        //             <td>2020-12-10 10:30:45</td>
-        //           </tr>
-        //           <tr>
-        //             <td>100</td>
-        //             <td>7</td>
-        //             <td>2020-10-10 11:30:45</td>
-        //           </tr>
-        //           <tr>
-        //             <td>--</td>
-        //             <td>--</td>
-        //             <td>--</td>
-        //           </tr>
-        //         </tbody>
-        //       </table>
-        //       </div>
-        //       <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
-        //       <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
-        //       <div class="sql-table-desc">
-        //       <div class="sql-table-caption">Table: user_likes table
-        //       </div>
-        //       <table>
-        //         <thead>
-        //           <tr>
-        //             <th>user_id</th>
-        //             <th>video_id</th>
-        //             <th>reaction_type</th>
-        //             <th>reacted_at</th>
-        //           </tr>
-        //         </thead>
-        //         <tbody>
-        //           <tr>
-        //             <td>1</td>
-        //             <td>10</td>
-        //             <td>LIKE</td>
-        //             <td>2020-12-10 10:30:45</td>
-        //           </tr>
-        //           <tr>
-        //             <td>7</td>
-        //             <td>10</td>
-        //             <td>DISLIKE</td>
-        //             <td>2020-10-10 11:30:45</td>
-        //           </tr>
-        //           <tr>
-        //             <td>--</td>
-        //             <td>--</td>
-        //             <td>--</td>
-        //             <td>--</td>
-        //           </tr>
-        //         </tbody>
-        //       </table>
-        //     </div>
-
-        //       <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
-        //             <div class="sql-table-desc">
-        //   <div class="sql-table-caption">Table: video_genre table
-        //   </div>
-        //   <table>
-        //   <thead>
-        //     <tr>
-        //       <th>video_id</th>
-        //       <th>genre_id</th>
-        //     </tr>
-        //   </thead>
-        //   <tbody>
-        //     <tr>
-        //       <td>10</td>
-        //       <td>201</td>
-        //     </tr>
-        //     <tr>
-        //       <td>10</td>
-        //       <td>202</td>
-        //     </tr>
-        //     <tr>
-        //       <td>--</td>
-        //       <td>--</td>
-        //     </tr>
-        //   </tbody>
-        //   </table>
-        //   </div>
-        //             <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
-        //       <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
-
-        //       <p class="desc-que-blue">Question</p>
-        //      <p>Get the distinct ids of videos that belong to the following genres.</p>
-        //      <div class="sql-table-desc">
-        //      <table>
-        //        <thead>
-        //          <tr>
-        //            <th>genre_id</th>
-        //            <th>genre</th>
-        //          </tr>
-        //        </thead>
-        //        <tbody>
-        //          <tr>
-        //            <td>201</td>
-        //            <td>Comedy</td>
-        //          </tr>
-        //          <tr>
-        //            <td>202</td>
-        //            <td>Action</td>
-        //          </tr>
-        //          <tr>
-        //            <td>203</td>
-        //            <td>Thriller</td>
-        //          </tr>
-        //          <tr>
-        //            <td>211</td>
-        //            <td>Scifi</td>
-        //          </tr>
-        //        </tbody>
-        //      </table>
-        //    </div>
-        //    <div class="Note-container">
-        //    <div class="icon-note">
-        //      <h6>
-        //        <i class="bi bi-journal-text"></i>Note
-        //      </h6>
-        //    </div>
-        //    <p>Sort the output in the descending order of <b>video_id</b></p>
-        //    </div>
-        //    <p class="desc-que-blue">Expected Output Format</p>
-        //    <div class="sql-table-desc">
-        //    <table>
-        //   <thead>
-        //   <tr>
-        //   <th>name</th>
-        //   </tr>
-        //   </thead>
-        //   <tbody>
-        //   <tr><td>--</td></tr>
-        //   </tbody>
-        //   </table>
-        //     </div>
-        //      </div>
-        //   `,
-
-        //   testCases: [
-        //     {
-        //       id: 1,
-        //       description: "Query should select DISTINCT video_id",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["SELECT", "DISTINCT", "video_id"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 2,
-        //       description: "Query should select data from video_genre table",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["FROM", "video_genre"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 3,
-        //       description: "Query should filter using genre_id",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["WHERE", "genre_id"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 4,
-        //       description:
-        //         "Query should use IN operator with required genre IDs",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["IN", "201", "202", "203", "211"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 5,
-        //       description:
-        //         "Query should sort the result in descending order of video_id",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["ORDER BY", "video_id", "DESC"],
-        //       visible: true,
-        //     },
-        //   ],
-        // },
-        // {
-        //   id: "sql-query-8-7",
-        //   title: "Distinct ids",
-        //   description:
-        //     "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
-
-        //   difficulty: "Easy",
-        //   score: 35,
-        //   type: "sql",
-
-        //   defaultCode: {
-        //     sql: ``,
-        //   },
-
-        //   tableData: {
-        //     VIDEO: {
-        //       columns: [
-        //         "video_id",
-        //         "name",
-        //         "duration_in_secs",
-        //         "published_datetime",
-        //         "no_of_views",
-        //         "channel_id",
-        //       ],
-        //       rows: [
-        //         [
-        //           1100,
-        //           "#VeteransDay: Thank You for Everything",
-        //           4830,
-        //           "2018-05-05 19:00",
-        //           137261,
-        //           367,
-        //         ],
-        //         [
-        //           1316,
-        //           "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
-        //           4654,
-        //           "2017-06-10 12:32",
-        //           130574,
-        //           366,
-        //         ],
-        //         [
-        //           1488,
-        //           "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
-        //           3389,
-        //           "2021-01-19 21:19",
-        //           201187,
-        //           366,
-        //         ],
-        //         [
-        //           1089,
-        //           "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
-        //           1867,
-        //           "2019-05-05 17:32",
-        //           133738,
-        //           350,
-        //         ],
-        //         [
-        //           1009,
-        //           "100 People Hold Their Breath for as Long as They Can",
-        //           2885,
-        //           "2015-05-17 19:32",
-        //           272102,
-        //           354,
-        //         ],
-        //         [
-        //           1348,
-        //           "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
-        //           1312,
-        //           "2017-06-10 12:32",
-        //           154370,
-        //           360,
-        //         ],
-        //         [
-        //           1003,
-        //           "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
-        //           1751,
-        //           "2017-05-05 17:32",
-        //           279351,
-        //           350,
-        //         ],
-        //         [
-        //           1289,
-        //           "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
-        //           4019,
-        //           "2019-11-10 12:32",
-        //           293255,
-        //           362,
-        //         ],
-        //         [
-        //           1038,
-        //           "A Day in The Life of David Letterman",
-        //           2949,
-        //           "2019-02-05 17:32",
-        //           298876,
-        //           353,
-        //         ],
-        //         [
-        //           1322,
-        //           "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
-        //           1225,
-        //           "2015-02-10 12:32",
-        //           286795,
-        //           366,
-        //         ],
-        //       ],
-        //     },
-        //   },
-
-        //   descriptionDetails: `
-        //     <div class="desc-question-details">
-        //       <p class="desc-que-blue">Database</p>
-        //       <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
-        // <p>NOTE:</p>
-        //       <div class="sql-table-desc">
-        //         <div class="sql-table-caption">Table: channel_user table
-        //         </div>
-        //         <table>
-        //         <thead>
-        //           <tr>
-        //             <th>channel_id</th>
-        //             <th>user_id</th>
-        //             <th>subscribed_datetime</th>
-        //           </tr>
-        //         </thead>
-        //         <tbody>
-        //           <tr>
-        //             <td>100</td>
-        //             <td>1</td>
-        //             <td>2020-12-10 10:30:45</td>
-        //           </tr>
-        //           <tr>
-        //             <td>100</td>
-        //             <td>7</td>
-        //             <td>2020-10-10 11:30:45</td>
-        //           </tr>
-        //           <tr>
-        //             <td>--</td>
-        //             <td>--</td>
-        //             <td>--</td>
-        //           </tr>
-        //         </tbody>
-        //       </table>
-        //       </div>
-        //       <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
-        //       <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
-        //       <div class="sql-table-desc">
-        //       <div class="sql-table-caption">Table: user_likes table
-        //       </div>
-        //       <table>
-        //         <thead>
-        //           <tr>
-        //             <th>user_id</th>
-        //             <th>video_id</th>
-        //             <th>reaction_type</th>
-        //             <th>reacted_at</th>
-        //           </tr>
-        //         </thead>
-        //         <tbody>
-        //           <tr>
-        //             <td>1</td>
-        //             <td>10</td>
-        //             <td>LIKE</td>
-        //             <td>2020-12-10 10:30:45</td>
-        //           </tr>
-        //           <tr>
-        //             <td>7</td>
-        //             <td>10</td>
-        //             <td>DISLIKE</td>
-        //             <td>2020-10-10 11:30:45</td>
-        //           </tr>
-        //           <tr>
-        //             <td>--</td>
-        //             <td>--</td>
-        //             <td>--</td>
-        //             <td>--</td>
-        //           </tr>
-        //         </tbody>
-        //       </table>
-        //     </div>
-
-        //       <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
-        //             <div class="sql-table-desc">
-        //   <div class="sql-table-caption">Table: video_genre table
-        //   </div>
-        //   <table>
-        //   <thead>
-        //     <tr>
-        //       <th>video_id</th>
-        //       <th>genre_id</th>
-        //     </tr>
-        //   </thead>
-        //   <tbody>
-        //     <tr>
-        //       <td>10</td>
-        //       <td>201</td>
-        //     </tr>
-        //     <tr>
-        //       <td>10</td>
-        //       <td>202</td>
-        //     </tr>
-        //     <tr>
-        //       <td>--</td>
-        //       <td>--</td>
-        //     </tr>
-        //   </tbody>
-        //   </table>
-        //   </div>
-        //             <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
-        //       <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
-
-        //       <p class="desc-que-blue">Question</p>
-        //      <p>
-        //      Get all the esport videos that crossed one lakh views and were released between 2018 and 2020.</p>
-
-        //    <div class="Note-container">
-        //    <div class="icon-note">
-        //      <h6>
-        //        <i class="bi bi-journal-text"></i>Note
-        //      </h6>
-        //    </div>
-        //    <ul>
-        //    <li>Consider the videos that have "esport" in theirname as gaming videos.<\li>
-        //    <li>Sort the output in the descending order of no_of_views and published_date time</li>
-        //    </ul>
-        //    </div>
-        //    <p class="desc-que-blue">Expected Output Format</p>
-        //    <div class="sql-table-desc">
-        //    <table>
-        //   <thead>
-        //   <tr>
-        //   <th>name</th>
-        //   <th>published_datetime</th>
-        //   <th>no_of_viewse</th>
-        //   </tr>
-        //   </thead>
-        //   <tbody>
-        //   <tr><td>--</td><td>--</td><td>--</td></tr>
-        //   </tbody>
-        //   </table>
-        //     </div>
-        //      </div>
-        //   `,
-
-        //   testCases: [
-        //     {
-        //       id: 1,
-        //       description: "Query should start with SELECT",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["select"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 2,
-        //       description:
-        //         "Query should select name, published_datetime and no_of_views",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["name", "published_datetime", "no_of_views"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 3,
-        //       description: "Query should use FROM VIDEO",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["from video"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 4,
-        //       description:
-        //         "Query should filter videos with more than 100000 views",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["no_of_views > 100000"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 5,
-        //       description:
-        //         "Query should filter name containing 'esport' using LIKE",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["name like", "esport"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 6,
-        //       description:
-        //         "Query should filter published year between 2018 and 2020",
-        //       type: "syntax-validation",
-        //       expectedKeywords: ["strftime", "2018", "2020"],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 7,
-        //       description:
-        //         "Query should use ORDER BY with no_of_views DESC and published_datetime DESC",
-        //       type: "syntax-validation",
-        //       expectedKeywords: [
-        //         "order by",
-        //         "no_of_views desc",
-        //         "published_datetime desc",
-        //       ],
-        //       visible: true,
-        //     },
-        //     {
-        //       id: 8,
-        //       description: "Query should not use GROUP BY",
-        //       type: "negative-validation",
-        //       forbiddenKeywords: ["group by"],
-        //       visible: false,
-        //     },
-        //     {
-        //       id: 9,
-        //       description: "Query should not use JOIN",
-        //       type: "negative-validation",
-        //       forbiddenKeywords: ["join"],
-        //       visible: false,
-        //     },
-        //     {
-        //       id: 10,
-        //       description: "Query should not use DISTINCT",
-        //       type: "negative-validation",
-        //       forbiddenKeywords: ["distinct"],
-        //       visible: false,
-        //     },
-        //   ],
-        // },
-        {
-          id: "sql-query-8-8",
-          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
-          title: "Number of channels",
-          description:
-            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
-
-          difficulty: "Medium",
-          score: 35,
-          type: "sql",
-
-          defaultCode: {
-            sql: ``,
-          },
-
-          tableData: {
-            channel: {
-              columns: [
-                "video_id",
-                "name",
-                "duration_in_secs",
-                "published_datetime",
-                "no_of_views",
-                "channel_id",
-              ],
-              rows: [
-                [
-                  1100,
-                  "#VeteransDay: Thank You for Everything",
-                  4830,
-                  "2018-05-05 19:00",
-                  137261,
-                  367,
-                ],
-                [
-                  1316,
-                  "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
-                  4654,
-                  "2017-06-10 12:32",
-                  130574,
-                  366,
-                ],
-                [
-                  1488,
-                  "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
-                  3389,
-                  "2021-01-19 21:19",
-                  201187,
-                  366,
-                ],
-                [
-                  1089,
-                  "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
-                  1867,
-                  "2019-05-05 17:32",
-                  133738,
-                  350,
-                ],
-                [
-                  1009,
-                  "100 People Hold Their Breath for as Long as They Can",
-                  2885,
-                  "2015-05-17 19:32",
-                  272102,
-                  354,
-                ],
-                [
-                  1348,
-                  "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
-                  1312,
-                  "2017-06-10 12:32",
-                  154370,
-                  360,
-                ],
-                [
-                  1003,
-                  "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
-                  1751,
-                  "2017-05-05 17:32",
-                  279351,
-                  350,
-                ],
-                [
-                  1289,
-                  "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
-                  4019,
-                  "2019-11-10 12:32",
-                  293255,
-                  362,
-                ],
-                [
-                  1038,
-                  "A Day in The Life of David Letterman",
-                  2949,
-                  "2019-02-05 17:32",
-                  298876,
-                  353,
-                ],
-                [
-                  1322,
-                  "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
-                  1225,
-                  "2015-02-10 12:32",
-                  286795,
-                  366,
-                ],
-              ],
-            },
-          },
-
-          descriptionDetails: `
-            <div class="desc-question-details">
-              <p class="desc-que-blue">Database</p>
-              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
-        <p>NOTE:</p>
-              <div class="sql-table-desc">
-                <div class="sql-table-caption">Table: channel_user table
-                </div>
-                <table>
-                <thead>
-                  <tr>
-                    <th>channel_id</th>
-                    <th>user_id</th>
-                    <th>subscribed_datetime</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>100</td>
-                    <td>1</td>
-                    <td>2020-12-10 10:30:45</td>
-                  </tr>
-                  <tr>
-                    <td>100</td>
-                    <td>7</td>
-                    <td>2020-10-10 11:30:45</td>
-                  </tr>
-                  <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                  </tr>
-                </tbody>
-              </table>
-              </div>
-              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
-              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
-              <div class="sql-table-desc">
-              <div class="sql-table-caption">Table: user_likes table
-              </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>user_id</th>
-                    <th>video_id</th>
-                    <th>reaction_type</th>
-                    <th>reacted_at</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>10</td>
-                    <td>LIKE</td>
-                    <td>2020-12-10 10:30:45</td>
-                  </tr>
-                  <tr>
-                    <td>7</td>
-                    <td>10</td>
-                    <td>DISLIKE</td>
-                    <td>2020-10-10 11:30:45</td>
-                  </tr>
-                  <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
-                    <div class="sql-table-desc">
-          <div class="sql-table-caption">Table: video_genre table
-          </div>
-          <table>
-          <thead>
-            <tr>
-              <th>video_id</th>
-              <th>genre_id</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>10</td>
-              <td>201</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>202</td>
-            </tr>
-            <tr>
-              <td>--</td>
-              <td>--</td>
-            </tr>
-          </tbody>
-          </table>
-          </div>
-                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
-              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
-              
-              <p class="desc-que-blue">Question</p>
-             <p>Get the total number of channels in the database as channels_count</p>
-             <div class="Note-container">
-             <div class="icon-note">
-               <h6>
-                 <i class="bi bi-journal-text"></i>Note
-               </h6>
-             </div>
-             <p>Sort the output in the descending order of <b>published_date</b> time and then in the alphabetical order of <b>name</b></p>
-             </div>
-             <p class="desc-que-blue">Expected Output Format</p>
-             <div class="sql-table-desc">
-             <table>
-            <thead>
-            <tr>
-             <th>channels_count</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr><td>--</td></tr>
-            </tbody>
-            </table>
-              </div>
-             </div>
-          `,
-
-          testCases: [
-            {
-              id: 1,
-              description: "Query should start with SELECT",
-              type: "syntax-validation",
-              expectedKeywords: ["select"],
-              visible: true,
-            },
-            {
-              id: 2,
-              description: "Query should use COUNT function",
-              type: "syntax-validation",
-              expectedKeywords: ["count"],
-              visible: true,
-            },
-            {
-              id: 3,
-              description: "Query should count channel_id",
-              type: "syntax-validation",
-              expectedKeywords: ["count(channel_id)"],
-              visible: true,
-            },
-            {
-              id: 4,
-              description: "Query should use alias as channels_count",
-              type: "syntax-validation",
-              expectedKeywords: ["as channels_count"],
-              visible: true,
-            },
-            {
-              id: 5,
-              description: "Query should use FROM channel",
-              type: "syntax-validation",
-              expectedKeywords: ["from channel"],
-              visible: true,
-            },
-          ],
-        },
-        {
-          id: "sql-query-8-9",
-          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
-          title: "highest and least views ",
-          description:
-            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
-
-          difficulty: "Medium",
-          score: 35,
-          type: "sql",
-
-          defaultCode: {
-            sql: ``,
-          },
-
-          tableData: {
-            video: {
-              columns: [
-                "video_id",
-                "name",
-                "duration_in_secs",
-                "published_datetime",
-                "no_of_views",
-                "channel_id",
-              ],
-              rows: [
-                [
-                  1100,
-                  "#VeteransDay: Thank You for Everything",
-                  4830,
-                  "2018-05-05 19:00",
-                  137261,
-                  367,
-                ],
-                [
-                  1316,
-                  "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
-                  4654,
-                  "2017-06-10 12:32",
-                  130574,
-                  366,
-                ],
-                [
-                  1488,
-                  "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
-                  3389,
-                  "2021-01-19 21:19",
-                  201187,
-                  366,
-                ],
-                [
-                  1089,
-                  "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
-                  1867,
-                  "2019-05-05 17:32",
-                  133738,
-                  350,
-                ],
-                [
-                  1009,
-                  "100 People Hold Their Breath for as Long as They Can",
-                  2885,
-                  "2015-05-17 19:32",
-                  272102,
-                  354,
-                ],
-                [
-                  1348,
-                  "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
-                  1312,
-                  "2017-06-10 12:32",
-                  154370,
-                  360,
-                ],
-                [
-                  1003,
-                  "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
-                  1751,
-                  "2017-05-05 17:32",
-                  279351,
-                  350,
-                ],
-                [
-                  1289,
-                  "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
-                  4019,
-                  "2019-11-10 12:32",
-                  293255,
-                  362,
-                ],
-                [
-                  1038,
-                  "A Day in The Life of David Letterman",
-                  2949,
-                  "2019-02-05 17:32",
-                  298876,
-                  353,
-                ],
-                [
-                  1322,
-                  "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
-                  1225,
-                  "2015-02-10 12:32",
-                  286795,
-                  366,
-                ],
-              ],
-            },
-          },
-
-          descriptionDetails: `
-            <div class="desc-question-details">
-              <p class="desc-que-blue">Database</p>
-              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
-        <p>NOTE:</p>
-              <div class="sql-table-desc">
-                <div class="sql-table-caption">Table: channel_user table
-                </div>
-                <table>
-                <thead>
-                  <tr>
-                    <th>channel_id</th>
-                    <th>user_id</th>
-                    <th>subscribed_datetime</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>100</td>
-                    <td>1</td>
-                    <td>2020-12-10 10:30:45</td>
-                  </tr>
-                  <tr>
-                    <td>100</td>
-                    <td>7</td>
-                    <td>2020-10-10 11:30:45</td>
-                  </tr>
-                  <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                  </tr>
-                </tbody>
-              </table>
-              </div>
-              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
-              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
-              <div class="sql-table-desc">
-              <div class="sql-table-caption">Table: user_likes table
-              </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>user_id</th>
-                    <th>video_id</th>
-                    <th>reaction_type</th>
-                    <th>reacted_at</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>10</td>
-                    <td>LIKE</td>
-                    <td>2020-12-10 10:30:45</td>
-                  </tr>
-                  <tr>
-                    <td>7</td>
-                    <td>10</td>
-                    <td>DISLIKE</td>
-                    <td>2020-10-10 11:30:45</td>
-                  </tr>
-                  <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
-                    <div class="sql-table-desc">
-          <div class="sql-table-caption">Table: video_genre table
-          </div>
-          <table>
-          <thead>
-            <tr>
-              <th>video_id</th>
-              <th>genre_id</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>10</td>
-              <td>201</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>202</td>
-            </tr>
-            <tr>
-              <td>--</td>
-              <td>--</td>
-            </tr>
-          </tbody>
-          </table>
-          </div>
-                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
-              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
-              
-              <p class="desc-que-blue">Question</p>
-             <p>Get the highest and least number of views for the videos in the database.</p>
-             <div class="Note-container">
-             <div class="icon-note">
-               <h6>
-                 <i class="bi bi-journal-text"></i>Note
-               </h6>
-             </div>
-             <p>Sort the output in the descending order of <b>published_date</b> time and then in the alphabetical order of <b>name</b></p>
-             </div>
-             <p class="desc-que-blue">Expected Output Format</p>
-             <div class="sql-table-desc">
-             <table>
-            <thead>
-            <tr>
-             <th>highest_number_of_views</th>
-             <th>least_number_of_views</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr><td>--</td><td>--</td></tr>
-            </tbody>
-            </table>
-              </div>
-             </div>
-          `,
-
-          testCases: [
-            {
-              id: 1,
-              description: "Query should start with SELECT",
-              type: "syntax-validation",
-              expectedKeywords: ["select"],
-              visible: true,
-            },
-            {
-              id: 2,
-              description: "Query should use MAX function",
-              type: "syntax-validation",
-              expectedKeywords: ["max"],
-              visible: true,
-            },
-            {
-              id: 3,
-              description: "Query should use MIN function",
-              type: "syntax-validation",
-              expectedKeywords: ["min"],
-              visible: true,
-            },
-            {
-              id: 4,
-              description: "Query should calculate MAX on no_of_views",
-              type: "syntax-validation",
-              expectedKeywords: ["max(no_of_views)"],
-              visible: true,
-            },
-            {
-              id: 5,
-              description: "Query should calculate MIN on no_of_views",
-              type: "syntax-validation",
-              expectedKeywords: ["min(no_of_views)"],
-              visible: true,
-            },
-            {
-              id: 6,
-              description: "Query should use alias as highest_number_of_views",
-              type: "syntax-validation",
-              expectedKeywords: ["as highest_number_of_views"],
-              visible: true,
-            },
-            {
-              id: 7,
-              description: "Query should use alias as least_number_of_views",
-              type: "syntax-validation",
-              expectedKeywords: ["as least_number_of_views"],
-              visible: true,
-            },
-            {
-              id: 8,
-              description: "Query should use FROM VIDEO",
-              type: "syntax-validation",
-              expectedKeywords: ["from video"],
-              visible: true,
-            },
-          ],
-        },
-        {
-          id: "sql-query-8-10",
-          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
-          title: "Average number of views",
-          description:
-            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
-
-          difficulty: "Medium",
-          score: 35,
-          type: "sql",
-
-          defaultCode: {
-            sql: ``,
-          },
-
-          tableData: {
-            video: {
-              columns: [
-                "video_id",
-                "name",
-                "duration_in_secs",
-                "published_datetime",
-                "no_of_views",
-                "channel_id",
-              ],
-              rows: [
-                [
-                  1100,
-                  "#VeteransDay: Thank You for Everything",
-                  4830,
-                  "2018-05-05 19:00",
-                  137261,
-                  367,
-                ],
-                [
-                  1316,
-                  "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
-                  4654,
-                  "2017-06-10 12:32",
-                  130574,
-                  366,
-                ],
-                [
-                  1488,
-                  "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
-                  3389,
-                  "2021-01-19 21:19",
-                  201187,
-                  366,
-                ],
-                [
-                  1089,
-                  "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
-                  1867,
-                  "2019-05-05 17:32",
-                  133738,
-                  350,
-                ],
-                [
-                  1009,
-                  "100 People Hold Their Breath for as Long as They Can",
-                  2885,
-                  "2015-05-17 19:32",
-                  272102,
-                  354,
-                ],
-                [
-                  1348,
-                  "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
-                  1312,
-                  "2017-06-10 12:32",
-                  154370,
-                  360,
-                ],
-                [
-                  1003,
-                  "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
-                  1751,
-                  "2017-05-05 17:32",
-                  279351,
-                  350,
-                ],
-                [
-                  1289,
-                  "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
-                  4019,
-                  "2019-11-10 12:32",
-                  293255,
-                  362,
-                ],
-                [
-                  1038,
-                  "A Day in The Life of David Letterman",
-                  2949,
-                  "2019-02-05 17:32",
-                  298876,
-                  353,
-                ],
-                [
-                  1322,
-                  "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
-                  1225,
-                  "2015-02-10 12:32",
-                  286795,
-                  366,
-                ],
-              ],
-            },
-          },
-
-          descriptionDetails: `
-            <div class="desc-question-details">
-              <p class="desc-que-blue">Database</p>
-              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
-        <p>NOTE:</p>
-              <div class="sql-table-desc">
-                <div class="sql-table-caption">Table: channel_user table
-                </div>
-                <table>
-                <thead>
-                  <tr>
-                    <th>channel_id</th>
-                    <th>user_id</th>
-                    <th>subscribed_datetime</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>100</td>
-                    <td>1</td>
-                    <td>2020-12-10 10:30:45</td>
-                  </tr>
-                  <tr>
-                    <td>100</td>
-                    <td>7</td>
-                    <td>2020-10-10 11:30:45</td>
-                  </tr>
-                  <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                  </tr>
-                </tbody>
-              </table>
-              </div>
-              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
-              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
-              <div class="sql-table-desc">
-              <div class="sql-table-caption">Table: user_likes table
-              </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>user_id</th>
-                    <th>video_id</th>
-                    <th>reaction_type</th>
-                    <th>reacted_at</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>10</td>
-                    <td>LIKE</td>
-                    <td>2020-12-10 10:30:45</td>
-                  </tr>
-                  <tr>
-                    <td>7</td>
-                    <td>10</td>
-                    <td>DISLIKE</td>
-                    <td>2020-10-10 11:30:45</td>
-                  </tr>
-                  <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
-                    <div class="sql-table-desc">
-          <div class="sql-table-caption">Table: video_genre table
-          </div>
-          <table>
-          <thead>
-            <tr>
-              <th>video_id</th>
-              <th>genre_id</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>10</td>
-              <td>201</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>202</td>
-            </tr>
-            <tr>
-              <td>--</td>
-              <td>--</td>
-            </tr>
-          </tbody>
-          </table>
-          </div>
-                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
-              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
-              
-              <p class="desc-que-blue">Question</p>
-             <p>Get the average number of views for the videos released by the "Single Shot" Channel (id = 373)</p>
-             <p class="desc-que-blue">Expected Output Format</p>
-             <div class="sql-table-desc">
-             <table>
-            <thead>
-            <tr>
-             <th>avg_views</th></tr>
-            </thead>
-            <tbody>
-            <tr><td>--</td></tr>
-            </tbody>
-            </table>
-              </div>
-             </div>
-          `,
-
-          testCases: [
-            {
-              id: 1,
-              description: "Query should start with SELECT",
-              type: "syntax-validation",
-              expectedKeywords: ["select"],
-              visible: true,
-            },
-            {
-              id: 2,
-              description: "Query should use AVG function",
-              type: "syntax-validation",
-              expectedKeywords: ["avg"],
-              visible: true,
-            },
-            {
-              id: 3,
-              description: "Query should calculate AVG on no_of_views",
-              type: "syntax-validation",
-              expectedKeywords: ["avg(no_of_views)"],
-              visible: true,
-            },
-            {
-              id: 4,
-              description: "Query should use alias as avg_views",
-              type: "syntax-validation",
-              expectedKeywords: ["as avg_views"],
-              visible: true,
-            },
-            {
-              id: 5,
-              description: "Query should use FROM VIDEO",
-              type: "syntax-validation",
-              expectedKeywords: ["from video"],
-              visible: true,
-            },
-            {
-              id: 6,
-              description: "Query should filter using WHERE clause",
-              type: "syntax-validation",
-              expectedKeywords: ["where"],
-              visible: true,
-            },
-            {
-              id: 7,
-              description: "Query should filter channel_id = 373",
-              type: "syntax-validation",
-              expectedKeywords: ["channel_id = 373"],
-              visible: true,
-            },
-          ],
-        },
       ],
     },
     // SQL Assignment 2
     {
       id: "sql-Assignment-2",
-      title: "SQL Coding Practice 9",
+      title: "SQL Assignment 2",
       description: "Practice basic SQL queries",
       questions: [
         {
@@ -19536,269 +17888,6 @@ Fetch the top 10 videos having more number of views, along with the channel deta
     ]
   }
 },
-
-          descriptionDetails: `
-        <div class="desc-question-details">
-
-          <p class="desc-que-blue">Database</p>
-         <p>The given database consists of tables that stores the information of online video-sharing platform. </p>
-         <p class="desc-que-blue">Tables</p>
-          <div class="sql-table-desc">
-            <div class="sql-table-caption">Table: user table</div>
-            <table>
-              <thead>
-                <tr>
-                  <th>user_id</th>
-                  <th>name</th>
-                  <th>gender</th>
-                  <th>age</th>
-                  <th>country</th>
-                  <th>premium_membership</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>...</td>
-                  <td>...</td>
-                  <td>...</td>
-                  <td>...</td>
-                  <td>...</td>
-                  <td>...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div> <p>user table stores the data of users including user_id, name, gender, age, country and premium_membership status.</p>
-          <div class="sql-table-desc">
-            <div class="sql-table-caption">Table: channel table</div>
-            <table>
-              <thead>
-                <tr>
-                  <th>channel_id</th>
-                  <th>name</th>
-                  <th>owner_id</th>
-                  <th>created_datetime</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>...</td>
-                  <td>...</td>
-                  <td>...</td>
-                  <td>...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          
-            <p>channel table stores the data of channels including channel_id, name, owner_id and created_datetime.</p>
-
-          <div class="sql-table-desc">
-            <div class="sql-table-caption">Table: video table</div>
-            <table>
-              <thead>
-                <tr>
-                  <th>video_id</th>
-                  <th>name</th>
-                  <th>duration_in_secs</th>
-                  <th>published_datetime</th>
-                  <th>no_of_views</th>
-                  <th>channel_id</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>...</td>
-                  <td>...</td>
-                  <td>...</td>
-                  <td>...</td>
-                  <td>...</td>
-                  <td>...</td>
-                </tr>
-              </tbody>
-            </table>
-            </div>
-            <p>video table stores the data of videos including video_id, name, duration_in_secs, published_datetime, no_of_views, and associated channel_id.</p>
-          
-          <div class="sql-table-desc">
-            <div class="sql-table-caption">Table: genre table</div>
-            <table>
-              <thead>
-                <tr>
-                  <th>genre_id</th>
-                  <th>genre_type</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>...</td>
-                  <td>...</td>
-                </tr>
-              </tbody>
-            </table>
-            </div>
-            <p>genre table stores the data of genres including genre_id and genre_type.</p>
-          <div class="sql-table-desc">
-            <div class="sql-table-caption">Table: channel_user table</div>
-            <table>
-              <thead>
-                <tr>
-                  <th>channel_id</th>
-                  <th>user_id</th>
-                  <th>subscribed_datetime</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>...</td>
-                  <td>...</td>
-                  <td>...</td>
-                </tr>
-              </tbody>
-            </table>
-            </div>
-            <p>channel_user table stores the data of channel subscriptions including channel_id, user_id and subscribed_datetime.</p>
-          <div class="sql-table-desc">
-            <div class="sql-table-caption">Table: user_likes table</div>
-            <table>
-              <thead>
-                <tr>
-                  <th>user_id</th>
-                  <th>video_id</th>
-                  <th>reaction_type</th>
-                  <th>reacted_at</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>...</td>
-                  <td>...</td>
-                  <td>...</td>
-                  <td>...</td>
-                </tr>
-              </tbody>
-            </table>
-            </div>
-            <p>user_likes table stores the data of user reactions including user_id, video_id, reaction_type, and reacted_at.</p>
-          <div class="sql-table-desc">
-            <div class="sql-table-caption">Table: video_genre table</div>
-            <table>
-              <thead>
-                <tr>
-                  <th>video_id</th>
-                  <th>genre_id</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>...</td>
-                  <td>...</td>
-                </tr>
-              </tbody>
-            </table>
-             </div>
-             <p>video_genre table stores the data of video-genre mapping including video_id and genre_id.</p>
-         <p>Refer the tables in the code playground for a better understanding of the database.</p>
-          <p class="desc-que-blue">Questions</p>
-       <p>Get the total number of users subscribed for the channel "Tyler Oakley" (channel_id = 376) in the year 2018.</p>
-           
-          <p class="desc-que-blue">Expected Output Format:</p>
-          <div class="sql-table-desc">
-            <table>
-              <thead>
-                <tr>
-                <th>no_of_subscribers</th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>...</td>
-                  </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-         `,
-
-  testCases: [
-  {
-    id: 1,
-    description: "Query should start with SELECT",
-    type: "syntax-validation",
-    expectedKeywords: ["select"],
-    visible: true,
-  },
-  {
-    id: 2,
-    description: "Query should count subscribers",
-    type: "syntax-validation",
-    expectedKeywords: ["count() as no_of_subscribers"],
-    visible: true,
-  },
-  {
-    id: 3,
-    description: "Query should fetch from channel_user table",
-    type: "syntax-validation",
-    expectedKeywords: ["from channel_user"],
-    visible: true,
-  },
-  {
-    id: 4,
-    description: "Query should filter channel_id 376",
-    type: "syntax-validation",
-    expectedKeywords: ["channel_id = 376"],
-    visible: true,
-  },
-  {
-    id: 5,
-    description: "Query should filter subscriptions in the year 2018",
-    type: "syntax-validation",
-    expectedKeywords: ["strftime(\"%y\", subscribed_datetime)"],
-    visible: false,
-  },
-  {
-    id: 6,
-    description: "Query should check year equals 2018",
-    type: "syntax-validation",
-    expectedKeywords: ["2018"],
-    visible: true,
-  }
-],
-        },
-        {
-          id: "sql-query-14-7",
-          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
-          title: "Number of subscribers",
-          description:
-            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
-
-          difficulty: "Medium",
-          score: 45,
-          type: "sql",
-
-          defaultCode: {
-            sql: ``,
-          },
-
-          tableData: {
-        channel_user: {
-          columns: [
-            "channel_id",
-            "user_id",
-            "subscribed_datetime"
-          ],
-          rows: [
-            [376, 101, "2018-01-10 10:30"],
-            [376, 102, "2018-03-15 11:00"],
-            [376, 103, "2017-05-20 09:45"],
-            [376, 104, "2018-07-25 14:20"],
-            [376, 105, "2019-02-18 16:40"],
-            [377, 106, "2018-06-10 12:10"],
-            [376, 107, "2018-11-30 18:25"],
-            [376, 108, "2020-01-01 08:15"],
-            [378, 109, "2018-09-09 13:35"],
-            [376, 110, "2016-12-12 15:50"]
-          ]
-        }
-      },
 
           descriptionDetails: `
         <div class="desc-question-details">

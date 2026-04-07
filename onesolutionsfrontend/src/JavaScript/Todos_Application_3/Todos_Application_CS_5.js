@@ -62,7 +62,7 @@ const Todos_Application_CS_5 = ({
       {/* 1. Array Methods */}
       <section>
         <h2>1. Array Methods</h2>
-        <table border="1" style={{ borderCollapse: "collapse", width: "80%" }}>
+        <table    className="custom-table">
           <thead>
             <tr>
               <th>Method</th>

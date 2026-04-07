@@ -292,7 +292,7 @@ const React_Router2_3_MCQ = ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Routing using React Router | Part 2 & 3 - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

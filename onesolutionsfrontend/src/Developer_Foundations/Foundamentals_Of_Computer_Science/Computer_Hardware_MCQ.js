@@ -227,7 +227,7 @@ const Computer_Hardware_MCQ = ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title=" Overview of Computer Hardware - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

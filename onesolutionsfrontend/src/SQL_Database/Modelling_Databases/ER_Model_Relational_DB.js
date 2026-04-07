@@ -54,7 +54,7 @@ const ER_Model_Relational_DB = ({
 
   return (
     <div className="intro-container">
-      <h1>ER Model to Relational Database</h1>
+      <h1>ER Model to Relational Database | Cheat Sheets</h1>
 
       <section>
         <p>

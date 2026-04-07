@@ -24,7 +24,7 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What happens when <code>align-items</code> is used on a single-line flex container?</p>
+        <p>What happens when <b>align-items</b> is used on a single-line flex container?</p>
       </div>
     ),
     options: [
@@ -52,7 +52,7 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What is the default value of <code>flex-wrap</code>?</p>
+        <p>What is the default value of <b>flex-wrap</b>?</p>
       </div>
     ),
     options: [
@@ -166,7 +166,7 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What happens when <code>flex-basis</code> is set?</p>
+        <p>What happens when <b>flex-basis</b> is set?</p>
         <CodeBlock
           language="css"
           code={`.item {
@@ -268,7 +268,7 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What happens when both <code>justify-content</code> and <code>align-items</code> are set to center?</p>
+        <p>What happens when both <b>justify-content</b> and <b>align-items</b> are set to center?</p>
       </div>
     ),
     options: [

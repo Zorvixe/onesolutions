@@ -1,18 +1,17 @@
-import React,{ useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 import FeedbackModal from "../../FeedbackModal/FeedbackModal";
-
 import "../../Class_CSS/Class_Css.css";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Hyper_Text_Transfer_Protocal = ({
+const React_Router3 = ({
   subtopicId,
   goalName,
   courseName,
   subtopic,
-  moduleName = "Fetch & Callbacks",
-  topicName = "Callbacks & Schedulers",
-  slidesUrl = "https://docs.google.com/presentation/d/1n7xfc3pCoY5FttoKEacz6o87d-RwYqdmwiSkvSNkVqk/embed",
+  moduleName = "React Router",
+  topicName = "Routing using React Router | Part 3",
+  slidesUrl = "https://docs.google.com/presentation/d/1hGV77CS-H6JxjD9ssiUVO_EBga8Q8y8bXfpShFBGpTY/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
@@ -767,4 +766,5 @@ const Hyper_Text_Transfer_Protocal = ({
   );
 };
 
-export default Hyper_Text_Transfer_Protocal
+
+export default React_Router3

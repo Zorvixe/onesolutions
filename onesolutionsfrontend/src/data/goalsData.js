@@ -3181,22 +3181,22 @@ export const goalsData = [
             accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
-                id: "QW9_s1_A0 m4_H g2_7B c2_D2E",
+                id: "QW9_s1_A0 m5_H g2_7B c2_D2E",
                 name: "Common Concepts",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
-                id: "QW9_s2_A0 m4_H g2_7B c2_D2E",
+                id: "QW9_s2_A0 m5_H g2_7B c2_D2E",
                 name: "SQL Expression | Cheat Sheet",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
-                id: "QW9_s3_A0 m4_H g2_7B c2_D2E",
+                id: "QW9_s3_A0 m5_H g2_7B c2_D2E",
                 name: "SQL Functions | Cheat Sheet",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
-                id: "QW9_s4_A0 m4_H g2_7B c2_D2E",
+                id: "QW9_s4_A0 m5_H g2_7B c2_D2E",
                 name: "Cast Functions | Cheat Sheet",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
@@ -3493,7 +3493,7 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s31_A0 m1_H g2_7B c3_D2E",
-                name: "More Modern JS Concepts",
+                name: "More Modern JS Concepts | Part 1",
                 accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -3783,7 +3783,7 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m6_H g2_7B c3_D2E",
-                name: "JavaScript Essentials Course Exam | Cheat Sheet",
+                name: "JavaScript Essentials Course Exam | Instructions",
                 accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
 
@@ -4494,7 +4494,7 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m3_H g3_7B c2_D2E",
-                name: "Hypertext Transfer Protocol (HTTP)",
+                name: "Hypertext Transfer Protocol",
                 accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -4718,6 +4718,23 @@ export const goalsData = [
               {
                 id: "QW9_s3_A0 m7_H g3_7B c2_D2E",
                 name: "Nodejs MCQ Test 3",
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+              },
+            ],
+          },
+          {
+            id: "QW9_m8_A0 g3_H c2_7B",
+            name: "Nodejs Course Exam",
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+            topic: [
+              {
+                id: "QW9_s1_A0 m8_H g3_7B c2_D2E",
+                name: "Nodejs Course Exam | Instructions",
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s2_A0 m8_H g3_7B c2_D2E",
+                name: "Nodejs Course Exam",
                 accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -5103,7 +5120,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m6_H g3_7B c4_D2E",
-                name: "OnDemand Part 1",
+                name: "MCQ Pratice - OnDemand Part 1",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -5123,7 +5140,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s8_A0 m6_H g3_7B c4_D2E",
-                name: "OnDemand Part 2",
+                name: "On Demand Session | Part 2",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -5133,7 +5150,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s10_A0 m6_H g3_7B c4_D2E",
-                name: "MCQ Pratice - On Demand Session | Part 2",
+                name: "MCQ Pratice - OnDemand | Part 2",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {

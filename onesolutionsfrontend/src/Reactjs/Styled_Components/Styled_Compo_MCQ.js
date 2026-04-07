@@ -267,7 +267,7 @@ const Styled_Compo_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
   };
   return (
     <MCQLogic
-      title="Introduction to React JS - MCQs"
+      title="Styled Components - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

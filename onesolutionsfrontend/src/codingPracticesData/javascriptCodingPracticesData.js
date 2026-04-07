@@ -8909,69 +8909,69 @@ findDuplicate(myArray);
           status: "unsolved",
           attempts: [],
         },
-        {
-          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
-          id: "7232feb4-ccd9-b5ed-065b4850f407",
-          title: "Sports Data",
-          description:
-            "There is a sports competition in a school and each student is allowed to participate in only one sport.\n Given an array sportsData of arrays,the first item of each array consists of the name of the student and the second item consists of the sport in which the student has registered.\nWrite a JS program to consolidate the sata so that each student should participate in only one sport. If duplicate entries are found, consider the last entry.",
+        // {
+        //   accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        //   id: "7232feb4-ccd9-b5ed-065b4850f407",
+        //   title: "Sports Data",
+        //   description:
+        //     "There is a sports competition in a school and each student is allowed to participate in only one sport.\n Given an array sportsData of arrays,the first item of each array consists of the name of the student and the second item consists of the sport in which the student has registered.\nWrite a JS program to consolidate the sata so that each student should participate in only one sport. If duplicate entries are found, consider the last entry.",
 
-          difficulty: "Easy",
-          descriptionDetails: `
-          <div class="desc-question-details">
-              <div>
-                <p class="desc-que-blue">Input</p>
-                <p class=""></p>The input will be a single line containing an array sportsData.</p>
-              </div>
-              <div>
-              <p class="desc-que-blue">Output</p>
-              <p class=""></p>The output should be an object with student names as keys and the latest game they registered as its corresponding value</p>
-            </div>
-          </div>
-           `,
-          sampleInput:
-            "[ ['Arjun', 'Cricket'], ['Ronaldo', 'Football'], ['Pardeep', 'Volley ball'] ]",
-          sampleOutput:
-            "{ Arjun: 'Cricket', Ronaldo: 'Football', Pardeep: 'Volley ball' }",
-          testCases: [
-            {
-              input:
-                "[ ['Arjun', 'Cricket'], ['Ronaldo', 'Football'], ['Pardeep', 'Volley ball'] ]",
-              output:
-                "{ Arjun: 'Cricket', Ronaldo: 'Football', Pardeep: 'Volley ball' }",
-              visible: true,
-            },
-            {
-              input: "[ ['Arjun', 'Cricket'], ['Arjun', 'Football'] ]",
-              output: "{ Arjun: 'Football' }",
-              visible: true,
-            },
-            {
-              input: "[ ['A', 'Chess'], ['B', 'Tennis'], ['A', 'Cricket'] ]",
-              output: "{ A: 'Cricket', B: 'Tennis' }",
-              visible: false,
-            },
-            {
-              input: "[ ['Ravi', 'Kabaddi'] ]",
-              output: "{ Ravi: 'Kabaddi' }",
-              visible: false,
-            },
-            {
-              input:
-                "[ ['John', 'Baseball'], ['Mike', 'Hockey'], ['John', 'Basketball'], ['Mike', 'Football'] ]",
-              output: "{ John: 'Basketball', Mike: 'Football' }",
-              visible: false,
-            },
-          ],
-          defaultCode: `
+        //   difficulty: "Easy",
+        //   descriptionDetails: `
+        //   <div class="desc-question-details">
+        //       <div>
+        //         <p class="desc-que-blue">Input</p>
+        //         <p class=""></p>The input will be a single line containing an array sportsData.</p>
+        //       </div>
+        //       <div>
+        //       <p class="desc-que-blue">Output</p>
+        //       <p class=""></p>The output should be an object with student names as keys and the latest game they registered as its corresponding value</p>
+        //     </div>
+        //   </div>
+        //    `,
+        //   sampleInput:
+        //     "[ ['Arjun', 'Cricket'], ['Ronaldo', 'Football'], ['Pardeep', 'Volley ball'] ]",
+        //   sampleOutput:
+        //     "{ Arjun: 'Cricket', Ronaldo: 'Football', Pardeep: 'Volley ball' }",
+        //   testCases: [
+        //     {
+        //       input:
+        //         "[ ['Arjun', 'Cricket'], ['Ronaldo', 'Football'], ['Pardeep', 'Volley ball'] ]",
+        //       output:
+        //         "{ Arjun: 'Cricket', Ronaldo: 'Football', Pardeep: 'Volley ball' }",
+        //       visible: true,
+        //     },
+        //     {
+        //       input: "[ ['Arjun', 'Cricket'], ['Arjun', 'Football'] ]",
+        //       output: "{ Arjun: 'Football' }",
+        //       visible: true,
+        //     },
+        //     {
+        //       input: "[ ['A', 'Chess'], ['B', 'Tennis'], ['A', 'Cricket'] ]",
+        //       output: "{ A: 'Cricket', B: 'Tennis' }",
+        //       visible: false,
+        //     },
+        //     {
+        //       input: "[ ['Ravi', 'Kabaddi'] ]",
+        //       output: "{ Ravi: 'Kabaddi' }",
+        //       visible: false,
+        //     },
+        //     {
+        //       input:
+        //         "[ ['John', 'Baseball'], ['Mike', 'Hockey'], ['John', 'Basketball'], ['Mike', 'Football'] ]",
+        //       output: "{ John: 'Basketball', Mike: 'Football' }",
+        //       visible: false,
+        //     },
+        //   ],
+        //   defaultCode: `
 
 
 
-          `,
-          score: 25,
-          status: "unsolved",
-          attempts: [],
-        },
+        //   `,
+        //   score: 25,
+        //   status: "unsolved",
+        //   attempts: [],
+        // },
         {
           accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 

@@ -224,7 +224,7 @@ const Working_Command_Line_MCQ= ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Getting Started with Command Line - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

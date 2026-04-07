@@ -265,7 +265,7 @@ const Working_File_System_MCQ= ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Working with File System - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

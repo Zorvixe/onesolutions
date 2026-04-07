@@ -9,8 +9,8 @@ const Introductionto_Nodejs =  ({
   goalName,
   courseName,
   subtopic,
-  moduleName = "Fetch & Callbacks",
-  topicName = "Callbacks & Schedulers",
+  moduleName = "Introduction to Node JS",
+  topicName = "Introduction to Node JS | Part 1",
   slidesUrl = "https://docs.google.com/presentation/d/1n7xfc3pCoY5FttoKEacz6o87d-RwYqdmwiSkvSNkVqk/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =

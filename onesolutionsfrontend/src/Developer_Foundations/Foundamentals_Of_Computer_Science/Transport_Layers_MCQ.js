@@ -226,7 +226,7 @@ const Transport_Layers_MCQ= ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Transport Layer - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

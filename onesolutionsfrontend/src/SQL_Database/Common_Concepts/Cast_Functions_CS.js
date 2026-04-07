@@ -53,7 +53,7 @@ const Cast_Functions_CS = ({
   };
   return (
     <div className="intro-container">
-      <h1>CAST Function</h1>
+      <h1>Cast Functions | Cheat Sheet</h1>
 
       <section>
         <p>
@@ -172,9 +172,7 @@ GROUP BY
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+        className="custom-table"
         >
           <thead>
             <tr>
@@ -228,9 +226,7 @@ GROUP BY
 
         <h4>Expected Output</h4>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "18%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -290,9 +286,7 @@ FROM
 
         <h4>Expected Output</h4>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "20%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -343,9 +337,7 @@ FROM
 
         <h4>Expected Output</h4>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "20%" }}
+         className="custom-table"
         >
           <thead>
             <tr>

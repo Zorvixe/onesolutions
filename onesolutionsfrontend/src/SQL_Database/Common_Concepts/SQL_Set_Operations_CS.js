@@ -53,7 +53,7 @@ const SQL_Set_Operations_CS = ({
   };
   return (
     <div className="intro-container">
-      <h1>SQL Set Operations</h1>
+      <h1>SQL Set Operations | Cheat Sheet</h1>
 
       <section>
         <p>
@@ -236,9 +236,7 @@ WHERE
 
           <h3>Output</h3>
           <table
-            border="1"
-            cellPadding="6"
-            style={{ borderCollapse: "collapse", width: "20%" }}
+          className="custom-table"
           >
             <thead>
               <tr>
@@ -276,9 +274,7 @@ WHERE
 
           <h3>Output</h3>
           <table
-            border="1"
-            cellPadding="6"
-            style={{ borderCollapse: "collapse", width: "20%" }}
+             className="custom-table"
           >
             <thead>
               <tr>
@@ -317,9 +313,7 @@ WHERE
   movie_id = 15;`}
           />
           <table
-            border="1"
-            cellPadding="6"
-            style={{ borderCollapse: "collapse", width: "20%" }}
+         className="custom-table"
           >
             <thead>
               <tr>
@@ -368,9 +362,7 @@ WHERE
   movie_id = 15;`}
           />
           <table
-            border="1"
-            cellPadding="6"
-            style={{ borderCollapse: "collapse", width: "20%" }}
+           className="custom-table"
           >
             <thead>
               <tr>

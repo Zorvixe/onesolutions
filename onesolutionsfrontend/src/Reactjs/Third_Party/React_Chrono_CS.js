@@ -196,7 +196,7 @@ const Rect_Chrono_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         <img
           src="/assets/img/chrono.png"
           alt="project"
-          style={{ width: "100%", height: "500px" }}
+          style={{ width: "100%", height: "550px" }}
         />
         <div className="Warning-container">
           <div className="icon-warning">

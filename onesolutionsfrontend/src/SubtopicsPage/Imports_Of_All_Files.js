@@ -410,6 +410,7 @@ import Coding_Pratice_3 from "../JavaScript/Introductionto_Js_Variables/Coding_P
 import Arrays_Dom_Manipulations_Class from "../JavaScript/Arrays_Objects/Arrays_Dom_Manipulations_Class.js";
 import JS_Coding_Pratice_Walkthrough from "../JavaScript/Arrays_Objects/JS_Coding_Pratice_Walkthrough.js";
 import Objects_Class from "../JavaScript/Arrays_Objects/Objects_Class.js";
+import Comments from "../JavaScript/Arrays_Objects/Comments.js";
 import A_Note_ON_Software_Capability from "../JavaScript/Arrays_Objects/A_Note_ON_Software_Capability.js";
 import Coding_Pratice_4 from "../JavaScript/Arrays_Objects/Coding_Pratice_4.js";
 import Coding_Pratice_JS_5 from "../JavaScript/Arrays_Objects/Coding_Pratice_JS_5.js";
@@ -420,6 +421,7 @@ import JS_Coding_Pratic_1 from "../JavaScript/Arrays_Objects/JS_Coding_Pratic_1.
 import JS_Coding_Pratic_2 from "../JavaScript/Arrays_Objects/JS_Coding_Pratic_2.js";
 import JS_Coding_Pratic_3 from "../JavaScript/Arrays_Objects/JS_Coding_Pratic_3.js";
 import JS_Coding_Pratic_4 from "../JavaScript/Arrays_Objects/JS_Coding_Pratic_4.js";
+import Todos_Application_Introduction from "../JavaScript/Todos_Application/Todos_Application_Introduction.js";
 import Todos_Application_Part_1_Class from "../JavaScript/Todos_Application/Todos_Application_Part_1_Class.js";
 import Todos_Application_Part_2_Class from "../JavaScript/Todos_Application/Todos_Application_Part_2_Class.js";
 import JavaScript_On_Demand_Session_Class from "../JavaScript/Todos_Application/JavaScript_On_Demand_Session_Class.js";
@@ -465,7 +467,7 @@ import MCQ_Test_1 from "../JavaScript/Mock_Test/JS_MCQ_Test_1.js";
 import MCQ_Test_2 from "../JavaScript/Mock_Test/JS_MCQ_Test_2.js";
 import Dynamic_Course_Exam_Instructions_Class from "../JavaScript/Dynamic_Course_Exam/Dynamic_Course_Exam_Instructions_Class.js";
 import Dynamic_Course_Exam from "../JavaScript/Dynamic_Course_Exam/Dynamic_Course_Exam.js";
-import Comments from "../JavaScript/Arrays_Objects/Comments.js";
+
 
 //JavaSript Cheat Sheet
 import Introductionto_Dynamic_Application_CS from "../JavaScript/Introductionto_Js_Variables/Introductionto_Dynamic_Application_CS.js";
@@ -710,7 +712,7 @@ import SQL_Coding_Pratice_1 from "../SQL_Database/Introdutionto_SQL/SQL_Coding_P
 import SQL_Coding_Pratice_2 from "../SQL_Database/Introdutionto_SQL/SQL_Coding_Pratice_2.js";
 import SQL_Coding_Pratice_3 from "../SQL_Database/Quering_SQL/SQL_Coding_Pratice_3.js";
 import SQL_Coding_Pratice_4 from "../SQL_Database/Quering_SQL/SQL_Coding_Pratice_4.js";
-import SQL_Coding_Pratice_5 from "../SQL_Database/Quering_SQL/SQL_COding_Pratice_5.js";
+import SQL_Coding_Pratice_5 from "../SQL_Database/Quering_SQL/SQL_Coding_Pratice_5.js";
 import SQL_Coding_Pratice_6 from "../SQL_Database/Aggregations/SQL_Coding_Pratice_6.js";
 import SQL_Coding_Pratice_7 from "../SQL_Database/Common_Concepts/SQL_Coding_Pratice_7.js";
 import SQL_Coding_Pratice_8 from "../SQL_Database/Modelling_Databases/SQL_Coding_Pratice_8.js";
@@ -755,6 +757,7 @@ import Threads_Courrency_CS from "../Developer_Foundations/Foundamentals_Of_Comp
 import  Threads_Courrency_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Threads_Courrency_MCQ.js";
 import Memory_Managent_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Memory_Managent_CS.js";
 import Memory_Managent_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Memory_Managent_MCQ.js";
+import Compter_Networks from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Compter_Networks.js";
 import Compter_Networks_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Compter_Networks_CS.js";
 import  Compter_Networks_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Compter_Networks_MCQ.js";
 import Network_Layer_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Network_Layer_CS.js";
@@ -794,7 +797,7 @@ import Introductionto_Nodejs from "../Nodejs/Intoductionto_Nodejs/Introductionto
 import Introductionto_Nodejs_2 from "../Nodejs/Intoductionto_Nodejs/Introductionto_Nodejs_2.js";
 import Nodejs_Coding_Pratice_1 from "../Nodejs/Intoductionto_Nodejs/Nodejs_Coding_Pratice_1.js";
 import Nodejs_Coding_Pratice_2 from "../Nodejs/Intoductionto_Nodejs/Nodejs_Coding_Pratice_2.js";
-import Hyper_Text_Transfer_Protocal from "../Nodejs/Introductionto_Expressjs/Hyper_Text_Transfer_Protocal.js";
+import Node_Hyper_Text_Transfer_Protocal from "../Nodejs/Introductionto_Expressjs/Node_Hyper_Text_Transfer_Protocal.js";
 import Introductionto_Expressjs from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs.js";
 import Introductionto_Expressjs_2 from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs_2.js";
 import Introductionto_Expressjs_3 from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs_3.js";
@@ -817,7 +820,8 @@ import Nodejs_Coding_Assignmet_2 from "../Nodejs/Assignments/Nodejs_Coding_Assig
 import Nodejs_Mock_Test_1 from "../Nodejs/Mock_Tests/Nodejs_Mock_Test_1.js";
 import Nodejs_Mock_Test_2 from "../Nodejs/Mock_Tests/Nodejs_Mock_Test_2.js";
 import Nodejs_Mock_Test_3 from "../Nodejs/Mock_Tests/Nodejs_Mock_Test_3.js";
-
+import Nodejs_Course_exam_Instructions from "../Nodejs/Nodejs_Course_Exam/Nodejs_Course_exam_Instructions.js";
+import Nodejs_Course_Exam from "../Nodejs/Nodejs_Course_Exam/Nodejs_Course_Exam.js";
 //Reactjs class & codingPratices
 import Introductionto_Reactjs from "../Reactjs/Introductionto_Reactjs/Introductionto_Reactjs.js";
 import Components_Props from "../Reactjs/Introductionto_Reactjs/Components_Props.js";
@@ -923,6 +927,7 @@ import Google_Cloud_Sheel from "../Developer_Foundations/Working_Command_Line/Go
 import Getting_Started_Git from "../Developer_Foundations/Collabarating_with_Git/Getting_Started_Git.js";
 import Staging_Area_Commits from "../Developer_Foundations/Collabarating_with_Git/Staging_Area_Commits.js";
 import SettingUp_WSL2 from "../Developer_Foundations/Working_Command_Line/SettingUp_WSL2.js";
+import Developer_Foundations_Course_Exam_Instructions from "../Developer_Foundations/Developer_Foundations_Course_Exam/Developer_Foundations_Course_Exam_Instructions.js";
 import Developer_Foundations_Course_Exam from "../Developer_Foundations/Developer_Foundations_Course_Exam/Developer_Foundations_Course_Exam.js";
 
 //Frontend Interview set
@@ -987,7 +992,8 @@ import JS_Essentials_Assignment_3 from "../JavaScript_Essentials/Assignments/JS_
 import JS_Essentials_Assignment_4 from "../JavaScript_Essentials/Assignments/JS_Essentials_Assignment_4.js";
 import JS_Essential_Mock_Coding_Test_1 from "../JavaScript_Essentials/Mock_Tests/JS_Essential_Mock_Coding_Test_1.js";
 import JS_Essential_Mock_Coding_Test_2 from "../JavaScript_Essentials/Mock_Tests/JS_Essential_Mock_Coding_Test_2.js";
-
+import JavaScript_Essentials_Course_Exam_Instruction from "../JavaScript_Essentials/JavaScript_Essentials_Course_Exam/JavaScript_Essentials_Course_Exam_Instruction.js";
+import JavaScript_Essentials_Course_Exam from "../JavaScript_Essentials/JavaScript_Essentials_Course_Exam/JavaScript_Essentials_Course_Exam.js";
 import Introductionto_CSS_Flexbox from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox.js";
 import Introductionto_CSS_Flexbox_2 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_2.js";
 import Introductionto_CSS_Flexbox_3 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_3.js";
@@ -1025,7 +1031,13 @@ import Introductionto_CSS_Flexbox_MCQ from "../FlexBox/CSS_Flexbox/Introductiont
 import Sizing_Ele_Handling_Overflow_MCQ from "../FlexBox/CSS_Flexbox/Sizing_Ele_Handling_Overflow_MCQ.js";
 import Flexbox_MockTest_1 from "../FlexBox/Mock_Tests/Flexbox_MockTest_1.js";
 import Flexbox_MockTest_2 from "../FlexBox/Mock_Tests/Flexbox_MockTest_2.js";
+import InputEle_MathFunctions_MCQ from "../JavaScript/Introductionto_Js_Variables/InputEle_MathFunctions_MCQ.js";
+import Flexbox_Course_Exam_Instructions from "../FlexBox/Flexbox_Course_Exam/Flexbox_Course_Exam_Instructions.js";
+import Flexbox_Corse_Exam from "../FlexBox/Flexbox_Course_Exam/Flexbox_Corse_Exam.js";
 
+import React_Router3 from "../Reactjs/React_Router/React_Router3.js";
+import React_Course_Exam_Instructions from "../Reactjs/React_Course_Exam/React_Course_Exam_Instructions.js";
+import React_Course_Exam from "../Reactjs/React_Course_Exam/React_Course_Exam.js";
 export const subtopicComponents = {
   "MCQ Pratice - Box Sizing": Box_Sizing_MCQ,
   "MCQ Pratice - CSS Flexbox 3": Introductionto_CSS_Flexbox_MCQ_3,
@@ -1064,6 +1076,8 @@ export const subtopicComponents = {
   "Flexbox Coding Assignment 4": Flexbox_Coding_Assignment_4,
   "Flexbox MCQ Test 1":  Flexbox_MockTest_1,
   "Flexbox MCQ Test 2":  Flexbox_MockTest_2,
+  "Responsive Web Design Using Flexbox Course Exam | Instruction": Flexbox_Course_Exam_Instructions,
+  "Responsive Web Design Using Flexbox Course Exam": Flexbox_Corse_Exam,
   //Js Essentials
   "JS Essential Coding Practice 1": JS_Essentials_Coding_Pratice_1,
   "JS Essential Coding Practice 2": JS_Essentials_Coding_Pratice_2,
@@ -1082,7 +1096,7 @@ export const subtopicComponents = {
   "JS Essentials Coding Assignment 4": JS_Essentials_Assignment_4,
   "JS Essentials Coding Test 1": JS_Essential_Mock_Coding_Test_1,
   "JS Essentials Coding Test 2": JS_Essential_Mock_Coding_Test_2,
-  "More Modern JS Concepts": More_Modern_JS_Concepts,
+  "More Modern JS Concepts | Part 1": More_Modern_JS_Concepts,
   "More Modern JS Concepts | Part 2": More_Modern_JS_Concepts_2,
   "More Modern JS Concepts | Part 3": More_Modern_JS_Concepts_3,
   "Factory and Constructor Function": Factory_Constructor_Function,
@@ -1092,7 +1106,8 @@ export const subtopicComponents = {
   "Clean Code Guidelines": Clean_Code_Guidence,
   "JS Classes": JS_Classes,
   "Prototypal Inheritance": Prototypal_Inheritance,
-
+  "JavaScript Essentials Course Exam | Instructions": JavaScript_Essentials_Course_Exam_Instruction,
+  "JavaScript Essentials Course Exam": JavaScript_Essentials_Course_Exam,
   //Backend Interview set
   "JavaScript Practice Set - 1": JavaScript_Practice_Set_1,
   "JavaScript Practice Set - 2": JavaScript_Practice_Set_2,
@@ -1146,9 +1161,12 @@ export const subtopicComponents = {
   "Getting Started with Git": Getting_Started_Git,
   "Staging Area and Commits": Staging_Area_Commits,
   "Setting Up WSL2":SettingUp_WSL2,
-  "Developer Foundations Course Exam | Instructions": Developer_Foundations_Course_Exam,
+  "Developer Foundations Course Exam | Instructions": Developer_Foundations_Course_Exam_Instructions,
+"Developer Foundations Course Exam": Developer_Foundations_Course_Exam,
 
   //Reactjs class & codingPratices
+ "React Js Course Exam | Instructions": React_Course_Exam_Instructions,
+ "React Js Course Exam":  React_Course_Exam,
  "Introduction to React JS": Introductionto_Reactjs,
   "Components & Pros": Components_Props,
   "Lists & Keys": List_Keys,
@@ -1163,6 +1181,7 @@ export const subtopicComponents = {
   "Component Life Cycle": Component_Life_Cycle,
   "Routing using React Router": React_Router1,
   "Routing using React Router | Part 2": React_Router2,
+  "Routing using React Router | Part 3": React_Router3,
   "Common Mistakes | Part 2": Common_M_Part_2,
   "Authentication & Authorization": Authentication,
   "Authentication & Authorization | Part 2": Authentication_2,
@@ -1240,7 +1259,7 @@ export const subtopicComponents = {
   "Introduction to Node JS | Part 2":Introductionto_Nodejs_2,
   "NodeJS Coding Practice 1": Nodejs_Coding_Pratice_1,
   "NodeJS Coding Practice 2": Nodejs_Coding_Pratice_2,
-  "Hypertext Transfer Protocol (HTTP)": Hyper_Text_Transfer_Protocal,
+  "Hypertext Transfer Protocol": Node_Hyper_Text_Transfer_Protocal,
   "Introduction to Express JS": Introductionto_Expressjs,
   "Introduction to Express JS | Part 2": Introductionto_Expressjs_2,
   "Introduction to Express JS | Part 3": Introductionto_Expressjs_3,
@@ -1263,6 +1282,8 @@ export const subtopicComponents = {
   "Nodejs MCQ Test 1":Nodejs_Mock_Test_1,
   "Nodejs MCQ Test 2":Nodejs_Mock_Test_2,
   "Nodejs MCQ Test 3":Nodejs_Mock_Test_3,
+  "Nodejs Course Exam | Instructions": Nodejs_Course_exam_Instructions,
+  "Nodejs Course Exam": Nodejs_Course_Exam,
 
   //Python OOPS CORE
   "Foundations of Object Oriented Programming | Cheat Sheet":
@@ -1349,15 +1370,15 @@ export const subtopicComponents = {
   "In and Between Operators Cheat Sheet": In_Between_Operators_CS,
   "Order By Distinct Cheat Sheet": Order_By_Distinct_CS,
   "Pagination Cheat Sheet": Pagination_CS,
-  Aggregations: Aggregations,
+ "Aggregations": Aggregations,
   "Aggregations | Cheat Sheet": Aggregations_CS,
   "MCQ Practice - Aggregations": Aggregations_MCQ,
   "Group By": Group_By,
   "Group By with Having": Group_By_Having,
   "Group By with Having | Cheat Sheet": Group_By_Having_CS,
   "MCQ Pratice - Group By with Having": Groupby_Having_MCQ,
-  "Common Concepts": Common_Concepts_Class,
   "MCQ Practice Common Concepts": Common_Concepte_MCQ,
+  "Common Concepts": Common_Concepts_Class,
   "SQL Expression | Cheat Sheet": SQL_Expression_Cs,
   "SQL Functions | Cheat Sheet": SQL_Functions_CS,
   "Cast Functions | Cheat Sheet": Cast_Functions_CS,
@@ -1732,6 +1753,7 @@ export const subtopicComponents = {
   "Debugging using Developer Tools | Cheat Sheet": Debugging_Dev_Tool_CS,
   "On Demand Session1 | Cheat Sheet": Ondemand1_Session_CS,
   "On Demand Session | Cheat Sheet | Part 2": Ondemand2_Session_CS,
+  
   "Component Life Cycle | Cheat Sheet": Component_Life_Cycle_CS,
   "Routing using React Router | Cheat Sheet": React_Router1_CS,
   "Routing using React Router | Part 2 & 3| Cheat Sheet": React_Router2_3_CS,
@@ -1763,8 +1785,8 @@ export const subtopicComponents = {
   "MCQ Pratice - Part 2": Class_Component_State2_MCQ,
   "MCQ Pratice - Common Mistakes": Common_Mistakes_MCQ,
   "MCQ Pratice - Debugging": Debugging_Dev_Tool_MCQ,
-  "MCQ Pratice - OnDemand Part 1": Ondemand1_Session_MCQ,
-  "MCQ Pratice - OnDemand Part 2": Ondemand2_Session_MCQ,
+  "MCQ Pratice - OnDemand | Part 1": Ondemand1_Session_MCQ,
+  "MCQ Pratice - OnDemand | Part 2": Ondemand2_Session_MCQ,
   "MCQ Pratice - Component Life Cycle": Component_Life_Cycle_MCQ,
   "MCQ Pratice - React Router": React_Router1_MCQ,
   "MCQ Pratice - React Router | Part 2 & 3": React_Router2_3_MCQ,
@@ -1955,7 +1977,8 @@ export const subtopicComponents = {
   "Coding Practice 3": Coding_Pratice_3,
   "Arrays & More DOM Manipulations": Arrays_Dom_Manipulations_Class,
   "JS Coding Platform Walk through": JS_Coding_Pratice_Walkthrough,
-  Objects: Objects_Class,
+  "Objects": Objects_Class,
+  "Comments": Comments,
   "A Note On Software Compatibility": A_Note_ON_Software_Capability,
   "JS Coding Practice 1": JS_Coding_Pratic_1,
   "JS Coding Practice 2": JS_Coding_Pratic_2,
@@ -1966,7 +1989,8 @@ export const subtopicComponents = {
   "Coding Practice 6": Coding_Pratice_6,
   "Coding Practice 7": Coding_Pratice_7,
   "Coding Practice 8": Coding_Pratice_8,
-  "Todos Application Introduction": Todos_Application_Part_1_Class,
+  "Todos Application Introduction": Todos_Application_Introduction,
+  "Todos Application | Part 1": Todos_Application_Part_1_Class,
   "On Demand Session": JavaScript_On_Demand_Session_Class,
   "Todos Application | Part 2": Todos_Application_Part_2_Class,
   "Todos Application | Part 3": Todos_Application_Part_3_Class,
@@ -2009,7 +2033,6 @@ export const subtopicComponents = {
   "JS Coding Test 2": JS_Coding_Test_2,
   "MCQ Test 1": MCQ_Test_1,
   "MCQ Test 2": MCQ_Test_2,
-  Objects: Comments,
   "Build Your Own Dynamic Web Application Course Exam | Instructions":
     Dynamic_Course_Exam_Instructions_Class,
   "Build Your Own Dynamic Web Application Course Exam": Dynamic_Course_Exam,
@@ -2024,7 +2047,7 @@ export const subtopicComponents = {
     Primitive_Types_Conditionals_CS,
   "MCQ Practice - Primitive Types": PrimitiveTypes_Conditionals_MCQ,
   "Input Element and Math Functions | Cheat Sheet": InputEle_MathFunctions_CS,
-  "MCQ Practice - Input Elements": Inp_Oup_Basics_MCQ,
+  "MCQ Practice - Input Elements": InputEle_MathFunctions_MCQ ,
   "Arrays & More DOM Manipulations | Cheat Sheet": Arrays_Dom_Manipulations_CS,
   "MCQ Practice - Array & DOM": Arrays_Dom_Manipulations_MCQ,
   "Objects | Cheat Sheet": Objects_CS,
@@ -2078,6 +2101,7 @@ export const subtopicComponents = {
   "MCQ Pratice - Threads & Concurrency": Threads_Courrency_MCQ,
   "Memory Management | Cheat Sheet":Memory_Managent_CS,
   "MCQ Pratice - Memory Management":Memory_Managent_MCQ,
+  "Understanding Computer Networks": Compter_Networks,
   "Understanding Computer Networks | Cheat Sheet":Compter_Networks_CS,
   "MCQ Pratice - Understanding Computer Networks": Compter_Networks_MCQ,
   "Network Layer | Cheat Sheet":Network_Layer_CS,

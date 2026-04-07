@@ -54,7 +54,7 @@ const Arthmetic_Functions_CS = ({
 
   return (
     <div className="intro-container">
-      <h1>Arithmetic Functions</h1>
+      <h1>Arthmetic Functions | Cheat Cheet</h1>
 
       <section>
         <p>
@@ -97,9 +97,7 @@ const Arthmetic_Functions_CS = ({
         <CodeBlock language="sql" code={`SELECT FLOOR(2.3);`} />
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "20%" }}
+        className="custom-table "
         >
           <thead>
             <tr>
@@ -130,9 +128,7 @@ const Arthmetic_Functions_CS = ({
         <CodeBlock language="sql" code={`SELECT CEIL(-2.7);`} />
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "15%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -167,9 +163,7 @@ SELECT ROUND(2.345, 1);`}
         />
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "15%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -199,9 +193,7 @@ SELECT ROUND(2.345, 1);`}
         </p>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "80%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -275,9 +267,7 @@ FROM
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "70%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -324,9 +314,7 @@ FROM
         </p>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -364,9 +352,7 @@ WHERE
 
         <b>Output</b>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -414,9 +400,7 @@ WHERE
 
         <h4>Expected Output</h4>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+      className="custom-table"
         >
           <thead>
             <tr>
@@ -489,9 +473,7 @@ FROM
 
         <h4>Expected Output</h4>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "20%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -529,9 +511,7 @@ FROM
 
         <b>Expected Output</b>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "20%" }}
+       className="custom-table"
         >
           <thead>
             <tr>
@@ -582,9 +562,7 @@ FROM
 
         <h4>Expected Output</h4>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "25%" }}
+        className="custom-table"
         >
           <thead>
             <tr>

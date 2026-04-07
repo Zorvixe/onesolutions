@@ -281,7 +281,7 @@ const  Debug_Cmmn_Errors_MCQ = ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Debugging Common Errors - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

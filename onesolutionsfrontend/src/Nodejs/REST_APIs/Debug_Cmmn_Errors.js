@@ -10,8 +10,8 @@ const Debug_Cmmn_Errors =  ({
   goalName,
   courseName,
   subtopic,
-  moduleName = "Fetch & Callbacks",
-  topicName = "Callbacks & Schedulers",
+  moduleName = "REST APIs",
+  topicName = "Debugging Common Errors",
   slidesUrl = "https://docs.google.com/presentation/d/1n7xfc3pCoY5FttoKEacz6o87d-RwYqdmwiSkvSNkVqk/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =

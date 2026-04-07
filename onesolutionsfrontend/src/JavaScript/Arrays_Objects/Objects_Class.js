@@ -10,7 +10,7 @@ const Objects_Class = ({
   goalName,
   courseName,
   subtopic,
-  moduleName = "Arrays and Objects",
+  moduleName = "Arrays and Objectsdfgh",
   topicName = "Objects",
   slidesUrl = "https://docs.google.com/presentation/d/12QST65lRoNKCyJDLAB4eUfvOJQyrj5bvwvEOoT7EDYM/embed",
 }) => {

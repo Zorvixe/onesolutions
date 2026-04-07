@@ -9,8 +9,8 @@ const Introductionto_Expressjs_3 = ({
   goalName,
   courseName,
   subtopic,
-  moduleName = "Fetch & Callbacks",
-  topicName = "Callbacks & Schedulers",
+  moduleName = "Introduction to Express JS",
+  topicName = "Introduction to Express JS | Part 3",
   slidesUrl = "https://docs.google.com/presentation/d/1n7xfc3pCoY5FttoKEacz6o87d-RwYqdmwiSkvSNkVqk/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =

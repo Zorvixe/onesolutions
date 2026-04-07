@@ -99,6 +99,12 @@ const Login = () => {
   const handleCredentialSubmit = async (e) => {
     e.preventDefault();
 
+    const rawPassword = formData.password;
+  if (rawPassword !== rawPassword.trim()) {
+    setError("Password contains leading or trailing spaces. Please re‑enter.");
+    return;
+  }
+
     if (!validateForm()) {
       return;
     }

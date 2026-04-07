@@ -4,112 +4,190 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // ========= 5 Normal Questions =========
   {
-    question: (
-      <div>
-        <p>What does the following code output?</p>
-        <CodeBlock language="javascript" code={`console.log(Math.random());`} />
-      </div>
-    ),
+    question: "What does Math.random() return?",
     options: [
-      "A random float value between 0 and 1",
-      "A random integer between 0 and 100",
-      "Always 0",
+      "A random integer",
+      "A random float between 0 and 1",
       "Always 1",
+      "Always 0",
     ],
-    answer: "A random float value between 0 and 1",
+    answer: "A random float between 0 and 1",
   },
-
   {
-    question: (
-      <div>
-        <p>What will the following code print in the console?</p>
-        <CodeBlock
-          language="javascript"
-          code={`console.log(Math.ceil(4.2));`}
-        />
-      </div>
-    ),
-    options: ["4", "5", "3", "Error"],
-    answer: "5",
-  },
-
-  {
-    question: (
-      <div>
-        <p>Which HTML element is used to create a text input field?</p>
-        <CodeBlock language="html" code={`<input type="text" />`} />
-      </div>
-    ),
+    question: "What does Math.ceil() do?",
     options: [
-      "<textbox>",
-      "<input type='text'>",
-      "<input type='password'>",
-      "<textinput>",
+      "Rounds down",
+      "Rounds to nearest value",
+      "Rounds up to next integer",
+      "Removes decimals",
     ],
-    answer: "<input type='text'>",
+    answer: "Rounds up to next integer",
   },
-
   {
-    question: (
-      <div>
-        <p>Which HTML element allows secure entry for passwords?</p>
-        <CodeBlock language="html" code={`<input type="password" />`} />
-      </div>
-    ),
-    options: [
-      "<input type='text'>",
-      "<password>",
-      "<input type='password'>",
-      "<secureinput>",
-    ],
-    answer: "<input type='password'>",
+    question: "What is the default type of the HTML input element?",
+    options: ["password", "text", "number", "email"],
+    answer: "text",
   },
-
   {
-    question: (
-      <div>
-        <p>What will the following code display in the console?</p>
-        <CodeBlock
-          language="html"
-          code={`<input id="user" type="text" value="Prathibha">\n<script>\n  console.log(document.getElementById("user").value);\n</script>`}
-        />
-      </div>
-    ),
-    options: ["user", "undefined", "Prathibha", "null"],
-    answer: "Prathibha",
-  },
-
-  {
-    question: "Which HTML attribute specifies the type of an input element?",
-    options: ["class", "type", "id", "value"],
-    answer: "type",
-  },
-
-  {
-    question:
-      "Which JavaScript property is used to get the value of an input element?",
-    options: ["innerHTML", "value", "textContent", "data"],
+    question: "Which property is used to get input value in JavaScript?",
+    options: ["innerHTML", "value", "textContent", "id"],
     answer: "value",
   },
-
   {
-    question:
-      "What does the strict equality operator (===) check in JavaScript?",
+    question: "What does strict equality (===) check?",
     options: [
-      "Only the value",
-      "Only the type",
+      "Only value",
+      "Only type",
       "Both value and type",
-      "Neither value nor type",
+      "Neither",
     ],
     answer: "Both value and type",
   },
 
+  // ========= 10 CodeBlock Questions =========
   {
-    question:
-      "Which comparison operator compares values without checking types?",
-    options: ["==", "===", "!=", "!=="],
-    answer: "==",
+    question: (
+      <div>
+        <p>What is the output of the following code?</p>
+        <CodeBlock
+          language="javascript"
+          code={`console.log(Math.random());`}
+        />
+      </div>
+    ),
+    options: [
+      "Random float between 0 and 1",
+      "Random integer",
+      "0",
+      "1",
+    ],
+    answer: "Random float between 0 and 1",
+  },
+  {
+    question: (
+      <div>
+        <p>What will this code output?</p>
+        <CodeBlock
+          language="javascript"
+          code={`console.log(Math.ceil(3.1));`}
+        />
+      </div>
+    ),
+    options: ["3", "4", "3.1", "Error"],
+    answer: "4",
+  },
+  {
+    question: (
+      <div>
+        <p>Which input type is used below?</p>
+        <CodeBlock
+          language="html"
+          code={`<input type="text" />`}
+        />
+      </div>
+    ),
+    options: ["Text input", "Password input", "Checkbox", "Radio"],
+    answer: "Text input",
+  },
+  {
+    question: (
+      <div>
+        <p>Which input type is used for secure password entry?</p>
+        <CodeBlock
+          language="html"
+          code={`<input type="password" />`}
+        />
+      </div>
+    ),
+    options: ["text", "password", "secure", "hidden"],
+    answer: "password",
+  },
+  {
+    question: (
+      <div>
+        <p>What will this code print?</p>
+        <CodeBlock
+          language="html"
+          code={`<input id="name" value="Onesolutions">
+<script>
+console.log(document.getElementById("name").value);
+</script>`}
+        />
+      </div>
+    ),
+    options: ["name", "undefined", "Onesolutions", "null"],
+    answer: "Onesolutions",
+  },
+  {
+    question: (
+      <div>
+        <p>What is the result?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let x = "5" == 5;
+console.log(x);`}
+        />
+      </div>
+    ),
+    options: ["true", "false", "Error", "undefined"],
+    answer: "true",
+  },
+  {
+    question: (
+      <div>
+        <p>What is the result?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let x = "5" === 5;
+console.log(x);`}
+        />
+      </div>
+    ),
+    options: ["true", "false", "Error", "undefined"],
+    answer: "false",
+  },
+  {
+    question: (
+      <div>
+        <p>What does this code return?</p>
+        <CodeBlock
+          language="javascript"
+          code={`console.log(Math.ceil(7.9));`}
+        />
+      </div>
+    ),
+    options: ["7", "8", "7.9", "Error"],
+    answer: "8",
+  },
+  {
+    question: (
+      <div>
+        <p>What will be the output?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let input = document.createElement("input");
+input.value = "Hello";
+console.log(input.value);`}
+        />
+      </div>
+    ),
+    options: ["Hello", "undefined", "null", "Error"],
+    answer: "Hello",
+  },
+  {
+    question: (
+      <div>
+        <p>Which comparison operator is used below?</p>
+        <CodeBlock
+          language="javascript"
+          code={`console.log(10 === "10");`}
+        />
+      </div>
+    ),
+    options: ["==", "===", "!=", "="],
+    answer: "===",
   },
 ];
 

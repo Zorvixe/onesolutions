@@ -300,7 +300,7 @@ const Commojs_Module_Readig_Material_MCQ = ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Common JS Module Exports - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

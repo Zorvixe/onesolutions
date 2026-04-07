@@ -319,7 +319,7 @@ const Debugging_Dev_Tool_MCQ = ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Debugging using Developer Tools - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

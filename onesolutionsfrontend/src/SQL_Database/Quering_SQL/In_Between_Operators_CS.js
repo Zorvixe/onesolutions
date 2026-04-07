@@ -54,7 +54,7 @@ const In_Between_Operators_CS = ({
 
   return (
     <div className="intro-container">
-      <h1>IN and BETWEEN Operators</h1>
+      <h1>IN and BETWEEN Operators | Cheat Sheet</h1>
 
       <section>
         <p>

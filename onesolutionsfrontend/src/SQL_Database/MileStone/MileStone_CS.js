@@ -54,7 +54,7 @@ const MileStone_CS = ({
 
   return (
     <div className="intro-container">
-      <h1>SQL Milestone</h1>
+      <h1>MileStone | Cheat Sheet</h1>
 
       {/* ================= CLAUSES ================= */}
       <section>

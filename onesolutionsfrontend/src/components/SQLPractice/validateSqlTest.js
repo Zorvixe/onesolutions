@@ -1078,7 +1078,14 @@ const handleSelect = (sql, questionData) => {
   // ==========================
   if (whereClause) {
     rows = rows.filter((row) => {
-      const conditions = whereClause.split(/and/i).map((c) => c.trim());
+      let conditions = [];
+
+// ✅ Check if BETWEEN exists
+if (/between/i.test(whereClause)) {
+  conditions.push(whereClause.trim()); // treat as single condition
+} else {
+  conditions = whereClause.split(/and/i).map((c) => c.trim());
+}
 
       return conditions.every((condition) => {
         // ----------------------------------
@@ -1112,6 +1119,18 @@ const handleSelect = (sql, questionData) => {
         }
 
         // ----------------------------------
+        // 🆕 Handle string comparison (=)
+        // ----------------------------------
+        const stringMatch = condition.match(/(\w+)\s*=\s*['"](.+?)['"]/);
+
+        if (stringMatch) {
+          const col = stringMatch[1];
+          const value = stringMatch[2].toLowerCase();
+
+          return String(row[col]).toLowerCase() === value;
+        }
+
+        // ----------------------------------
         // 2️⃣ Handle LIKE "%text%"
         // ----------------------------------
         const likeMatch = condition.match(/(\w+)\s+like\s+["'](.+)["']/i);
@@ -1122,7 +1141,21 @@ const handleSelect = (sql, questionData) => {
 
           return String(row[col]).toLowerCase().includes(value);
         }
+        
+        // ----------------------------------
+        // 🆕 Handle BETWEEN
+        // ----------------------------------
+        const betweenMatch = condition.match(
+          /(\w+)\s+between\s+(\d+)\s+and\s+(\d+)/i
+        );
 
+        if (betweenMatch) {
+          const col = betweenMatch[1];
+          const min = Number(betweenMatch[2]);
+          const max = Number(betweenMatch[3]);
+
+          return row[col] >= min && row[col] <= max;
+        }
         
         // ----------------------------------
         // 3️⃣ Handle numeric comparisons
@@ -1155,6 +1188,8 @@ const handleSelect = (sql, questionData) => {
       });
     });
   }
+
+  
   // ==========================
   // AGGREGATES WITHOUT GROUP BY
   // ==========================
@@ -1348,13 +1383,18 @@ if (isOnlyAggregate) {
         grouped[key][sumAlias] += value;
       }
 
-      if (countColumn) {
-  const colName = countColumn.includes(".")
-    ? countColumn.split(".")[1]
-    : countColumn;
-
-  if (row[colName] !== null && row[colName] !== undefined) {
+   if (countColumn) {
+  if (countColumn === "*") {
+    // ✅ COUNT(*) → count every row
     grouped[key][countAlias] += 1;
+  } else {
+    const colName = countColumn.includes(".")
+      ? countColumn.split(".")[1]
+      : countColumn;
+
+    if (row[colName] !== null && row[colName] !== undefined) {
+      grouped[key][countAlias] += 1;
+    }
   }
 }
 
@@ -1459,6 +1499,21 @@ if (selectPart.toLowerCase().includes("rating_variance")) {
     }));
   }
 }
+
+
+if (selectPart.toLowerCase().includes("strike_rate")) {
+  rows = rows.map(row => {
+    const score = Number(row.score) || 0;
+    const balls = Number(row.no_of_balls) || 0;
+
+    const strikeRate = balls !== 0 ? (score / balls) * 100 : 0;
+
+    return {
+      ...row,
+      strike_rate: strikeRate
+    };
+  });
+}
   // ==========================
 // APPLY SELECT COLUMN FILTERING (FIXED)
 // ==========================
@@ -1494,27 +1549,36 @@ if (selectPart !== "*") {
 
       const aliasMatch = col.match(/(.+)\s+as\s+(\w+)/i);
 
+if (aliasMatch) {
+  const originalColumn = aliasMatch[1].trim();
+  const alias = aliasMatch[2];
 
-      if (aliasMatch) {
-        const originalColumn = aliasMatch[1].trim();
-        const alias = aliasMatch[2];
+  // ✅ FIX: handle computed columns like strike_rate
+  if (alias === "strike_rate") {
+    filteredRow[alias] = row["strike_rate"];
+    return;
+  }
 
-        // aggregate functions
-        if (/count|sum|avg|max|min/i.test(originalColumn)) {
-          filteredRow[alias] = row[alias];
-        } else {
-          const columnName = originalColumn.includes(".")
-            ? originalColumn.split(".")[1]
-            : originalColumn;
+  // aggregate functions
+  if (/count|sum|avg|max|min/i.test(originalColumn)) {
+    filteredRow[alias] = row[alias];
+  } else {
+    const columnName = originalColumn.includes(".")
+      ? originalColumn.split(".")[1]
+      : originalColumn;
 
-          filteredRow[alias] = row[columnName];
-        }
-      } else {
-        const columnName = col.includes(".") ? col.split(".")[1] : col;
-        filteredRow[columnName] = row[columnName];
-      }
-    });
+    filteredRow[alias] = row[columnName];
+  }
+}
+// ✅ HANDLE NORMAL COLUMNS (no alias)
+if (!col.toLowerCase().includes("as")) {
+  const columnName = col.includes(".")
+    ? col.split(".")[1]
+    : col.replace(/"/g, ""); // handle "match"
 
+  filteredRow[columnName] = row[columnName];
+}
+}); 
     return filteredRow;
   });
 }

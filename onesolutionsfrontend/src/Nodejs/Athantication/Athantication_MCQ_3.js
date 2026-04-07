@@ -315,7 +315,7 @@ const Athantication_MCQ_3 = ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Authentication | Part 3 - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

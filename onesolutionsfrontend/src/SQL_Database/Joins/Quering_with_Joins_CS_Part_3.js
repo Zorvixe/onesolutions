@@ -53,7 +53,7 @@ const Quering_with_Joins_CS_Part_3 = ({
   };
   return (
     <div className="intro-container">
-      <h1>JOINS Cont'd</h1>
+      <h1>Querying with Joins | Part 3 | Cheat Sheet</h1>
 
       {/* Database */}
       <section>

@@ -53,7 +53,7 @@ const Order_By_Distinct_CS = ({
   };
   return (
     <div className="intro-container">
-      <h1>ORDER BY and DISTINCT</h1>
+      <h1>ORDER BY and DISTINCT | Cheat Sheet</h1>
 
       <section>
         <p>

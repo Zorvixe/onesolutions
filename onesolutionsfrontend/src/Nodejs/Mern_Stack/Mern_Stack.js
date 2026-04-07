@@ -10,8 +10,8 @@ const Mern_Stack =  ({
   goalName,
   courseName,
   subtopic,
-  moduleName = "Fetch & Callbacks",
-  topicName = "Callbacks & Schedulers",
+  moduleName = "MERN Stack",
+  topicName = "MERN Stack",
   slidesUrl = "https://docs.google.com/presentation/d/1n7xfc3pCoY5FttoKEacz6o87d-RwYqdmwiSkvSNkVqk/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =

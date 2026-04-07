@@ -274,7 +274,7 @@ const Working_with_Files_MCQ= ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Working with Files - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

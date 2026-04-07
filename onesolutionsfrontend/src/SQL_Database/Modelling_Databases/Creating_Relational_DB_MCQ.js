@@ -304,7 +304,7 @@ const Creating_Relational_DB_MCQ = ({
 
   return (
     <MCQLogic
-      title="Creating Relational Database | MCQs"
+      title="Modelling Database | Part 2 MCQ"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

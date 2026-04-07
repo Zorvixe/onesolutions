@@ -10,8 +10,8 @@ const Factory_Constructor_Function = ({
   goalName,
   courseName,
   subtopic,
-  moduleName = "Arrays and Objects",
-  topicName = "A Note On Software Compatibility",
+  moduleName = "More Modern JS Concepts",
+  topicName = "Factory and Constructor Function",
   slidesUrl = "https://docs.google.com/presentation/d/1hGV77CS-H6JxjD9ssiUVO_EBga8Q8y8bXfpShFBGpTY/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =

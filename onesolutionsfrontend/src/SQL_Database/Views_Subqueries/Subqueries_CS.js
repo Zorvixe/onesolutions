@@ -53,7 +53,7 @@ const Subqueries_CS = ({
   };
   return (
     <div className="intro-container">
-      <h1>Subqueries</h1>
+      <h1>Subqueries | Cheat Sheet</h1>
 
       {/* Introduction */}
       <section>

@@ -280,7 +280,7 @@ const  Miscellaneous_Commands_MCQ_2 = ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Miscellaneous Commands - Part | 2 - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

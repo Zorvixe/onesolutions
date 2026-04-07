@@ -54,7 +54,7 @@ const Creating_Relation_DB_CS = ({
 
   return (
     <div className="intro-container">
-      <h1>Modelling Databse - 2</h1>
+      <h1>Createing a Relational Database | Cheat Sheets</h1>
 
       <section>
         <h2>Creating a Relational Database</h2>

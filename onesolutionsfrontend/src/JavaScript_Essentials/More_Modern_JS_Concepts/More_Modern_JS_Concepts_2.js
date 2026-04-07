@@ -10,8 +10,8 @@ const More_Modern_JS_Concepts_2 = ({
   goalName,
   courseName,
   subtopic,
-  moduleName = "Arrays and Objects",
-  topicName = "A Note On Software Compatibility",
+  moduleName = "More Modern JS Concepts",
+  topicName =  "More Modern JS Concepts | Part 2",
   slidesUrl = "https://docs.google.com/presentation/d/1hGV77CS-H6JxjD9ssiUVO_EBga8Q8y8bXfpShFBGpTY/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =

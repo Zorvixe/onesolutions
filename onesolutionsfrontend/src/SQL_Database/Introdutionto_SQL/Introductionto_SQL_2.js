@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 import FeedbackModal from "../../FeedbackModal/FeedbackModal";
 import { useNavigate } from "react-router-dom";
+
 import "../../Class_CSS/Class_Css.css";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -14,7 +15,7 @@ const Introductionto_SQL_2 = ({
   moduleName = "Introduction to SQL",
   topicName = "Introduction to SQL | Part 2",
   videoUrl = "https://www.youtube.com/embed/",
-  slidesUrl = "https://docs.google.com/presentation/d/1T4ekCBicn5Pl4o-fEHdbM9SuqWH95xDdhCCicDIL4K0/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/1O8amtwHmPcOXTzS3G1kC9vlpq615gqNBAWFlCH9CUAM/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();

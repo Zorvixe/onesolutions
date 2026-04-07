@@ -272,7 +272,7 @@ const Introductionto_Nodejs_MCQ_2 = ({
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="Introduction to Node JS | Part 2 - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

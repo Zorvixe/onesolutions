@@ -15,6 +15,7 @@ const execPromise = util.promisify(exec);
 const puppeteer = require('puppeteer');
 const nodemailer = require("nodemailer");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const cron = require('node-cron');
 
 const {
   router: digitalMarketingRouter,
@@ -25,8 +26,6 @@ const {
   app: javaProgrammingApp,
   createJavaTables,
 } = require("./javaProgrammingRoutes");
-
-const jobsRoutes = require('./jobsRoutes');
 
 // -------------------------------------------
 // 🔹 Database Connection
@@ -515,6 +514,97 @@ CREATE INDEX IF NOT EXISTS idx_ai_sessions_student ON ai_chat_sessions(student_i
 
   `;
 
+
+  // ==========================================
+// 🔹 PASSWORD INTEGRITY & AUDIT SYSTEM (NEVER EXPIRES)
+// ==========================================
+const passwordSecurityQuery = `
+  -- Enable pgcrypto if not already (for crypt() function)
+  CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+  -- Audit log table
+  CREATE TABLE IF NOT EXISTS password_change_log (
+    id SERIAL PRIMARY KEY,
+    student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    changed_by VARCHAR(100),
+    source VARCHAR(50),
+    old_hash VARCHAR(255),
+    new_hash VARCHAR(255)
+  );
+
+  -- Function to log password changes
+  CREATE OR REPLACE FUNCTION log_password_change()
+  RETURNS TRIGGER AS $$
+  BEGIN
+    IF OLD.password IS DISTINCT FROM NEW.password THEN
+      INSERT INTO password_change_log 
+        (student_id, changed_by, source, old_hash, new_hash)
+      VALUES (
+        NEW.id, 
+        COALESCE(current_setting('myapp.changed_by', true), 'system'), 
+        COALESCE(current_setting('myapp.change_source', true), 'unknown'),
+        OLD.password, 
+        NEW.password
+      );
+    END IF;
+    RETURN NEW;
+  END;
+  $$ LANGUAGE plpgsql;
+
+  -- Trigger for password changes
+  DROP TRIGGER IF EXISTS password_change_trigger ON students;
+  CREATE TRIGGER password_change_trigger
+  AFTER UPDATE OF password ON students
+  FOR EACH ROW
+  EXECUTE FUNCTION log_password_change();
+
+  -- Auto-repair function for corrupted hashes (runs on login)
+  CREATE OR REPLACE FUNCTION ensure_valid_password_hash(p_student_id INTEGER, p_plain_password TEXT)
+  RETURNS BOOLEAN AS $$
+  DECLARE
+    stored_hash TEXT;
+    is_valid BOOLEAN;
+  BEGIN
+    SELECT password INTO stored_hash FROM students WHERE id = p_student_id;
+    
+    -- Check if hash is valid bcrypt format (60 chars, starts with $2b$)
+    IF stored_hash IS NULL OR stored_hash NOT LIKE '$2b$%' OR LENGTH(stored_hash) != 60 THEN
+      -- Corrupted – rehash the password and update
+      UPDATE students 
+      SET password = crypt(p_plain_password, gen_salt('bf')),
+          updated_at = CURRENT_TIMESTAMP
+      WHERE id = p_student_id;
+      RETURN TRUE;
+    END IF;
+    
+    -- Normal bcrypt check
+    RETURN (stored_hash = crypt(p_plain_password, stored_hash));
+  END;
+  $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+  -- Block any password change that doesn't come from application
+  CREATE OR REPLACE FUNCTION block_unauthorized_password_change()
+  RETURNS TRIGGER AS $$
+  BEGIN
+    IF TG_OP = 'UPDATE' AND OLD.password IS DISTINCT FROM NEW.password THEN
+      IF current_setting('myapp.change_source', true) IS NULL THEN
+        RAISE EXCEPTION 'Password changes are only allowed via application. Set myapp.change_source.';
+      END IF;
+    END IF;
+    RETURN NEW;
+  END;
+  $$ LANGUAGE plpgsql;
+
+  DROP TRIGGER IF EXISTS block_unauthorized_password_change_trigger ON students;
+  CREATE TRIGGER block_unauthorized_password_change_trigger
+  BEFORE UPDATE OF password ON students
+  FOR EACH ROW
+  EXECUTE FUNCTION block_unauthorized_password_change();
+`;
+await pool.query(passwordSecurityQuery);
+console.log("✅ Password integrity & audit system ready");
+
   // In your createTables function, after creating the discussion_threads table:
   try {
     // Ensure no null slugs exist
@@ -814,6 +904,22 @@ CREATE TABLE IF NOT EXISTS student_feedback (
     throw error;
   }
 };
+
+
+cron.schedule('0 2 * * *', async () => {
+  console.log("🔍 Running daily password integrity check...");
+  const result = await pool.query(`
+    SELECT id, email FROM students 
+    WHERE password NOT LIKE '$2b$%' OR LENGTH(password) != 60
+  `);
+  for (const row of result.rows) {
+    console.warn(`⚠️ Corrupted hash for student ${row.email} – marking for reset`);
+    await pool.query(
+      "UPDATE students SET password = 'RESET_REQUIRED' WHERE id = $1",
+      [row.id]
+    );
+  }
+});
 
 // -------------------------------------------
 // 🔹 JWT Token Generator
@@ -4466,16 +4572,9 @@ app.post(
 app.post(
   "/api/auth/forgot-password/verify-otp-reset",
   [
-    body("email")
-      .isEmail()
-      .withMessage("Please enter a valid email")
-      .normalizeEmail(),
-    body("otp")
-      .isLength({ min: 6, max: 6 })
-      .withMessage("OTP must be 6 digits"),
-    body("newPassword")
-      .isLength({ min: 6 })
-      .withMessage("New password must be at least 6 characters"),
+    body("email").isEmail().withMessage("Please enter a valid email").normalizeEmail(),
+    body("otp").isLength({ min: 6, max: 6 }).withMessage("OTP must be 6 digits"),
+    body("newPassword").isLength({ min: 6 }).withMessage("New password must be at least 6 characters"),
   ],
   async (req, res) => {
     try {
@@ -4491,22 +4590,20 @@ app.post(
       const { email, otp, newPassword } = req.body;
       const normalizedEmail = email.toLowerCase().trim();
 
-      console.log(`🔑 Password reset attempt for: ${normalizedEmail}`);
-
       const verification = verifyOtp(normalizedEmail, otp, "forgot_password");
 
       if (!verification.valid) {
-        const remainingAttempts = getOtpAttempts(
-          normalizedEmail,
-          "forgot_password"
-        );
-
+        const remainingAttempts = getOtpAttempts(normalizedEmail, "forgot_password");
         return res.status(400).json({
           success: false,
           message: verification.message,
           remainingAttempts,
         });
       }
+
+      // 🔥 Set audit context
+      await pool.query("SET myapp.changed_by = $1", [normalizedEmail]);
+      await pool.query("SET myapp.change_source = $1", ['forgot_password']);
 
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       const result = await pool.query(
@@ -4521,8 +4618,6 @@ app.post(
           message: "Failed to update password",
         });
       }
-
-      console.log(`✅ Password successfully reset for: ${normalizedEmail}`);
 
       res.json({
         success: true,
@@ -5409,7 +5504,10 @@ app.post(
       }
 
       // Hash password
-      const hashedPassword = await bcrypt.hash(password, 10);
+      await pool.query("SET myapp.changed_by = $1", [email]);
+await pool.query("SET myapp.change_source = $1", ['registration']);
+
+const hashedPassword = await bcrypt.hash(password, 10);
 
       // Handle profile image
       let profileImagePath = null;
@@ -5518,10 +5616,7 @@ app.post(
 app.post(
   "/api/auth/login",
   [
-    body("email")
-      .isEmail()
-      .withMessage("Please enter a valid email")
-      .normalizeEmail(),
+    body("email").isEmail().withMessage("Please enter a valid email").normalizeEmail(),
     body("password").notEmpty().withMessage("Password is required"),
   ],
   async (req, res) => {
@@ -5537,31 +5632,27 @@ app.post(
 
       const { email, password } = req.body;
 
-      // 🔥 FIXED: Include student_type and course_selection
+      // 🔥 Use auto‑repair function: ensures hash is valid and compares
       const result = await pool.query(
-        `SELECT id, student_id, email, password, first_name, last_name, phone, 
-                profile_image, student_type, course_selection, batch_month, batch_year, is_current_batch, created_at 
-         FROM students WHERE email = $1`,
-        [email]
+        `SELECT ensure_valid_password_hash(id, $1) AS valid,
+                id, student_id, email, first_name, last_name, phone, 
+                profile_image, student_type, course_selection, 
+                batch_month, batch_year, is_current_batch, created_at 
+         FROM students WHERE email = $2`,
+        [password, email]
       );
+
+      if (result.rows.length === 0 || !result.rows[0].valid) {
+        return res.status(401).json({
+          success: false,
+          message: "Invalid credentials",
+        });
+      }
+
       const student = result.rows[0];
+      delete student.valid; // remove helper column
 
-      if (!student) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid credentials",
-        });
-      }
-
-      const validPassword = await bcrypt.compare(password, student.password);
-      if (!validPassword) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid credentials",
-        });
-      }
-
-      // 🔥 FIXED: Include student_type and course_selection in JWT
+      // Generate token (include student_type and course_selection)
       const token = jwt.sign(
         {
           id: student.id,
@@ -5574,15 +5665,11 @@ app.post(
           batchMonth: student.batch_month,
           batchYear: student.batch_year,
         },
-        process.env.JWT_SECRET ||
-        "your-fallback-secret-key-for-development-only-change-in-production",
+        process.env.JWT_SECRET || "your-fallback-secret-key-for-development-only-change-in-production",
         { expiresIn: "30d" }
       );
 
-      // Construct full image URL
-      const baseUrl =
-        process.env.BACKEND_URL ||
-        `http://localhost:${process.env.PORT || 5002}`;
+      const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
       const studentResponse = {
         id: student.id,
         studentId: student.student_id,
@@ -5590,9 +5677,7 @@ app.post(
         firstName: student.first_name,
         lastName: student.last_name,
         phone: student.phone,
-        profileImage: student.profile_image
-          ? `${baseUrl}${student.profile_image}`
-          : null,
+        profileImage: student.profile_image ? `${baseUrl}${student.profile_image}` : null,
         studentType: student.student_type,
         courseSelection: student.course_selection,
         batchMonth: student.batch_month,
@@ -8463,16 +8548,21 @@ app.get("/api/admin/students/:studentId", async (req, res) => {
 app.put("/api/admin/students/:studentId", async (req, res) => {
   try {
     const { studentId } = req.params;
-    const updateData = req.body;
+    const { updatePassword = false, ...updateData } = req.body;
 
-    console.log(`Updating student ${studentId} with data:`, updateData);
+    // 🔥 Block any password update without explicit flag
+    if (updateData.password && !updatePassword) {
+      return res.status(403).json({
+        success: false,
+        message: "Password changes require 'updatePassword: true' flag for security."
+      });
+    }
 
     // Check if student exists
     const existingStudent = await pool.query(
       "SELECT * FROM students WHERE id = $1",
       [studentId]
     );
-
     if (existingStudent.rows.length === 0) {
       return res.status(404).json({
         success: false,
@@ -8480,74 +8570,33 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       });
     }
 
-    // Build dynamic update query
+    // Build dynamic update query (exclude password unless flag is true)
     const updateFields = [];
     const updateValues = [];
     let paramCount = 1;
 
-    // 🔥 FIXED: Add course_selection to allowed fields
     const allowedFields = [
-      "student_id",
-      "email",
-      "first_name",
-      "last_name",
-      "phone",
-      "student_type",
-      "course_selection",
-      "batch_month",
-      "batch_year",
-      "is_current_batch",
-      "status",
-      "name_on_certificate",
-      "gender",
-      "password",
+      "student_id", "email", "first_name", "last_name", "phone",
+      "student_type", "course_selection", "batch_month", "batch_year",
+      "is_current_batch", "status", "name_on_certificate", "gender"
     ];
 
-    // Validate student_type if provided
-    if (updateData.student_type) {
-      const validTypes = ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"];
-      if (!validTypes.includes(updateData.student_type)) {
-        return res.status(400).json({
-          success: false,
-          message:
-            "Invalid student type. Must be one of: zorvixe_core, zorvixe_pro, zorvixe_elite",
-        });
-      }
-    }
-
-    // Validate course_selection if provided
-    // In server.js - around line 2280 in the admin update student endpoint
-    // The validation should be:
-
-    if (updateData.course_selection) {
-      const validCourses = [
-        "web_development",
-        "digital_marketing",
-        "java_programming",
-      ];
-      if (!validCourses.includes(updateData.course_selection)) {
-        return res.status(400).json({
-          success: false,
-          message:
-            "Invalid course selection. Must be one of: web_development, digital_marketing, java_programming",
-        });
-      }
-    }
-
-    // Use for...of loop instead of forEach to handle async operations
     for (const field of allowedFields) {
       if (updateData[field] !== undefined) {
-        // Hash password if it's being updated
-        if (field === "password" && updateData[field]) {
-          const hashedPassword = await bcrypt.hash(updateData[field], 10);
-          updateFields.push(`${field} = $${paramCount}`);
-          updateValues.push(hashedPassword);
-        } else {
-          updateFields.push(`${field} = $${paramCount}`);
-          updateValues.push(updateData[field]);
-        }
+        updateFields.push(`${field} = $${paramCount}`);
+        updateValues.push(updateData[field]);
         paramCount++;
       }
+    }
+
+    // Handle password only if flag true
+    if (updatePassword && updateData.password) {
+      await pool.query("SET myapp.changed_by = $1", [req.headers['x-admin-email'] || 'admin']);
+      await pool.query("SET myapp.change_source = $1", ['admin_update']);
+      const hashedPassword = await bcrypt.hash(updateData.password, 10);
+      updateFields.push(`password = $${paramCount}`);
+      updateValues.push(hashedPassword);
+      paramCount++;
     }
 
     if (updateFields.length === 0) {
@@ -8557,10 +8606,7 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       });
     }
 
-    // Add updated_at timestamp
     updateFields.push(`updated_at = CURRENT_TIMESTAMP`);
-
-    // Add student ID as the last parameter
     updateValues.push(studentId);
 
     const updateQuery = `
@@ -8573,16 +8619,11 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
     const result = await pool.query(updateQuery, updateValues);
     const updatedStudent = result.rows[0];
 
-    const baseUrl =
-      process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
-
+    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
     const studentResponse = {
       ...updatedStudent,
-      profileImage: updatedStudent.profile_image
-        ? `${baseUrl}${updatedStudent.profile_image}`
-        : null,
-      fullName:
-        `${updatedStudent.first_name} ${updatedStudent.last_name}`.trim(),
+      profileImage: updatedStudent.profile_image ? `${baseUrl}${updatedStudent.profile_image}` : null,
+      fullName: `${updatedStudent.first_name} ${updatedStudent.last_name}`.trim(),
     };
 
     res.json({
@@ -8591,7 +8632,7 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       data: { student: studentResponse },
     });
   } catch (error) {
-    console.error("Admin student update error:", error.message);
+    console.error("❌ Admin student update error:", error.message);
     res.status(500).json({
       success: false,
       error: "Failed to update student: " + error.message,
@@ -10334,8 +10375,44 @@ app.get("/api/ai/categories", auth, async (req, res) => {
   }
 });
 
+// -------------------------------------------
+// 🔹 PASSWORD INTEGRITY CHECK (Admin only)
+// -------------------------------------------
+app.get("/api/admin/password-integrity", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT id, email, 
+             CASE 
+               WHEN password LIKE '$2b$%' AND LENGTH(password) = 60 THEN 'valid'
+               WHEN password = 'RESET_REQUIRED' THEN 'reset_required'
+               ELSE 'corrupted'
+             END as status,
+             LENGTH(password) as hash_length,
+             created_at,
+             updated_at
+      FROM students
+      ORDER BY id
+    `);
+    const corrupted = result.rows.filter(r => r.status === 'corrupted');
+    res.json({
+      success: true,
+      data: {
+        total: result.rows.length,
+        corruptedCount: corrupted.length,
+        corrupted: corrupted
+      }
+    });
+  } catch (error) {
+    console.error("❌ Integrity check error:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to check password integrity"
+    });
+  }
+});
+
 // Add the router (somewhere before your 404 handler)
-app.use("/", digitalMarketingRouter, javaProgrammingApp, jobsRoutes);
+app.use("/", digitalMarketingRouter, javaProgrammingApp);
 
 // Handle 404 routes
 app.use("*", (req, res) => {

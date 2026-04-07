@@ -265,7 +265,7 @@ const ES6_Module_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
   };
   return (
     <MCQLogic
-      title="Components and Props - MCQs"
+      title="ES6 Module Exports - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

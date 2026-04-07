@@ -53,7 +53,7 @@ const Joins_Part_1_CS = ({
   };
   return (
     <div className="intro-container">
-      <h1>JOINS</h1>
+      <h1>Joins | Part 1 | Cheat Sheet</h1>
 
       <section>
         <p>

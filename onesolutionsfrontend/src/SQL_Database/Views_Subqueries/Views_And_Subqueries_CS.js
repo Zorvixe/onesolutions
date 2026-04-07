@@ -54,7 +54,7 @@ const Views_And_Subqueries_CS = ({
 
   return (
     <div className="intro-container">
-      <h1>Views</h1>
+      <h1>Views Subqueries | Cheat Sheet</h1>
 
       {/* Database */}
       <section>

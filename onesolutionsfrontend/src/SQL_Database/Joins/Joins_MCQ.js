@@ -289,7 +289,7 @@ const Joins_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
 
   return (
     <MCQLogic
-      title="SQL JOINS | MCQs"
+      title="JOINS | Part 1 | MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}
