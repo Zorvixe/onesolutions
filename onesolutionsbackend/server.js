@@ -519,10 +519,7 @@ CREATE INDEX IF NOT EXISTS idx_ai_sessions_student ON ai_chat_sessions(student_i
 // 🔹 PASSWORD INTEGRITY & AUDIT SYSTEM (NEVER EXPIRES)
 // ==========================================
 const passwordSecurityQuery = `
-  -- Enable pgcrypto if not already (for crypt() function)
-  CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
-  -- Audit log table
+  -- Audit log table (no pgcrypto needed)
   CREATE TABLE IF NOT EXISTS password_change_log (
     id SERIAL PRIMARY KEY,
     student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
@@ -552,36 +549,11 @@ const passwordSecurityQuery = `
   END;
   $$ LANGUAGE plpgsql;
 
-  -- Trigger for password changes
   DROP TRIGGER IF EXISTS password_change_trigger ON students;
   CREATE TRIGGER password_change_trigger
   AFTER UPDATE OF password ON students
   FOR EACH ROW
   EXECUTE FUNCTION log_password_change();
-
-  -- Auto-repair function for corrupted hashes (runs on login)
-  CREATE OR REPLACE FUNCTION ensure_valid_password_hash(p_student_id INTEGER, p_plain_password TEXT)
-  RETURNS BOOLEAN AS $$
-  DECLARE
-    stored_hash TEXT;
-    is_valid BOOLEAN;
-  BEGIN
-    SELECT password INTO stored_hash FROM students WHERE id = p_student_id;
-    
-    -- Check if hash is valid bcrypt format (60 chars, starts with $2b$)
-    IF stored_hash IS NULL OR stored_hash NOT LIKE '$2b$%' OR LENGTH(stored_hash) != 60 THEN
-      -- Corrupted – rehash the password and update
-      UPDATE students 
-      SET password = crypt(p_plain_password, gen_salt('bf')),
-          updated_at = CURRENT_TIMESTAMP
-      WHERE id = p_student_id;
-      RETURN TRUE;
-    END IF;
-    
-    -- Normal bcrypt check
-    RETURN (stored_hash = crypt(p_plain_password, stored_hash));
-  END;
-  $$ LANGUAGE plpgsql SECURITY DEFINER;
 
   -- Block any password change that doesn't come from application
   CREATE OR REPLACE FUNCTION block_unauthorized_password_change()
@@ -603,7 +575,7 @@ const passwordSecurityQuery = `
   EXECUTE FUNCTION block_unauthorized_password_change();
 `;
 await pool.query(passwordSecurityQuery);
-console.log("✅ Password integrity & audit system ready");
+console.log("✅ Password audit & block system ready (pgcrypto‑free)");
 
   // In your createTables function, after creating the discussion_threads table:
   try {
@@ -905,21 +877,6 @@ CREATE TABLE IF NOT EXISTS student_feedback (
   }
 };
 
-
-cron.schedule('0 2 * * *', async () => {
-  console.log("🔍 Running daily password integrity check...");
-  const result = await pool.query(`
-    SELECT id, email FROM students 
-    WHERE password NOT LIKE '$2b$%' OR LENGTH(password) != 60
-  `);
-  for (const row of result.rows) {
-    console.warn(`⚠️ Corrupted hash for student ${row.email} – marking for reset`);
-    await pool.query(
-      "UPDATE students SET password = 'RESET_REQUIRED' WHERE id = $1",
-      [row.id]
-    );
-  }
-});
 
 // -------------------------------------------
 // 🔹 JWT Token Generator
@@ -5632,17 +5589,16 @@ app.post(
 
       const { email, password } = req.body;
 
-      // 🔥 Use auto‑repair function: ensures hash is valid and compares
+      // Fetch student by email
       const result = await pool.query(
-        `SELECT ensure_valid_password_hash(id, $1) AS valid,
-                id, student_id, email, first_name, last_name, phone, 
+        `SELECT id, student_id, email, password, first_name, last_name, phone, 
                 profile_image, student_type, course_selection, 
                 batch_month, batch_year, is_current_batch, created_at 
-         FROM students WHERE email = $2`,
-        [password, email]
+         FROM students WHERE email = $1`,
+        [email]
       );
 
-      if (result.rows.length === 0 || !result.rows[0].valid) {
+      if (result.rows.length === 0) {
         return res.status(401).json({
           success: false,
           message: "Invalid credentials",
@@ -5650,7 +5606,32 @@ app.post(
       }
 
       const student = result.rows[0];
-      delete student.valid; // remove helper column
+      let storedHash = student.password;
+      let isValid = false;
+
+      // Check if stored hash is a valid bcrypt hash (60 chars, starts with $2b$)
+      const isValidBcrypt = storedHash && storedHash.startsWith('$2b$') && storedHash.length === 60;
+
+      if (isValidBcrypt) {
+        // Normal bcrypt comparison
+        isValid = await bcrypt.compare(password, storedHash);
+      } else {
+        // Corrupted hash – repair it
+        console.warn(`⚠️ Corrupted password hash for user ${student.email}, repairing...`);
+        const newHash = await bcrypt.hash(password, 10);
+        await pool.query(
+          `UPDATE students SET password = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2`,
+          [newHash, student.id]
+        );
+        isValid = true; // after repair, login succeeds
+      }
+
+      if (!isValid) {
+        return res.status(401).json({
+          success: false,
+          message: "Invalid credentials",
+        });
+      }
 
       // Generate token (include student_type and course_selection)
       const token = jwt.sign(
