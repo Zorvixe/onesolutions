@@ -12,7 +12,7 @@ const Todos_Application_Part_1_Class = ({
   subtopic,
   moduleName = "Todos Application",
   topicName = "Todos Application | Part 1",
-  slidesUrl = "https://docs.google.com/presentation/d/1s1_FQJiGCQM76WydyVjtf1igoGbsW1ArY3z6I4ePn9s/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/1s5Bj0qXB4mNNBuYqymXDHGRZfl6zEVPVprPME0I_uMc/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
