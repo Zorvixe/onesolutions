@@ -17,11 +17,11 @@ const Login = () => {
   const [otpTimer, setOtpTimer] = useState(0); // Timer for resend OTP
   const [successMessage, setSuccessMessage] = useState(""); // Success feedback
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(""); // Local error state for form validation
 
   const {
     loginOtpRequest,
     loginOtpVerify,
-    error,
     clearError,
     isAuthenticated,
     otpSent,
