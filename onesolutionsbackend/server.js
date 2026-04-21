@@ -282,6 +282,36 @@ const createTables = async () => {
     );
   `;
 
+
+         await pool.query(`
+  CREATE OR REPLACE FUNCTION generate_thread_slug_function(title VARCHAR)
+  RETURNS VARCHAR AS $$
+  DECLARE
+    base_slug VARCHAR;
+    final_slug VARCHAR;
+    random_str VARCHAR;
+    timestamp_str VARCHAR;
+  BEGIN
+    random_str := substring(md5(random()::text), 1, 8);
+    timestamp_str := to_char(EXTRACT(EPOCH FROM CURRENT_TIMESTAMP)::integer, 'FM9999999999');
+    
+    base_slug := lower(title);
+    base_slug := regexp_replace(base_slug, '[^a-z0-9\\s-]', '', 'g');
+    base_slug := regexp_replace(base_slug, '\\s+', '-', 'g');
+    base_slug := regexp_replace(base_slug, '-+', '-', 'g');
+    base_slug := trim(both '-' from base_slug);
+    base_slug := substring(base_slug from 1 for 100);
+    
+    IF base_slug = '' THEN
+      base_slug := 'thread';
+    END IF;
+    
+    final_slug := base_slug || '-' || timestamp_str || '-' || random_str;
+    RETURN final_slug;
+  END;
+  $$ LANGUAGE plpgsql;
+`);
+
   // Work Experience table
   const workExperiencesTableQuery = `
     CREATE TABLE IF NOT EXISTS student_work_experiences (
@@ -424,33 +454,6 @@ const createTables = async () => {
       NEW.thread_slug := generate_thread_slug_function(NEW.title);
     END IF;
     RETURN NEW;
-  END;
-  $$ LANGUAGE plpgsql;
-
-  CREATE OR REPLACE FUNCTION generate_thread_slug_function(title VARCHAR)
-  RETURNS VARCHAR AS $$
-  DECLARE
-    base_slug VARCHAR;
-    final_slug VARCHAR;
-    random_str VARCHAR;
-    timestamp_str VARCHAR;
-  BEGIN
-    random_str := substring(md5(random()::text), 1, 8);
-    timestamp_str := to_char(EXTRACT(EPOCH FROM CURRENT_TIMESTAMP)::integer, 'FM9999999999');
-    
-    base_slug := lower(title);
-    base_slug := regexp_replace(base_slug, '[^a-z0-9\s-]', '', 'g');
-    base_slug := regexp_replace(base_slug, '\s+', '-', 'g');
-    base_slug := regexp_replace(base_slug, '-+', '-', 'g');
-    base_slug := trim(both '-' from base_slug);
-    base_slug := substring(base_slug from 1 for 100);
-    
-    IF base_slug = '' THEN
-      base_slug := 'thread';
-    END IF;
-    
-    final_slug := base_slug || '-' || timestamp_str || '-' || random_str;
-    RETURN final_slug;
   END;
   $$ LANGUAGE plpgsql;
 
@@ -5461,8 +5464,11 @@ app.post(
       }
 
       // Hash password
-      await pool.query("SET myapp.changed_by = $1", [email]);
-await pool.query("SET myapp.change_source = $1", ['registration']);
+            // Helper to escape single quotes for SQL literals
+        const escapeSqlString = (str) => str.replace(/'/g, "''");
+
+        await pool.query(`SET myapp.changed_by = '${escapeSqlString(email)}'`);
+        await pool.query(`SET myapp.change_source = 'registration'`);
 
 const hashedPassword = await bcrypt.hash(password, 10);
 
