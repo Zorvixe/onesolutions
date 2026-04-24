@@ -8533,80 +8533,86 @@ app.get("/api/admin/students/:studentId", async (req, res) => {
 // 🔹 ADMIN UPDATE STUDENT - FIXED WITH COURSE_SELECTION
 // -------------------------------------------
 app.put("/api/admin/students/:studentId", async (req, res) => {
+  const client = await pool.connect();
   try {
     const { studentId } = req.params;
     const { updatePassword = false, ...updateData } = req.body;
 
-    // 🔥 Block any password update without explicit flag
+    // 🔒 Block password update without flag
     if (updateData.password && !updatePassword) {
       return res.status(403).json({
         success: false,
-        message: "Password changes require 'updatePassword: true' flag for security."
+        message: "Password changes require 'updatePassword: true' flag."
       });
     }
 
-    // Check if student exists
-    const existingStudent = await pool.query(
-      "SELECT * FROM students WHERE id = $1",
+    // Verify student exists
+    const existing = await client.query(
+      "SELECT id FROM students WHERE id = $1",
       [studentId]
     );
-    if (existingStudent.rows.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Student not found",
-      });
+    if (existing.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Student not found" });
     }
 
-    // Build dynamic update query (exclude password unless flag is true)
-    const updateFields = [];
-    const updateValues = [];
-    let paramCount = 1;
-
+    // Build SET clause dynamically
     const allowedFields = [
       "student_id", "email", "first_name", "last_name", "phone",
       "student_type", "course_selection", "batch_month", "batch_year",
       "is_current_batch", "status", "name_on_certificate", "gender"
     ];
 
+    const setClauses = [];
+    const values = [];
+    let paramIndex = 1;
+
     for (const field of allowedFields) {
       if (updateData[field] !== undefined) {
-        updateFields.push(`${field} = $${paramCount}`);
-        updateValues.push(updateData[field]);
-        paramCount++;
+        setClauses.push(`${field} = $${paramIndex}`);
+        values.push(updateData[field]);
+        paramIndex++;
       }
     }
 
-    // Handle password only if flag true
+    let isPasswordUpdated = false;
     if (updatePassword && updateData.password) {
-      await pool.query("SET myapp.changed_by = $1", [req.headers['x-admin-email'] || 'admin']);
-      await pool.query("SET myapp.change_source = $1", ['admin_update']);
       const hashedPassword = await bcrypt.hash(updateData.password, 10);
-      updateFields.push(`password = $${paramCount}`);
-      updateValues.push(hashedPassword);
-      paramCount++;
+      setClauses.push(`password = $${paramIndex}`);
+      values.push(hashedPassword);
+      paramIndex++;
+      isPasswordUpdated = true;
     }
 
-    if (updateFields.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "No valid fields to update",
-      });
+    if (setClauses.length === 0) {
+      return res.status(400).json({ success: false, message: "No fields to update" });
     }
 
-    updateFields.push(`updated_at = CURRENT_TIMESTAMP`);
-    updateValues.push(studentId);
+    setClauses.push(`updated_at = CURRENT_TIMESTAMP`);
+
+    // Begin transaction and set audit context
+    await client.query("BEGIN");
+    const adminEmail = req.headers['x-admin-email'] || 'admin';
+    await client.query("SET LOCAL myapp.changed_by = $1", [adminEmail]);
+    await client.query("SET LOCAL myapp.change_source = $1", ['admin_update']);
 
     const updateQuery = `
-      UPDATE students 
-      SET ${updateFields.join(", ")}
-      WHERE id = $${paramCount}
+      UPDATE students
+      SET ${setClauses.join(", ")}
+      WHERE id = $${paramIndex}
       RETURNING *
     `;
+    values.push(studentId);
 
-    const result = await pool.query(updateQuery, updateValues);
+    // Log the query for debugging (remove in production)
+    console.log("🔧 Executing admin update query:", updateQuery);
+    console.log("📦 Values:", values);
+
+    const result = await client.query(updateQuery, values);
+    await client.query("COMMIT");
+
     const updatedStudent = result.rows[0];
-
     const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+
     const studentResponse = {
       ...updatedStudent,
       profileImage: updatedStudent.profile_image ? `${baseUrl}${updatedStudent.profile_image}` : null,
@@ -8619,11 +8625,15 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       data: { student: studentResponse },
     });
   } catch (error) {
+    await client.query("ROLLBACK");
     console.error("❌ Admin student update error:", error.message);
+    console.error("📄 Stack:", error.stack);
     res.status(500).json({
       success: false,
       error: "Failed to update student: " + error.message,
     });
+  } finally {
+    client.release();
   }
 });
 
