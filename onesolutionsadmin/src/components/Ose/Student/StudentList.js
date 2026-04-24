@@ -247,50 +247,44 @@ const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    // Add detailed debugging
-    console.log("🔍 Form Data before submission:", {
-      ...formData,
-      password: formData.password ? "[HIDDEN]" : ""
-    });
-    
-    console.log("🔍 Course Selection value:", formData.course_selection);
-    
-    // Validate course_selection before sending
-    const validCourses = ["web_development", "digital_marketing", "java_programming"];
-    if (!validCourses.includes(formData.course_selection)) {
-      console.error("❌ Invalid course_selection value:", formData.course_selection);
-      toast.error(`Invalid course selection: "${formData.course_selection}". Please select a valid course.`);
-      return;
-    }
-
     const url = editingStudent
       ? `${API_BASE_URL}/api/admin/students/${editingStudent.id}`
       : `${API_BASE_URL}/api/admin/students`;
 
     const method = editingStudent ? "PUT" : "POST";
 
-    // Ensure course_selection is always set
-    const submitData = {
-      ...formData,
-      course_selection: formData.course_selection || "web_development"
-    };
+    // Prepare the request body
+    const submitData = { ...formData };
+
+    // For editing, handle password and updatePassword flag
+    if (editingStudent) {
+      // If password is empty, remove it from the request
+      if (!submitData.password || submitData.password.trim() === "") {
+        delete submitData.password;
+      } else {
+        // Password provided – add the required flag
+        submitData.updatePassword = true;
+      }
+    }
+
+    // Ensure course_selection is always set (fallback to web_development)
+    submitData.course_selection = submitData.course_selection || "web_development";
 
     console.log("📤 Sending data to server:", {
       url,
       method,
-      course_selection: submitData.course_selection
+      hasPassword: !!submitData.password,
+      updatePasswordFlag: submitData.updatePassword,
+      course_selection: submitData.course_selection,
     });
 
     const response = await fetch(url, {
       method,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(submitData),
     });
 
     const result = await response.json();
-    console.log("📥 Server response:", result);
 
     if (response.ok && result.success) {
       toast.success(
