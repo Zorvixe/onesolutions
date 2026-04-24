@@ -56,6 +56,9 @@ pool.on("error", (err) => {
   console.error("Unexpected error on idle client", err);
 });
 
+
+
+
 // -------------------------------------------
 // 🔹 Express App Setup
 // -------------------------------------------
@@ -1188,6 +1191,16 @@ function cleanExpiredOtps() {
 
 // Run cleanup every minute
 setInterval(cleanExpiredOtps, 60 * 1000);
+
+
+// -------------------------------------------
+// 🔹 Helper: Escape single quotes for SQL literals (for SET LOCAL commands)
+// -------------------------------------------
+const escapeSqlString = (str) => {
+  if (!str) return '';
+  return String(str).replace(/'/g, "''");
+};
+
 
 
 
@@ -4529,6 +4542,7 @@ app.post(
 );
 
 // Forgot Password Step 2: Verify OTP and reset password
+// Forgot Password Step 2: Verify OTP and reset password
 app.post(
   "/api/auth/forgot-password/verify-otp-reset",
   [
@@ -4557,7 +4571,7 @@ app.post(
       // Begin transaction
       await client.query("BEGIN");
 
-      // Set audit context safely (escaping single quotes)
+      // Set audit context safely (escape single quotes)
       const safeEmail = escapeSqlString(normalizedEmail);
       await client.query(`SET LOCAL myapp.changed_by = '${safeEmail}'`);
       await client.query(`SET LOCAL myapp.change_source = 'forgot_password'`);
@@ -4585,7 +4599,6 @@ app.post(
     } catch (err) {
       await client.query("ROLLBACK");
       console.error("❌ Forgot password reset error:", err.message, err.stack);
-      // Send back more detail in development only
       const errorMsg = process.env.NODE_ENV === "development" ? err.message : "Server error during password reset";
       res.status(500).json({ success: false, message: errorMsg });
     } finally {
@@ -5466,7 +5479,6 @@ app.post(
 
       // Hash password
       // Helper to escape single quotes for SQL literals
-      const escapeSqlString = (str) => str.replace(/'/g, "''");
       await pool.query(`SET myapp.changed_by = '${escapeSqlString(email)}'`);
       await pool.query(`SET myapp.change_source = 'registration'`);
 
