@@ -283,7 +283,7 @@ const createTables = async () => {
   `;
 
 
-         await pool.query(`
+  await pool.query(`
   CREATE OR REPLACE FUNCTION generate_thread_slug_function(title VARCHAR)
   RETURNS VARCHAR AS $$
   DECLARE
@@ -519,9 +519,9 @@ CREATE INDEX IF NOT EXISTS idx_ai_sessions_student ON ai_chat_sessions(student_i
 
 
   // ==========================================
-// 🔹 PASSWORD INTEGRITY & AUDIT SYSTEM (NEVER EXPIRES)
-// ==========================================
-const passwordSecurityQuery = `
+  // 🔹 PASSWORD INTEGRITY & AUDIT SYSTEM (NEVER EXPIRES)
+  // ==========================================
+  const passwordSecurityQuery = `
   -- Audit log table (no pgcrypto needed)
   CREATE TABLE IF NOT EXISTS password_change_log (
     id SERIAL PRIMARY KEY,
@@ -577,8 +577,8 @@ const passwordSecurityQuery = `
   FOR EACH ROW
   EXECUTE FUNCTION block_unauthorized_password_change();
 `;
-await pool.query(passwordSecurityQuery);
-console.log("✅ Password audit & block system ready (pgcrypto‑free)");
+  await pool.query(passwordSecurityQuery);
+  console.log("✅ Password audit & block system ready (pgcrypto‑free)");
 
   // In your createTables function, after creating the discussion_threads table:
   try {
@@ -1235,9 +1235,9 @@ const generateResumePDF = async (resumeData, templateId = 1) => {
 
     console.log('🚀 Launching browser...');
     browser = await puppeteer.launch(launchOptions);
-    
+
     const page = await browser.newPage();
-    
+
     // Set viewport
     await page.setViewport({
       width: 1240,
@@ -1247,7 +1247,7 @@ const generateResumePDF = async (resumeData, templateId = 1) => {
 
     // Generate HTML
     const htmlContent = generateTemplateHTML(resumeData, templateId);
-    
+
     // Load HTML
     await page.setContent(htmlContent, {
       waitUntil: 'networkidle0',
@@ -1268,10 +1268,10 @@ const generateResumePDF = async (resumeData, templateId = 1) => {
     });
 
     console.log(`✅ PDF generated successfully (${pdfBuffer.length} bytes)`);
-    
+
     // Ensure we're returning a proper buffer
     return Buffer.from(pdfBuffer);
-    
+
   } catch (error) {
     console.error('❌ PDF Generation Error:', error);
     console.error('Error stack:', error.stack);
@@ -1287,7 +1287,7 @@ const generateResumePDF = async (resumeData, templateId = 1) => {
 // Helper function to generate HTML for each template
 const generateTemplateHTML = (resumeData, templateId) => {
   const data = resumeData;
-  
+
   // Helper function to format date
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -3361,7 +3361,7 @@ const generateTemplateHTML = (resumeData, templateId) => {
   `;
 
   // Return the appropriate template based on templateId
-  switch(templateId) {
+  switch (templateId) {
     case 1:
       return template1HTML;
     case 2:
@@ -3591,17 +3591,17 @@ app.delete("/api/resumes/:resumeId", auth, async (req, res) => {
 app.post('/api/resumes/generate-pdf', auth, async (req, res) => {
   try {
     const { resumeData, templateId } = req.body;
-    
+
     if (!resumeData) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Resume data required' 
+      return res.status(400).json({
+        success: false,
+        message: 'Resume data required'
       });
     }
 
     // Get template ID from either location
     const selectedTemplateId = templateId || resumeData.templateId || 1;
-    
+
     console.log('📄 Generating PDF with template:', selectedTemplateId);
 
     const pdfBuffer = await generateResumePDF(resumeData, selectedTemplateId);
@@ -3613,18 +3613,18 @@ app.post('/api/resumes/generate-pdf', auth, async (req, res) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
-    
+
     // Send the PDF buffer
     res.end(pdfBuffer);
-    
+
   } catch (error) {
     console.error('❌ PDF generation error:', error.message);
     console.error('Error stack:', error.stack);
-    
+
     // Send error response
-    res.status(500).json({ 
-      success: false, 
-      message: 'Failed to generate PDF: ' + error.message 
+    res.status(500).json({
+      success: false,
+      message: 'Failed to generate PDF: ' + error.message
     });
   }
 });
@@ -3638,19 +3638,19 @@ app.get('/api/resumes/:resumeId/pdf', auth, async (req, res) => {
       'SELECT resume_data FROM student_resumes WHERE id = $1 AND student_id = $2',
       [resumeId, req.student.id]
     );
-    
+
     if (result.rows.length === 0) {
-      return res.status(404).json({ 
-        success: false, 
-        message: 'Resume not found' 
+      return res.status(404).json({
+        success: false,
+        message: 'Resume not found'
       });
     }
 
     const resumeData = result.rows[0].resume_data;
     const templateId = resumeData.templateId || 1;
-    
+
     console.log(`📄 Generating PDF for saved resume ${resumeId} with template:`, templateId);
-    
+
     const pdfBuffer = await generateResumePDF(resumeData, templateId);
 
     // Set proper headers
@@ -3660,14 +3660,14 @@ app.get('/api/resumes/:resumeId/pdf', auth, async (req, res) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
-    
+
     res.end(pdfBuffer);
-    
+
   } catch (error) {
     console.error('❌ PDF generation error:', error.message);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Failed to generate PDF' 
+    res.status(500).json({
+      success: false,
+      message: 'Failed to generate PDF'
     });
   }
 });
@@ -4281,13 +4281,27 @@ app.post(
         });
       }
 
-      const validPassword = await bcrypt.compare(password, student.password);
-      if (!validPassword) {
-        console.log(`❌ Invalid password for: ${normalizedEmail}`);
-        return res.status(400).json({
-          success: false,
-          message: "Invalid credentials",
-        });
+      let isValid = false;
+      let storedHash = student.password;
+
+      // Check if hash is a valid bcrypt hash (length 60, starts with $2b$)
+      const isValidBcrypt = storedHash && storedHash.startsWith('$2b$') && storedHash.length === 60;
+
+      if (isValidBcrypt) {
+        isValid = await bcrypt.compare(password, storedHash);
+      } else {
+        // Corrupted hash – repair it
+        console.warn(`⚠️ Corrupted password hash for user ${student.email}, repairing...`);
+        const newHash = await bcrypt.hash(password, 10);
+        await pool.query(
+          `UPDATE students SET password = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2`,
+          [newHash, student.id]
+        );
+        isValid = true; // after repair, login succeeds
+      }
+
+      if (!isValid) {
+        return res.status(400).json({ success: false, message: "Invalid credentials" });
       }
 
       // Generate and send OTP
@@ -5464,13 +5478,13 @@ app.post(
       }
 
       // Hash password
-            // Helper to escape single quotes for SQL literals
-        const escapeSqlString = (str) => str.replace(/'/g, "''");
+      // Helper to escape single quotes for SQL literals
+      const escapeSqlString = (str) => str.replace(/'/g, "''");
 
-        await pool.query(`SET myapp.changed_by = '${escapeSqlString(email)}'`);
-        await pool.query(`SET myapp.change_source = 'registration'`);
+      await pool.query(`SET myapp.changed_by = '${escapeSqlString(email)}'`);
+      await pool.query(`SET myapp.change_source = 'registration'`);
 
-const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcrypt.hash(password, 10);
 
       // Handle profile image
       let profileImagePath = null;
