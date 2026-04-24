@@ -8529,9 +8529,6 @@ app.get("/api/admin/students/:studentId", async (req, res) => {
 });
 
 // Update student by admin with password support
-// -------------------------------------------
-// 🔹 ADMIN UPDATE STUDENT - FIXED WITH COURSE_SELECTION
-// -------------------------------------------
 app.put("/api/admin/students/:studentId", async (req, res) => {
   const client = await pool.connect();
   try {
@@ -8574,13 +8571,11 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       }
     }
 
-    let isPasswordUpdated = false;
     if (updatePassword && updateData.password) {
       const hashedPassword = await bcrypt.hash(updateData.password, 10);
       setClauses.push(`password = $${paramIndex}`);
       values.push(hashedPassword);
       paramIndex++;
-      isPasswordUpdated = true;
     }
 
     if (setClauses.length === 0) {
@@ -8589,11 +8584,12 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
 
     setClauses.push(`updated_at = CURRENT_TIMESTAMP`);
 
-    // Begin transaction and set audit context
+    // Begin transaction and set audit context (FIXED: no $1 placeholders)
     await client.query("BEGIN");
     const adminEmail = req.headers['x-admin-email'] || 'admin';
-    await client.query("SET LOCAL myapp.changed_by = $1", [adminEmail]);
-    await client.query("SET LOCAL myapp.change_source = $1", ['admin_update']);
+    const safeAdminEmail = adminEmail.replace(/'/g, "''");
+    await client.query(`SET LOCAL myapp.changed_by = '${safeAdminEmail}'`);
+    await client.query(`SET LOCAL myapp.change_source = 'admin_update'`);
 
     const updateQuery = `
       UPDATE students
@@ -8603,7 +8599,6 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
     `;
     values.push(studentId);
 
-    // Log the query for debugging (remove in production)
     console.log("🔧 Executing admin update query:", updateQuery);
     console.log("📦 Values:", values);
 
