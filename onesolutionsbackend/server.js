@@ -4266,7 +4266,6 @@ app.post(
 
       console.log(`🔐 OTP login request for: ${normalizedEmail}`);
 
-      // Check if user exists and password is valid
       const result = await pool.query(
         `SELECT id, email, password, first_name FROM students WHERE email = $1`,
         [normalizedEmail]
@@ -4283,8 +4282,6 @@ app.post(
 
       let isValid = false;
       let storedHash = student.password;
-
-      // Check if hash is a valid bcrypt hash (length 60, starts with $2b$)
       const isValidBcrypt = storedHash && storedHash.startsWith('$2b$') && storedHash.length === 60;
 
       if (isValidBcrypt) {
@@ -4292,12 +4289,30 @@ app.post(
       } else {
         // Corrupted hash – repair it
         console.warn(`⚠️ Corrupted password hash for user ${student.email}, repairing...`);
-        const newHash = await bcrypt.hash(password, 10);
-        await pool.query(
-          `UPDATE students SET password = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2`,
-          [newHash, student.id]
-        );
-        isValid = true; // after repair, login succeeds
+        
+        // ✅ Set audit context before UPDATE
+        const client = await pool.connect();
+        try {
+          await client.query('BEGIN');
+          await client.query("SET myapp.changed_by = $1", [normalizedEmail]);
+          await client.query("SET myapp.change_source = $1", ['login_repair']);
+          const newHash = await bcrypt.hash(password, 10);
+          await client.query(
+            `UPDATE students SET password = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2`,
+            [newHash, student.id]
+          );
+          await client.query('COMMIT');
+          isValid = true;
+        } catch (repairErr) {
+          await client.query('ROLLBACK');
+          console.error("❌ Password repair failed:", repairErr);
+          return res.status(500).json({
+            success: false,
+            message: "Server error during login. Please try again.",
+          });
+        } finally {
+          client.release();
+        }
       }
 
       if (!isValid) {
@@ -4309,7 +4324,6 @@ app.post(
       storeOtp(normalizedEmail, otp, "login");
 
       try {
-        console.log(`📧 Sending OTP to: ${normalizedEmail}`);
         await sendOtpEmail(normalizedEmail, otp, "Login");
         console.log(`✅ OTP ${otp} generated for ${normalizedEmail}`);
 
@@ -4320,8 +4334,6 @@ app.post(
         });
       } catch (emailError) {
         console.error("❌ Email sending failed:", emailError);
-
-        // For development/debugging - don't reveal OTP in production
         if (process.env.NODE_ENV === "development") {
           console.log(`🛠️ DEBUG OTP for ${normalizedEmail}: ${otp}`);
           return res.status(500).json({
@@ -4330,7 +4342,6 @@ app.post(
             debug: `OTP: ${otp}`,
           });
         }
-
         return res.status(500).json({
           success: false,
           message: "Failed to send OTP email. Please try again in a moment.",
@@ -4565,7 +4576,6 @@ app.post(
       const normalizedEmail = email.toLowerCase().trim();
 
       const verification = verifyOtp(normalizedEmail, otp, "forgot_password");
-
       if (!verification.valid) {
         const remainingAttempts = getOtpAttempts(normalizedEmail, "forgot_password");
         return res.status(400).json({
@@ -4575,28 +4585,40 @@ app.post(
         });
       }
 
-      // 🔥 Set audit context
-      await pool.query("SET myapp.changed_by = $1", [normalizedEmail]);
-      await pool.query("SET myapp.change_source = $1", ['forgot_password']);
+      // ✅ Use a transaction to set context and update password
+      const client = await pool.connect();
+      try {
+        await client.query('BEGIN');
+        await client.query("SET myapp.changed_by = $1", [normalizedEmail]);
+        await client.query("SET myapp.change_source = $1", ['forgot_password']);
 
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
-      const result = await pool.query(
-        `UPDATE students SET password = $1, updated_at = CURRENT_TIMESTAMP 
-         WHERE email = $2 RETURNING id`,
-        [hashedPassword, normalizedEmail]
-      );
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const result = await client.query(
+          `UPDATE students SET password = $1, updated_at = CURRENT_TIMESTAMP 
+           WHERE email = $2 RETURNING id`,
+          [hashedPassword, normalizedEmail]
+        );
 
-      if (result.rowCount === 0) {
-        return res.status(400).json({
-          success: false,
-          message: "Failed to update password",
+        if (result.rowCount === 0) {
+          await client.query('ROLLBACK');
+          return res.status(400).json({
+            success: false,
+            message: "Failed to update password",
+          });
+        }
+
+        await client.query('COMMIT');
+
+        res.json({
+          success: true,
+          message: "Password updated successfully",
         });
+      } catch (err) {
+        await client.query('ROLLBACK');
+        throw err;
+      } finally {
+        client.release();
       }
-
-      res.json({
-        success: true,
-        message: "Password updated successfully",
-      });
     } catch (err) {
       console.error("❌ Forgot password reset error:", err.message);
       res.status(500).json({
@@ -5609,7 +5631,6 @@ app.post(
 
       const { email, password } = req.body;
 
-      // Fetch student by email
       const result = await pool.query(
         `SELECT id, student_id, email, password, first_name, last_name, phone, 
                 profile_image, student_type, course_selection, 
@@ -5619,41 +5640,46 @@ app.post(
       );
 
       if (result.rows.length === 0) {
-        return res.status(401).json({
-          success: false,
-          message: "Invalid credentials",
-        });
+        return res.status(401).json({ success: false, message: "Invalid credentials" });
       }
 
       const student = result.rows[0];
       let storedHash = student.password;
       let isValid = false;
-
-      // Check if stored hash is a valid bcrypt hash (60 chars, starts with $2b$)
       const isValidBcrypt = storedHash && storedHash.startsWith('$2b$') && storedHash.length === 60;
 
       if (isValidBcrypt) {
-        // Normal bcrypt comparison
         isValid = await bcrypt.compare(password, storedHash);
       } else {
-        // Corrupted hash – repair it
         console.warn(`⚠️ Corrupted password hash for user ${student.email}, repairing...`);
-        const newHash = await bcrypt.hash(password, 10);
-        await pool.query(
-          `UPDATE students SET password = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2`,
-          [newHash, student.id]
-        );
-        isValid = true; // after repair, login succeeds
+        const client = await pool.connect();
+        try {
+          await client.query('BEGIN');
+          await client.query("SET myapp.changed_by = $1", [student.email]);
+          await client.query("SET myapp.change_source = $1", ['login_repair']);
+          const newHash = await bcrypt.hash(password, 10);
+          await client.query(
+            `UPDATE students SET password = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2`,
+            [newHash, student.id]
+          );
+          await client.query('COMMIT');
+          isValid = true;
+        } catch (repairErr) {
+          await client.query('ROLLBACK');
+          console.error("❌ Password repair failed:", repairErr);
+          return res.status(500).json({
+            success: false,
+            message: "Server error during login. Please try again.",
+          });
+        } finally {
+          client.release();
+        }
       }
 
       if (!isValid) {
-        return res.status(401).json({
-          success: false,
-          message: "Invalid credentials",
-        });
+        return res.status(401).json({ success: false, message: "Invalid credentials" });
       }
 
-      // Generate token (include student_type and course_selection)
       const token = jwt.sign(
         {
           id: student.id,
@@ -5666,7 +5692,7 @@ app.post(
           batchMonth: student.batch_month,
           batchYear: student.batch_year,
         },
-        process.env.JWT_SECRET || "your-fallback-secret-key-for-development-only-change-in-production",
+        process.env.JWT_SECRET || "your-fallback-secret-key",
         { expiresIn: "30d" }
       );
 
@@ -5690,21 +5716,14 @@ app.post(
       res.json({
         success: true,
         message: "Login successful",
-        data: {
-          student: studentResponse,
-          token,
-        },
+        data: { student: studentResponse, token },
       });
     } catch (err) {
       console.error("Login error:", err.message);
-      res.status(500).json({
-        success: false,
-        message: "Server error during login",
-      });
+      res.status(500).json({ success: false, message: "Server error during login" });
     }
   }
 );
-
 // -------------------------------------------
 // 🔹 Profile Route (Protected)
 // -------------------------------------------
