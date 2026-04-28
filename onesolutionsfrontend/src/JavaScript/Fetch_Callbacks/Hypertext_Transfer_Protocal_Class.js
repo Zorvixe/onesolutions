@@ -12,7 +12,7 @@ const Hypertext_Transfer_Protocal_Class = ({
   subtopic,
   moduleName = "Fetch & Callbacks",
   topicName = "Hypertext Transfer Protocol (HTTP)",
-  slidesUrl = "https://docs.google.com/presentation/d/1n7xfc3pCoY5FttoKEacz6o87d-RwYqdmwiSkvSNkVqk/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/156eyoeoLxeZ0h_zQYDjr0QfgcuoBwW3L0aK57BgteGk/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
