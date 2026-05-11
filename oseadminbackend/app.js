@@ -158,7 +158,7 @@ const upload = multer({
       file.mimetype === "application/pdf" ||
       file.mimetype === "application/msword" ||
       file.mimetype ===
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ) {
       cb(null, true);
     } else {
@@ -251,6 +251,15 @@ passport.deserializeUser(async (id, done) => {
 
 // Initialize passport middleware
 app.use(passport.initialize());
+
+
+// Add this after authenticateToken
+const authorizeSuperAdmin = (req, res, next) => {
+  if (req.user.role !== 'super_admin') {
+    return res.status(403).json({ error: 'Super admin access required' });
+  }
+  next();
+};
 
 // Modified admin registration route
 app.post(
@@ -355,13 +364,21 @@ app.post("/api/admin/login", async (req, res) => {
       return res.status(401).json({ error: "Invalid Passward" });
     }
 
+
+    // Inside /api/admin/login, after password match
+    const adminResult = await pool.query(
+      "SELECT id, username, phone, role FROM admin WHERE id = $1",
+      [admin.id]
+    );
+    const role = adminResult.rows[0].role;
+
     // Include phone in JWT
     const token = jwt.sign(
       {
         id: admin.id,
         username: admin.username,
         phone: admin.phone, // Add this line
-        role: "admin",
+        role: role,          // ← add this
       },
       JWT_SECRET,
       { expiresIn: "1h" }
@@ -472,6 +489,8 @@ app.put(
   }
 );
 
+
+
 // ... (rest of the code remains the same)
 
 // Initialize DB and start server
@@ -492,6 +511,9 @@ const initializeDbAndServer = async () => {
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
+
+    await pool.query(`ALTER TABLE admin ADD COLUMN IF NOT EXISTS role VARCHAR(20) DEFAULT 'admin';`);
+
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS job (
@@ -659,16 +681,16 @@ const initializeDbAndServer = async () => {
 
 
     // In initializeDbAndServer, after creating the resumes table
-try {
-  // Add original_filename column if it doesn't exist
-  await pool.query(`ALTER TABLE resumes ADD COLUMN IF NOT EXISTS original_filename VARCHAR(255);`);
+    try {
+      // Add original_filename column if it doesn't exist
+      await pool.query(`ALTER TABLE resumes ADD COLUMN IF NOT EXISTS original_filename VARCHAR(255);`);
 
-  // Ensure file_type exists (it should from CREATE TABLE, but just in case)
-  await pool.query(`ALTER TABLE resumes ADD COLUMN IF NOT EXISTS file_type TEXT;`);
+      // Ensure file_type exists (it should from CREATE TABLE, but just in case)
+      await pool.query(`ALTER TABLE resumes ADD COLUMN IF NOT EXISTS file_type TEXT;`);
 
-} catch (alterError) {
-  console.error("Error altering resumes table:", alterError.message);
-}
+    } catch (alterError) {
+      console.error("Error altering resumes table:", alterError.message);
+    }
 
     await pool.query(`
 CREATE TABLE IF NOT EXISTS enrollments (
@@ -837,6 +859,135 @@ CREATE TABLE IF NOT EXISTS contacts (
     process.exit(1);
   }
 };
+
+
+// Get all admins (Super Admin only)
+app.get(
+  "/api/admin/users",
+  authenticateToken,
+  authorizeSuperAdmin,
+  async (req, res) => {
+    try {
+      const result = await pool.query(`
+        SELECT id, adminname, username, phone, admin_image_link, role, is_approved, created_at
+        FROM admin
+        ORDER BY created_at ASC
+      `);
+      res.json(result.rows);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ error: "Failed to fetch users" });
+    }
+  }
+);
+
+// Update user role (Super Admin only)
+app.put(
+  "/api/admin/users/:id/role",
+  authenticateToken,
+  authorizeSuperAdmin,
+  async (req, res) => {
+    const { id } = req.params;
+    const { role } = req.body;
+    if (!["admin", "super_admin"].includes(role)) {
+      return res.status(400).json({ error: "Invalid role" });
+    }
+    try {
+      // Prevent demoting the only super_admin
+      if (role === "admin") {
+        const superCount = await pool.query(
+          "SELECT COUNT(*) FROM admin WHERE role = 'super_admin'"
+        );
+        if (superCount.rows[0].count <= 1 && req.user.id == id) {
+          return res.status(400).json({ error: "Cannot demote the only super admin" });
+        }
+      }
+      await pool.query("UPDATE admin SET role = $1 WHERE id = $2", [role, id]);
+      res.json({ message: "Role updated successfully" });
+    } catch (error) {
+      console.error("Error updating role:", error);
+      res.status(500).json({ error: "Failed to update role" });
+    }
+  }
+);
+
+// Delete a user (Super Admin only)
+app.delete(
+  "/api/admin/users/:id",
+  authenticateToken,
+  authorizeSuperAdmin,
+  async (req, res) => {
+    const { id } = req.params;
+    if (parseInt(id) === req.user.id) {
+      return res.status(400).json({ error: "Cannot delete your own account" });
+    }
+    try {
+      const result = await pool.query("DELETE FROM admin WHERE id = $1 RETURNING id", [id]);
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      res.json({ message: "User deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      res.status(500).json({ error: "Failed to delete user" });
+    }
+  }
+);
+
+// Edit user details (Super Admin can edit any; regular admin can edit only own)
+app.put(
+  "/api/admin/users/:id",
+  authenticateToken,
+  [
+    body("adminname").optional(),
+    body("username").optional(),
+    body("phone").optional(),
+    body("admin_image_link").optional(),
+    body("password").optional().isLength({ min: 6 }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+    const { id } = req.params;
+    const isSuper = req.user.role === "super_admin";
+    const targetId = parseInt(id);
+    const currentId = req.user.id;
+
+    if (!isSuper && targetId !== currentId) {
+      return res.status(403).json({ error: "You can only edit your own profile" });
+    }
+
+    const { adminname, username, phone, admin_image_link, password } = req.body;
+    const updates = [];
+    const values = [];
+    let idx = 1;
+
+    if (adminname) { updates.push(`adminname = $${idx++}`); values.push(adminname); }
+    if (username) { updates.push(`username = $${idx++}`); values.push(username); }
+    if (phone) { updates.push(`phone = $${idx++}`); values.push(phone); }
+    if (admin_image_link) { updates.push(`admin_image_link = $${idx++}`); values.push(admin_image_link); }
+    if (password) {
+      const hashed = await bcrypt.hash(password, 10);
+      updates.push(`password = $${idx++}`);
+      values.push(hashed);
+    }
+
+    if (updates.length === 0) {
+      return res.status(400).json({ error: "No fields to update" });
+    }
+
+    values.push(targetId);
+    const query = `UPDATE admin SET ${updates.join(", ")} WHERE id = $${idx}`;
+    try {
+      await pool.query(query, values);
+      res.json({ message: "User updated successfully" });
+    } catch (error) {
+      console.error("Error updating user:", error);
+      res.status(500).json({ error: "Update failed" });
+    }
+  }
+);
 // Get comments for a job
 app.get("/api/comments/:jobId", async (req, res) => {
   const { jobId } = req.params;
@@ -2600,17 +2751,14 @@ function compareRequirementsAndSkills(requirements, skills, resumeText) {
   // Generate summary
   let summary = "";
   if (pros.length > cons.length) {
-    summary = `The candidate matches ${pros.length} out of ${
-      pros.length + cons.length
-    } job requirements. The candidate has the relevant skills for this position but may need training in some specific areas.`;
+    summary = `The candidate matches ${pros.length} out of ${pros.length + cons.length
+      } job requirements. The candidate has the relevant skills for this position but may need training in some specific areas.`;
   } else if (pros.length < cons.length) {
-    summary = `The candidate matches ${pros.length} out of ${
-      pros.length + cons.length
-    } job requirements. While the candidate has some relevant skills, there are significant gaps in meeting the job requirements.`;
+    summary = `The candidate matches ${pros.length} out of ${pros.length + cons.length
+      } job requirements. While the candidate has some relevant skills, there are significant gaps in meeting the job requirements.`;
   } else {
-    summary = `The candidate matches ${pros.length} out of ${
-      pros.length + cons.length
-    } job requirements. The candidate has a balanced profile with both strengths and areas for improvement relative to this position.`;
+    summary = `The candidate matches ${pros.length} out of ${pros.length + cons.length
+      } job requirements. The candidate has a balanced profile with both strengths and areas for improvement relative to this position.`;
   }
 
   return {
@@ -2656,22 +2804,22 @@ app.post(
 
       // Store resume in database (using buffer and file details)
       await pool.query(
-      `INSERT INTO resumes 
+        `INSERT INTO resumes 
         (job_id, name, email, phone, resume_file, file_type, original_filename, skills, experience, match_percentage)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
-      [
-        jobId,
-        name,
-        email,
-        phone || null,
-        file.buffer,
-        file.mimetype,
-        file.originalname,          // <-- new
-        analysisResult.skills,
-        analysisResult.experience,
-        analysisResult.matchPercentage,
-      ]
-    );
+        [
+          jobId,
+          name,
+          email,
+          phone || null,
+          file.buffer,
+          file.mimetype,
+          file.originalname,          // <-- new
+          analysisResult.skills,
+          analysisResult.experience,
+          analysisResult.matchPercentage,
+        ]
+      );
 
       // Return analysis result
       res.json({

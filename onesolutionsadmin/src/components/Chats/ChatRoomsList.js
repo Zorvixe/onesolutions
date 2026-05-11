@@ -12,6 +12,9 @@ import {
   MdFullscreen,
   MdFullscreenExit,
 } from "react-icons/md";
+
+import AdminManagement from "./AdminManagement";
+
 import { ToastContainer, toast } from "react-toastify";
 import { Edit, Trash } from "lucide-react";
 import { io } from "socket.io-client";
@@ -35,6 +38,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
   const [adminDetails, setAdminDetails] = useState(null);
   const [error, setError] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [settingsSubTab, setSettingsSubTab] = useState("profile");
   const location = useLocation();
 
   const navigate = useNavigate();
@@ -283,9 +287,8 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
             </div>
             <div className="select-icons-column">
               <div
-                className={`chats-icon-container ${
-                  activeTab === "chats" ? "active" : ""
-                }`}
+                className={`chats-icon-container ${activeTab === "chats" ? "active" : ""
+                  }`}
                 data-tooltip="Chats"
                 onClick={() => setActiveTab("chats")}
               >
@@ -295,9 +298,8 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
                 />
               </div>
               <div
-                className={`chats-icon-container ${
-                  activeTab === "groups" ? "active" : ""
-                }`}
+                className={`chats-icon-container ${activeTab === "groups" ? "active" : ""
+                  }`}
                 data-tooltip="Groups"
                 onClick={() => setActiveTab("groups")}
               >
@@ -307,9 +309,8 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
                 />
               </div>
               <div
-                className={`chats-icon-container ${
-                  activeTab === "approval" ? "active" : ""
-                }`}
+                className={`chats-icon-container ${activeTab === "approval" ? "active" : ""
+                  }`}
                 data-tooltip="Approval"
                 onClick={() => setActiveTab("approval")}
               >
@@ -321,9 +322,8 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
               {/* Settings icon for small devices */}
               <div className="settings-icon-wrapper" id="small-device-settings">
                 <div
-                  className={`chats-icon-container ${
-                    activeTab === "settings" ? "active" : ""
-                  }`}
+                  className={`chats-icon-container ${activeTab === "settings" ? "active" : ""
+                    }`}
                   data-tooltip="Settings"
                   onClick={() => setActiveTab("settings")}
                 >
@@ -339,9 +339,8 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
         {/* Separate Settings icon for larger devices */}
         <div className="settings-icon-wrapper" id="large-device-settings">
           <div
-            className={`chats-icon-container ${
-              activeTab === "settings" ? "active" : ""
-            }`}
+            className={`chats-icon-container ${activeTab === "settings" ? "active" : ""
+              }`}
             data-tooltip="Settings"
             onClick={() => setActiveTab("settings")}
           >
@@ -504,14 +503,12 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
                         <div className="status-container">
                           <div className="status-indicator">
                             <div
-                              className={`status-dot ${
-                                admin.is_online ? "online" : "offline"
-                              }`}
+                              className={`status-dot ${admin.is_online ? "online" : "offline"
+                                }`}
                             ></div>
                             <span
-                              className={`status-text ${
-                                admin.is_online ? "Online" : "Offline"
-                              }`}
+                              className={`status-text ${admin.is_online ? "Online" : "Offline"
+                                }`}
                             >
                               {admin.is_online ? "Online" : "Offline"}
                             </span>
@@ -536,50 +533,49 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
 
         {activeTab === "settings" && (
           <div className="chats-list-containers">
-            <h4 className="admin-group-headings">Settings</h4>
-            <div className="settngs-control-eml-details">
-              {adminDetails && (
-                <img
-                  src={adminDetails.admin_image_link}
-                  alt=""
-                  className="settings-empl-image"
-                  style={{ borderColor: "#212121" }}
-                />
-              )}
-              <h1 className="empl-name-phn">{adminDetails.adminname}</h1>
-              <h1 className="empl-name-phn">+91 {adminDetails.phone}</h1>
-            </div>
-            <div className="settings-scroller-container">
-              <div className="settings-controls-list-container">
-                <div
-                  type="button"
-                  className="settings-controls-button"
-                  onClick={updateAdmin}
-                >
-                  <MdAccountCircle size={24} style={{ marginRight: "8px" }} />
-                  My Profile
-                </div>
-                <div
-                  type="button"
-                  className="settings-controls-button"
-                  onClick={resetPassward}
-                >
-                  <MdVpnKey size={20} style={{ marginRight: "8px" }} />
-                  Reset Password
-                </div>
-              </div>
-              <div
-                type="button"
-                className="settings-controls-button-logout"
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  navigate("/login");
-                }}
+            <div className="settings-tabs">
+              <button
+                className={settingsSubTab === "profile" ? "active" : ""}
+                onClick={() => setSettingsSubTab("profile")}
               >
-                <MdLogout size={20} style={{ marginRight: "8px" }} />
-                Log Out
-              </div>
+                My Profile
+              </button>
+              {adminDetails?.role === "super_admin" && (
+                <button
+                  className={settingsSubTab === "admins" ? "active" : ""}
+                  onClick={() => setSettingsSubTab("admins")}
+                >
+                  Manage Admins
+                </button>
+              )}
             </div>
+            {settingsSubTab === "profile" ? (
+              <>
+                <div className="settngs-control-eml-details">
+                  <img src={adminDetails.admin_image_link} alt="" className="settings-empl-image" />
+                  <h1 className="empl-name-phn">{adminDetails.adminname}</h1>
+                  <h1 className="empl-name-phn">+91 {adminDetails.phone}</h1>
+                </div>
+                <div className="settings-scroller-container">
+                  <div className="settings-controls-list-container">
+                    <div type="button" className="settings-controls-button" onClick={updateAdmin}>
+                      <MdAccountCircle size={24} style={{ marginRight: "8px" }} /> My Profile
+                    </div>
+                    <div type="button" className="settings-controls-button" onClick={resetPassward}>
+                      <MdVpnKey size={20} style={{ marginRight: "8px" }} /> Reset Password
+                    </div>
+                  </div>
+                  <div type="button" className="settings-controls-button-logout" onClick={() => {
+                    localStorage.removeItem("token");
+                    navigate("/login");
+                  }}>
+                    <MdLogout size={20} style={{ marginRight: "8px" }} /> Log Out
+                  </div>
+                </div>
+              </>
+            ) : (
+              <AdminManagement currentUser={adminDetails} />
+            )}
           </div>
         )}
       </div>
