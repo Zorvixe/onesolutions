@@ -1645,7 +1645,7 @@ app.get("/api/admins", authenticateToken, authorizeAdmin, async (req, res) => {
 // Route to fetch admin's own details after login
 app.get("/api/admin/me", authenticateToken, async (req, res) => {
   try {
-    const { id } = req.user; // The ID is embedded in the token during login
+    const { id } = req.user;
     const adminQuery = "SELECT * FROM admin WHERE id = $1";
     const adminResult = await pool.query(adminQuery, [id]);
 
@@ -1660,6 +1660,7 @@ app.get("/api/admin/me", authenticateToken, async (req, res) => {
       phone: admin.phone,
       admin_image_link: admin.admin_image_link,
       createdAt: admin.createdAt,
+      role: admin.role,          // ← ADD THIS LINE
     });
   } catch (error) {
     console.error(`Error fetching admin details: ${error.message}`);
