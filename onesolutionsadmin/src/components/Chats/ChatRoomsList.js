@@ -39,6 +39,8 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
   const [error, setError] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [settingsSubTab, setSettingsSubTab] = useState("profile");
+  const [isMounted, setIsMounted] = useState(false); // add this
+
   const location = useLocation();
 
   const navigate = useNavigate();
@@ -46,6 +48,10 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
   useEffect(() => {
     fetchRooms();
     fetchAdmins();
+  }, []);
+
+  useEffect(() => {
+    setIsMounted(true);
   }, []);
 
   const toggleScreen = () => {
@@ -526,11 +532,10 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
           <div className="chats-list-containers">
             <h4 className="admin-group-headings">Pending Approval Admins</h4>
             <div className="scroll-container">
-              <PendingAdmins />
+              {isMounted && <PendingAdmins />}
             </div>
           </div>
         )}
-
         {activeTab === "settings" && (
           <div className="chats-list-containers">
             <div className="settings-tabs">

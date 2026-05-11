@@ -866,6 +866,7 @@ CREATE TABLE IF NOT EXISTS contacts (
 
 
 // Get all admins (Super Admin only)
+// Get all admins (Super Admin only)
 app.get(
   "/api/admin/users",
   authenticateToken,
@@ -873,9 +874,9 @@ app.get(
   async (req, res) => {
     try {
       const result = await pool.query(`
-        SELECT id, adminname, username, phone, admin_image_link, role, is_approved, created_at
+        SELECT id, adminname, username, phone, admin_image_link, role, is_approved, "createdAt" as created_at
         FROM admin
-        ORDER BY created_at ASC
+        ORDER BY "createdAt" ASC
       `);
       res.json(result.rows);
     } catch (error) {
