@@ -107,7 +107,7 @@ const authenticateToken = (req, res, next) => {
   });
 };
 const authorizeAdmin = (req, res, next) => {
-  if (req.user.role !== "admin") {
+  if (req.user.role !== 'admin' && req.user.role !== 'super_admin') {
     return res.status(403).json({ error: "Admin access required" });
   }
   next();
@@ -337,45 +337,45 @@ app.post(
 );
 
 // Modified admin login route
-// Update the login route to include phone in JWT
 app.post("/api/admin/login", async (req, res) => {
   const { username, password } = req.body;
-  try {
-    // Inside /api/admin/login, after password match
-    const adminResult = await pool.query(
-      "SELECT id, username, phone, role FROM admin WHERE id = $1",
-      [admin.id]
-    );
 
-    if (!adminResult.rows.length) {
-      return res
-        .status(401)
-        .json({ error: "Invalid credentials or Please Register" });
+  try {
+    // 1. Fetch admin by username (include all needed fields)
+    const adminQuery = `
+      SELECT id, adminname, username, phone, password, status, is_approved, created_by, role
+      FROM admin
+      WHERE username = $1
+    `;
+    const result = await pool.query(adminQuery, [username]);
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({ error: "Invalid credentials or Please Register" });
     }
 
-    const admin = adminResult.rows[0];
-    const isFirstAdmin = admin.created_by === null && admin.is_approved;
+    const admin = result.rows[0];
 
+    // 2. Check if account is approved
     if (admin.status !== "approved") {
       return res.status(403).json({ error: "Account pending approval" });
     }
 
+    // 3. Verify password
     const passwordMatch = await bcrypt.compare(password, admin.password);
     if (!passwordMatch) {
-      return res.status(401).json({ error: "Invalid Passward" });
+      return res.status(401).json({ error: "Invalid password" });
     }
 
+    // 4. Determine if this is the first admin (optional, for frontend)
+    const isFirstAdmin = admin.created_by === null && admin.is_approved;
 
-
-    const role = adminResult.rows[0].role;
-
-    // Include phone in JWT
+    // 5. Create JWT token including role
     const token = jwt.sign(
       {
         id: admin.id,
         username: admin.username,
-        phone: admin.phone, // Add this line
-        role: role,          // ← add this
+        phone: admin.phone,
+        role: admin.role,           // ← super_admin or admin
       },
       JWT_SECRET,
       { expiresIn: "1h" }
@@ -391,6 +391,7 @@ app.post("/api/admin/login", async (req, res) => {
         admin_image_link: admin.admin_image_link,
         status: admin.status,
         isFirstAdmin,
+        role: admin.role,
       },
     });
   } catch (error) {
@@ -398,7 +399,6 @@ app.post("/api/admin/login", async (req, res) => {
     res.status(500).json({ error: "Login failed" });
   }
 });
-
 // New route to get pending admins (admin access only)
 app.get(
   "/api/admin/pending",
@@ -509,8 +509,15 @@ const initializeDbAndServer = async () => {
       );
     `);
 
+    // After creating admin table, set role column and assign super_admin to first admin
     await pool.query(`ALTER TABLE admin ADD COLUMN IF NOT EXISTS role VARCHAR(20) DEFAULT 'admin';`);
 
+    // Make the very first admin (created_by IS NULL) a super_admin
+    await pool.query(`
+        UPDATE admin 
+        SET role = 'super_admin' 
+        WHERE created_by IS NULL AND role = 'admin'
+      `);
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS job (
