@@ -82,8 +82,10 @@ wss.on("connection", (ws, req) => {
 app.use(express.json());
 app.use(cors());
 app.use(helmet()); // Basic security headers
-app.use(morgan("combined")); // Logging
-// Configure CORS for external access
+// Skip logging socket.io polling requests
+app.use(morgan("combined", {
+  skip: (req) => req.url.startsWith("/socket.io")
+}));// Configure CORS for external access
 const corsOptions = {
   origin: "*", // Replace "*" with specific domains for production
 };
