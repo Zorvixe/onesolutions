@@ -867,24 +867,19 @@ CREATE TABLE IF NOT EXISTS contacts (
 
 // Get all admins (Super Admin only)
 // Get all admins (Super Admin only)
-app.get(
-  "/api/admin/users",
-  authenticateToken,
-  authorizeSuperAdmin,
-  async (req, res) => {
-    try {
-      const result = await pool.query(`
-        SELECT id, adminname, username, phone, admin_image_link, role, is_approved, "createdAt" as created_at
-        FROM admin
-        ORDER BY "createdAt" ASC
-      `);
-      res.json(result.rows);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-      res.status(500).json({ error: "Failed to fetch users" });
-    }
+app.get("/api/admin/users", authenticateToken, authorizeSuperAdmin, async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT id, adminname, username, phone, admin_image_link, role, is_approved, createdat
+      FROM admin
+      ORDER BY createdat ASC
+    `);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: "Failed to fetch users" });
   }
-);
+});
 
 // Update user role (Super Admin only)
 app.put(
