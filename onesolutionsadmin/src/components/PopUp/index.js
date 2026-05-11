@@ -50,13 +50,13 @@ const PopUp = () => {
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (selectedPopup && !isMobile) {
-        const desktopMenu = document.querySelector(".popup-desktop-menu-up");
+        const desktopMenu = document.querySelector(".shopify-popover");
         if (desktopMenu && !desktopMenu.contains(e.target)) {
           setSelectedPopup(null);
         }
       }
       if (isMobile && isBottomMenuVisible) {
-        const bottomMenu = document.querySelector(".popup-bottom-menu-up");
+        const bottomMenu = document.querySelector(".shopify-mobile-sheet-content");
         if (bottomMenu && !bottomMenu.contains(e.target)) {
           setIsBottomMenuVisible(false);
         }
@@ -194,7 +194,7 @@ const PopUp = () => {
       });
       if (!response.ok) throw new Error(await response.text());
       toast.success(
-        popup.id ? "Popup updated successfully!" : "Popup created successfully!"
+        popup.id ? "Popup updated successfully" : "Popup created successfully"
       );
       fetchPopups(token);
       resetForm();
@@ -224,7 +224,7 @@ const PopUp = () => {
         },
       });
       if (!response.ok) throw new Error(await response.text());
-      toast.success("Popup deleted successfully!");
+      toast.success("Popup deleted successfully");
       fetchPopups(token);
     } catch (error) {
       toast.error(error.message);
@@ -261,164 +261,214 @@ const PopUp = () => {
   );
 
   return (
-    <div className="popup-admin-container-up">
-      {/* Animated Background */}
-      <div className="animated-background-up">
-        <div className="floating-shapes-up">
-          <div className="shape-up shape-1-up"></div>
-          <div className="shape-up shape-2-up"></div>
-          <div className="shape-up shape-3-up"></div>
-          <div className="shape-up shape-4-up"></div>
-          <div className="shape-up shape-5-up"></div>
-          <div className="shape-up shape-6-up"></div>
-        </div>
-        <div className="gradient-orbs-up">
-          <div className="orb-up orb-1-up"></div>
-          <div className="orb-up orb-2-up"></div>
-          <div className="orb-up orb-3-up"></div>
-        </div>
-      </div>
-
+    <div className="shopify-page-container">
       <ToastContainer
-        position="top-right"
+        position="bottom-center"
         autoClose={3000}
-        hideProgressBar={false}
+        hideProgressBar={true}
         newestOnTop={false}
         closeOnClick
         rtl={false}
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="colored"
-        toastClassName="anp-toast"
-        bodyClassName="anp-toast-body"
+        theme="dark"
+        toastClassName="shopify-toast"
       />
 
-      {/* Compact Header */}
-      <div className="compact-header-up">
-        <div className="header-content-up">
-          <div className="header-text-up">
-            <h1 className="header-title-up">
-              <span className="title-gradient-up">Popup</span>
-              <span className="title-highlight-up">Manager</span>
-            </h1>
-            <p className="header-subtitle-up">
-              Manage your popup campaigns efficiently
-            </p>
+      <div className="shopify-page-content">
+        {/* Shopify Page Header */}
+        <div className="shopify-page-header">
+          <div className="shopify-header-title-block">
+            <h1 className="shopify-page-title">Popups</h1>
           </div>
-          <div className="header-stats-up">
-            <div className="mini-stat-up">
-              <VisibilityIcon />
-              <span>{popups.length}</span>
-            </div>
-            <div className="mini-stat-up">
-              <TrendingUpIcon />
-              <span>98%</span>
-            </div>
+          <div className="shopify-header-actions">
+            <button
+              className="shopify-btn shopify-btn-primary"
+              onClick={() => {
+                resetForm();
+                setIsFormVisible(true);
+              }}
+            >
+              Create popup
+            </button>
           </div>
         </div>
-        <button
-          className="compact-add-btn-up"
-          onClick={() => {
-            resetForm();
-            setIsFormVisible(true);
-          }}
-        >
-          <AddIcon />
-          <span>Add</span>
-        </button>
+
+        {/* Top metrics card (Optional utility) */}
+        {!isFormVisible && (
+          <div className="shopify-card shopify-metrics-card">
+            <div className="shopify-metric-item">
+              <span className="shopify-metric-label">Total popups</span>
+              <span className="shopify-metric-value">{popups.length}</span>
+            </div>
+           
+          </div>
+        )}
+
+        {/* Filters and Search Bar */}
+        {!isFormVisible && (
+          <div className="shopify-card shopify-list-card">
+            <div className="shopify-filters-bar">
+              <div className="shopify-tabs">
+                <button
+                  className={`shopify-tab ${filterStatus === "all" ? "shopify-tab-active" : ""}`}
+                  onClick={() => setFilterStatus("all")}
+                >
+                  All
+                </button>
+                <button
+                  className={`shopify-tab ${filterStatus === "active" ? "shopify-tab-active" : ""}`}
+                  onClick={() => setFilterStatus("active")}
+                >
+                  Active
+                </button>
+                <button
+                  className={`shopify-tab ${filterStatus === "draft" ? "shopify-tab-active" : ""}`}
+                  onClick={() => setFilterStatus("draft")}
+                >
+                  Draft
+                </button>
+              </div>
+              <div className="shopify-search-container">
+                <svg className="shopify-search-icon" viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm9.707 4.293-4.82-4.82A5.968 5.968 0 0 0 14 8 6 6 0 0 0 2 8a6 6 0 0 0 6 6 5.968 5.968 0 0 0 3.473-1.113l4.82 4.82a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414z" fill="currentColor"></path>
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Filter popups"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="shopify-search-input"
+                />
+              </div>
+            </div>
+
+            {/* Grid Content */}
+            <div className="shopify-list-content">
+              {loading ? (
+                <div className="shopify-skeleton-grid">
+                  {[...Array(6)].map((_, i) => (
+                    <div key={i} className="shopify-skeleton-item">
+                      <div className="shopify-skeleton-image"></div>
+                      <div className="shopify-skeleton-text-block">
+                        <div className="shopify-skeleton-line"></div>
+                        <div className="shopify-skeleton-line shopify-skeleton-short"></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : filteredPopups.length === 0 ? (
+                <div className="shopify-empty-state">
+                  <div className="shopify-empty-illustration">
+                    <svg viewBox="0 0 20 20" className="shopify-empty-icon" fill="none">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M14.5 3H5.5C4.67157 3 4 3.67157 4 4.5V15.5C4 16.3284 4.67157 17 5.5 17H14.5C15.3284 17 16 16.3284 16 15.5V4.5C16 3.67157 15.3284 3 14.5 3ZM5.5 1.5C3.84315 1.5 2.5 2.84315 2.5 4.5V15.5C2.5 17.1569 3.84315 18.5 5.5 18.5H14.5C16.1569 18.5 17.5 17.1569 17.5 15.5V4.5C17.5 2.84315 16.1569 1.5 14.5 1.5H5.5ZM6 6.5C6 6.22386 6.22386 6 6.5 6H13.5C13.7761 6 14 6.22386 14 6.5C14 6.77614 13.7761 7 13.5 7H6.5C6.22386 7 6 6.77614 6 6.5ZM6.5 9C6.22386 9 6 9.22386 6 9.5C6 9.77614 6.22386 10 6.5 10H10.5C10.7761 10 11 9.77614 11 9.5C11 9.22386 10.7761 9 10.5 9H6.5Z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                  <h2 className="shopify-empty-heading">No popups found</h2>
+                  <p className="shopify-empty-subtext">Try changing the filters or search term, or create a new popup.</p>
+                  <button
+                    className="shopify-btn shopify-btn-primary"
+                    onClick={() => {
+                      resetForm();
+                      setIsFormVisible(true);
+                    }}
+                  >
+                    Create popup
+                  </button>
+                </div>
+              ) : (
+                <div className="shopify-grid">
+                  {filteredPopups.map((popup) => (
+                    <div key={popup.id} className="shopify-grid-item">
+                      <div className="shopify-item-image-wrapper">
+                        <img
+                          src={popup.popup_link || "/placeholder.svg"}
+                          alt={popup.popup_heading}
+                          className="shopify-item-image"
+                        />
+                        <div className="shopify-item-badge">Active</div>
+                        <button
+                          className="shopify-action-btn"
+                          onClick={(e) => handleThreeDotsClick(popup, e)}
+                        >
+                          <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6 10a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm5.5 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm7 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" fill="currentColor"></path></svg>
+                        </button>
+
+                        {/* Desktop Popover */}
+                        {selectedPopup && selectedPopup.id === popup.id && !isMobile && (
+                          <div className="shopify-popover">
+                            <div className="shopify-popover-content">
+                              <button className="shopify-popover-item" onClick={() => handleEdit(popup)}>
+                                Edit popup
+                              </button>
+                              <button className="shopify-popover-item shopify-text-destructive" onClick={() => handleDelete(popup.id)}>
+                                Delete popup
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div className="shopify-item-details">
+                        <h3 className="shopify-item-title">{popup.popup_heading}</h3>
+                        <p className="shopify-item-desc">{popup.popup_text}</p>
+                        <div className="shopify-item-meta">
+                          <span className="shopify-meta-text">{popup.popup_routing_link}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Compact Control Panel */}
-      {!isFormVisible && (
-        <div className="compact-control-panel-up">
-          <div className="compact-search-up">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="compact-search-input-up"
-            />
-          </div>
-          <div className="compact-filters-up">
-            <button
-              className={`filter-btn-up ${
-                filterStatus === "all" ? "active-up" : ""
-              }`}
-              onClick={() => setFilterStatus("all")}
-            >
-              All
-            </button>
-            <button
-              className={`filter-btn-up ${
-                filterStatus === "active" ? "active-up" : ""
-              }`}
-              onClick={() => setFilterStatus("active")}
-            >
-              Active
-            </button>
-            <button
-              className={`filter-btn-up ${
-                filterStatus === "draft" ? "active-up" : ""
-              }`}
-              onClick={() => setFilterStatus("draft")}
-            >
-              Draft
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Compact Modal */}
+      {/* Shopify Modal */}
       {isFormVisible && (
-        <div className="compact-modal-overlay-up">
-          <div className="compact-modal-up">
-            <div className="compact-modal-header-up">
-              <h3>{popup.id ? "Edit Popup" : "Create Popup"}</h3>
-              <button
-                className="compact-close-btn-up"
-                onClick={() => setIsFormVisible(false)}
-              >
-                <CloseIcon />
+        <div className="shopify-modal-overlay">
+          <div className="shopify-modal">
+            <div className="shopify-modal-header">
+              <h2 className="shopify-modal-title">{popup.id ? "Edit popup" : "Create popup"}</h2>
+              <button className="shopify-modal-close" onClick={() => setIsFormVisible(false)}>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.72 13.78a.75.75 0 1 0 1.06-1.06l-2.72-2.72 2.72-2.72a.75.75 0 0 0-1.06-1.06l-2.72 2.72-2.72-2.72a.75.75 0 0 0-1.06 1.06l2.72 2.72-2.72 2.72a.75.75 0 1 0 1.06 1.06l2.72-2.72 2.72 2.72Z" fill="currentColor"></path></svg>
               </button>
             </div>
 
-            <div className="compact-modal-body-up">
-              <form onSubmit={handleSubmit} className="compact-form-up">
-                <div className="compact-form-grid-up">
-                  <div className="compact-input-group-up">
-                    <label>Heading</label>
+            <div className="shopify-modal-body">
+              <form onSubmit={handleSubmit} id="popup-form">
+                <div className="shopify-form-layout">
+                  <div className="shopify-form-group">
+                    <label className="shopify-label" htmlFor="popup_heading">Heading</label>
                     <input
                       type="text"
+                      id="popup_heading"
                       name="popup_heading"
-                      placeholder="Enter heading..."
                       value={popup.popup_heading}
                       onChange={handleChange}
-                      className="compact-input-up"
+                      className="shopify-input"
                       required
                     />
                   </div>
 
-                  <div className="compact-input-group-up">
-                    <label>PopUp Title</label>
+                  <div className="shopify-form-group">
+                    <label className="shopify-label" htmlFor="popup_text">Title / Description</label>
                     <input
+                      type="text"
+                      id="popup_text"
                       name="popup_text"
-                      placeholder="Enter Title..."
                       value={popup.popup_text}
                       onChange={handleChange}
-                      className="compact-input-up"
-                      rows="2"
+                      className="shopify-input"
                       required
                     />
                   </div>
 
-                  <div className="compact-input-group-up compact-image-group-up">
-                    <label>Image</label>
+                  <div className="shopify-form-group">
+                    <label className="shopify-label">Image media</label>
                     <div
-                      className={`compact-image-upload-up ${
-                        dragActive ? "drag-active-up" : ""
-                      }`}
+                      className={`shopify-dropzone ${dragActive ? "shopify-dropzone-active" : ""}`}
                       onDragEnter={handleDrag}
                       onDragLeave={handleDrag}
                       onDragOver={handleDrag}
@@ -428,212 +478,109 @@ const PopUp = () => {
                         type="file"
                         accept="image/*"
                         onChange={handleImageChange}
-                        id="image"
+                        id="image-upload"
                         hidden
                       />
-                      <label htmlFor="image" className="compact-upload-area-up">
+                      <label htmlFor="image-upload" className="shopify-dropzone-label">
                         {imageLoading ? (
-                          <div className="compact-loading-up">
-                            <div className="mini-spinner-up"></div>
-                            <span>Uploading...</span>
+                          <div className="shopify-spinner-container">
+                            <div className="shopify-spinner"></div>
+                            <span className="shopify-spinner-text">Uploading...</span>
                           </div>
                         ) : popup.popup_link ? (
-                          <div className="compact-image-preview-up">
-                            <img
-                              src={popup.popup_link || "/placeholder.svg"}
-                              alt="Preview"
-                            />
-                            <div className="compact-overlay-up">
-                              <CloudUploadIcon />
+                          <div className="shopify-dropzone-preview">
+                            <img src={popup.popup_link || "/placeholder.svg"} alt="Preview" />
+                            <div className="shopify-dropzone-overlay">
+                              <span>Change image</span>
                             </div>
                           </div>
                         ) : (
-                          <div className="compact-upload-placeholder-up">
-                            <CloudUploadIcon />
-                            <span>Upload Image</span>
+                          <div className="shopify-dropzone-empty">
+                            <div className="shopify-dropzone-icon">
+                              <svg viewBox="0 0 20 20" aria-hidden="true"><path fillRule="evenodd" d="M10 2.5a.75.75 0 0 1 .75.75v5.59l1.72-1.72a.75.75 0 1 1 1.06 1.06l-3 3a.75.75 0 0 1-1.06 0l-3-3a.75.75 0 1 1 1.06-1.06l1.72 1.72v-5.59a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" fill="currentColor"></path><path fillRule="evenodd" d="M3.5 12a.75.75 0 0 1 .75.75v3c0 .414.336.75.75.75h10a.75.75 0 0 0 .75-.75v-3a.75.75 0 0 1 1.5 0v3a2.25 2.25 0 0 1-2.25 2.25h-10a2.25 2.25 0 0 1-2.25-2.25v-3a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" fill="currentColor"></path></svg>
+                            </div>
+                            <span className="shopify-dropzone-text"><strong>Add image</strong> or drop file to upload</span>
                           </div>
                         )}
                       </label>
                     </div>
                   </div>
 
-                  <div className="compact-input-group-up">
-                    <label>URL</label>
-                    <input
-                      type="url"
-                      name="popup_routing_link"
-                      placeholder="https://example.com"
-                      value={popup.popup_routing_link}
-                      onChange={handleChange}
-                      className="compact-input-up"
-                      required
-                    />
-                  </div>
+                  <div className="shopify-form-layout-group">
+                    <div className="shopify-form-group">
+                      <label className="shopify-label" htmlFor="popup_routing_link">Button URL link</label>
+                      <input
+                        type="url"
+                        id="popup_routing_link"
+                        name="popup_routing_link"
+                        value={popup.popup_routing_link}
+                        onChange={handleChange}
+                        className="shopify-input"
+                        placeholder="https://"
+                        required
+                      />
+                    </div>
 
-                  <div className="compact-input-group-up">
-                    <label>Footer Text</label>
-                    <input
-                      type="text"
-                      name="popup_belowtext"
-                      placeholder="Footer text..."
-                      value={popup.popup_belowtext}
-                      onChange={handleChange}
-                      className="compact-input-up"
-                      required
-                    />
+                    <div className="shopify-form-group">
+                      <label className="shopify-label" htmlFor="popup_belowtext">Footer text</label>
+                      <input
+                        type="text"
+                        id="popup_belowtext"
+                        name="popup_belowtext"
+                        value={popup.popup_belowtext}
+                        onChange={handleChange}
+                        className="shopify-input"
+                        required
+                      />
+                    </div>
                   </div>
-                </div>
-
-                <div className="compact-form-actions-up">
-                  <button
-                    type="button"
-                    className="compact-btn-cancel-up"
-                    onClick={() => setIsFormVisible(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button type="submit" className="compact-btn-submit-up">
-                    {popup.id ? "Update" : "Create"}
-                  </button>
                 </div>
               </form>
+            </div>
+
+            <div className="shopify-modal-footer">
+              <div className="shopify-modal-actions">
+                <button
+                  type="button"
+                  className="shopify-btn shopify-btn-basic"
+                  onClick={() => setIsFormVisible(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  form="popup-form"
+                  className="shopify-btn shopify-btn-primary"
+                >
+                  {popup.id ? "Save" : "Save"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Compact Content */}
-      {!isFormVisible && (
-        <div className="compact-content-up">
-          {loading ? (
-            <div className="compact-loading-grid-up">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="compact-skeleton-card-up">
-                  <div className="compact-skeleton-image-up"></div>
-                  <div className="compact-skeleton-content-up">
-                    <div className="compact-skeleton-line-up"></div>
-                    <div className="compact-skeleton-line-up short-up"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : filteredPopups.length === 0 ? (
-            <div className="compact-empty-state-up">
-              <div className="compact-empty-icon-up">📝</div>
-              <h4>No popups found</h4>
-              <p>Create your first popup</p>
-              <button
-                className="compact-empty-btn-up"
-                onClick={() => {
-                  resetForm();
-                  setIsFormVisible(true);
-                }}
-              >
-                <AddIcon />
-                Create Popup
-              </button>
-            </div>
-          ) : (
-            <div className="compact-grid-up">
-              {filteredPopups.map((popup, index) => (
-                <div
-                  key={popup.id}
-                  className="compact-card-up"
-                  style={{ animationDelay: `${index * 0.05}s` }}
-                >
-                  <div className="compact-card-header-up">
-                    <div className="compact-card-image-up">
-                      <img
-                        src={popup.popup_link || "/placeholder.svg"}
-                        alt={popup.popup_heading}
-                      />
-                    </div>
-                    <button
-                      className="compact-menu-btn-up"
-                      onClick={(e) => handleThreeDotsClick(popup, e)}
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-                      </svg>
-                    </button>
-                    <div className="compact-status-up">Active</div>
-                  </div>
-
-                  <div className="compact-card-content-up">
-                    <h4 className="compact-card-title-up">
-                      {popup.popup_heading}
-                    </h4>
-                    <p className="compact-card-text-up">{popup.popup_text}</p>
-
-                    <div className="compact-metrics-up">
-                      <div className="compact-metric-up">
-                        <span>2.4K</span>
-                        <small>Views</small>
-                      </div>
-                      <div className="compact-metric-up">
-                        <span>18%</span>
-                        <small>CTR</small>
-                      </div>
-                      <div className="compact-metric-up">
-                        <span>156</span>
-                        <small>Conv</small>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Desktop Menu */}
-                  {selectedPopup &&
-                    selectedPopup.id === popup.id &&
-                    !isMobile && (
-                      <div className="compact-floating-menu-up">
-                        <button
-                          className="compact-menu-item-up"
-                          onClick={() => handleEdit(popup)}
-                        >
-                          <EditIcon />
-                          Edit
-                        </button>
-                        <button
-                          className="compact-menu-item-up delete-up"
-                          onClick={() => handleDelete(popup.id)}
-                        >
-                          <DeleteIcon />
-                          Delete
-                        </button>
-                      </div>
-                    )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Mobile Menu */}
+      {/* Mobile Action Sheet */}
       {isMobile && isBottomMenuVisible && selectedPopup && (
-        <div className="compact-mobile-menu-up">
-          <div className="compact-menu-backdrop-up"></div>
-          <div className="compact-menu-panel-up">
-            <div className="compact-menu-handle-up"></div>
-            <div className="compact-menu-content-up">
+        <div className="shopify-mobile-sheet">
+          <div className="shopify-mobile-sheet-backdrop" onClick={() => setIsBottomMenuVisible(false)}></div>
+          <div className="shopify-mobile-sheet-content">
+            <div className="shopify-mobile-sheet-handle"></div>
+            <div className="shopify-mobile-sheet-header">
+              <h3 className="shopify-mobile-sheet-title">{selectedPopup.popup_heading}</h3>
+            </div>
+            <div className="shopify-mobile-sheet-actions">
               <button
-                className="compact-mobile-item-up"
+                className="shopify-mobile-action-item"
                 onClick={() => handleEdit(selectedPopup)}
               >
-                <EditIcon />
-                <span>Edit</span>
+                <span className="shopify-mobile-action-text">Edit popup</span>
               </button>
               <button
-                className="compact-mobile-item-up delete-up"
+                className="shopify-mobile-action-item shopify-text-destructive"
                 onClick={() => handleDelete(selectedPopup.id)}
               >
-                <DeleteIcon />
-                <span>Delete</span>
+                <span className="shopify-mobile-action-text">Delete popup</span>
               </button>
             </div>
           </div>

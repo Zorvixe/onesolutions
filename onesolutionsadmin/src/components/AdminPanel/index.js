@@ -346,6 +346,10 @@ const AdminPanel = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const popupbutton = () => {
+    navigate("/popup");
+  };
+
   return (
     <div className="anp-container">
       <ToastContainer
@@ -744,6 +748,13 @@ const AdminPanel = () => {
                         onClick={() => setIsFormVisible(true)}
                       >
                         New Job
+                      </button>
+                      <button
+                        type="button"
+                        className="anp-btn anp-btn-primary"
+                        onClick={popupbutton}
+                      >
+                        Pop Up
                       </button>
                     </div>
                   </div>
