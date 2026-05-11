@@ -341,9 +341,10 @@ app.post(
 app.post("/api/admin/login", async (req, res) => {
   const { username, password } = req.body;
   try {
+    // Inside /api/admin/login, after password match
     const adminResult = await pool.query(
-      "SELECT * FROM admin WHERE username = $1;",
-      [username]
+      "SELECT id, username, phone, role FROM admin WHERE id = $1",
+      [admin.id]
     );
 
     if (!adminResult.rows.length) {
@@ -365,11 +366,7 @@ app.post("/api/admin/login", async (req, res) => {
     }
 
 
-    // Inside /api/admin/login, after password match
-    const adminResult = await pool.query(
-      "SELECT id, username, phone, role FROM admin WHERE id = $1",
-      [admin.id]
-    );
+
     const role = adminResult.rows[0].role;
 
     // Include phone in JWT
