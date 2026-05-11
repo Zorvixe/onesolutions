@@ -13,7 +13,7 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import "react-toastify/dist/ReactToastify.css";
 import "./popup.css";
 
-const API_BASE_URL = process.env.REACT_APP_API_URL;
+const API_BASE_URL = process.env.REACT_APP_API_URL || "https://apiose.onesolutionsekam.in";
 
 const PopUp = () => {
   const [popups, setPopups] = useState([]);
@@ -75,7 +75,7 @@ const PopUp = () => {
   const fetchPopups = async (token) => {
     setLoading(true);
     try {
-      const response = await fetch(API_BASE_URL, {
+      const response = await fetch(`${API_BASE_URL}/api/popup/adminpanel`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -83,6 +83,7 @@ const PopUp = () => {
       });
       if (!response.ok) {
         toast.error("Your Session is Expired!");
+        return;
       }
       const data = await response.json();
       setPopups(data);
@@ -170,7 +171,9 @@ const PopUp = () => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     const method = popup.id ? "PUT" : "POST";
-    const url = popup.id ? `https://apiose.onesolutionsekam.in/${popup.id}` : API_BASE_URL;
+    const url = popup.id
+      ? `${API_BASE_URL}/api/popup/adminpanel/${popup.id}`
+      : `${API_BASE_URL}/api/popup/adminpanel`;
 
     if (
       !popup.popup_heading ||
@@ -216,7 +219,7 @@ const PopUp = () => {
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`https://apiose.onesolutionsekam.in/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/popup/adminpanel/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -302,7 +305,6 @@ const PopUp = () => {
               <span className="shopify-metric-label">Total popups</span>
               <span className="shopify-metric-value">{popups.length}</span>
             </div>
-           
           </div>
         )}
 
@@ -362,7 +364,7 @@ const PopUp = () => {
                 <div className="shopify-empty-state">
                   <div className="shopify-empty-illustration">
                     <svg viewBox="0 0 20 20" className="shopify-empty-icon" fill="none">
-                      <path fillRule="evenodd" clipRule="evenodd" d="M14.5 3H5.5C4.67157 3 4 3.67157 4 4.5V15.5C4 16.3284 4.67157 17 5.5 17H14.5C15.3284 17 16 16.3284 16 15.5V4.5C16 3.67157 15.3284 3 14.5 3ZM5.5 1.5C3.84315 1.5 2.5 2.84315 2.5 4.5V15.5C2.5 17.1569 3.84315 18.5 5.5 18.5H14.5C16.1569 18.5 17.5 17.1569 17.5 15.5V4.5C17.5 2.84315 16.1569 1.5 14.5 1.5H5.5ZM6 6.5C6 6.22386 6.22386 6 6.5 6H13.5C13.7761 6 14 6.22386 14 6.5C14 6.77614 13.7761 7 13.5 7H6.5C6.22386 7 6 6.77614 6 6.5ZM6.5 9C6.22386 9 6 9.22386 6 9.5C6 9.77614 6.22386 10 6.5 10H10.5C10.7761 10 11 9.77614 11 9.5C11 9.22386 10.7761 9 10.5 9H6.5Z" fill="currentColor"/>
+                      <path fillRule="evenodd" clipRule="evenodd" d="M14.5 3H5.5C4.67157 3 4 3.67157 4 4.5V15.5C4 16.3284 4.67157 17 5.5 17H14.5C15.3284 17 16 16.3284 16 15.5V4.5C16 3.67157 15.3284 3 14.5 3ZM5.5 1.5C3.84315 1.5 2.5 2.84315 2.5 4.5V15.5C2.5 17.1569 3.84315 18.5 5.5 18.5H14.5C16.1569 18.5 17.5 17.1569 17.5 15.5V4.5C17.5 2.84315 16.1569 1.5 14.5 1.5H5.5ZM6 6.5C6 6.22386 6.22386 6 6.5 6H13.5C13.7761 6 14 6.22386 14 6.5C14 6.77614 13.7761 7 13.5 7H6.5C6.22386 7 6 6.77614 6 6.5ZM6.5 9C6.22386 9 6 9.22386 6 9.5C6 9.77614 6.22386 10 6.5 10H10.5C10.7761 10 11 9.77614 11 9.5C11 9.22386 10.7761 9 10.5 9H6.5Z" fill="currentColor" />
                     </svg>
                   </div>
                   <h2 className="shopify-empty-heading">No popups found</h2>
