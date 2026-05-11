@@ -370,8 +370,8 @@ app.post("/api/admin/login", async (req, res) => {
 
     // After password match, before generating token
     if (admin.is_active === false) {  // Only block if explicitly false
-  return res.status(403).json({ error: "Your account is disabled. Contact super admin." });
-}
+      return res.status(403).json({ error: "Your account is disabled. Contact super admin." });
+    }
 
     // 4. Determine if this is the first admin (optional, for frontend)
     const isFirstAdmin = admin.created_by === null && admin.is_approved;
