@@ -366,6 +366,11 @@ app.post("/api/admin/login", async (req, res) => {
       return res.status(401).json({ error: "Invalid password" });
     }
 
+    // After password match, before generating token
+    if (!admin.is_active) {
+      return res.status(403).json({ error: "Your account is disabled. Contact super admin." });
+    }
+
     // 4. Determine if this is the first admin (optional, for frontend)
     const isFirstAdmin = admin.created_by === null && admin.is_approved;
 
@@ -376,6 +381,7 @@ app.post("/api/admin/login", async (req, res) => {
         username: admin.username,
         phone: admin.phone,
         role: admin.role,           // ← super_admin or admin
+        is_active: admin.is_active,   // ← add
       },
       JWT_SECRET,
       { expiresIn: "1h" }
@@ -392,6 +398,8 @@ app.post("/api/admin/login", async (req, res) => {
         status: admin.status,
         isFirstAdmin,
         role: admin.role,
+        is_active: admin.is_active,   // ← add
+
       },
     });
   } catch (error) {
@@ -518,6 +526,9 @@ const initializeDbAndServer = async () => {
         SET role = 'super_admin' 
         WHERE created_by IS NULL AND role = 'admin'
       `);
+
+
+    await pool.query(`ALTER TABLE admin ADD COLUMN IF NOT EXISTS is_active BOOLEAN DEFAULT TRUE;`);
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS job (
@@ -866,11 +877,10 @@ CREATE TABLE IF NOT EXISTS contacts (
 
 
 // Get all admins (Super Admin only)
-// Get all admins (Super Admin only)
 app.get("/api/admin/users", authenticateToken, authorizeSuperAdmin, async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT id, adminname, username, phone, admin_image_link, role, is_approved, createdat
+      SELECT id, adminname, username, phone, admin_image_link, role, is_approved, createdat, is_active
       FROM admin
       ORDER BY createdat ASC
     `);
@@ -911,8 +921,7 @@ app.put(
   }
 );
 
-// Delete a user (Super Admin only)
-// Delete a user (Super Admin only)
+// Delete a user (Super Admin only) - Complete version
 app.delete(
   "/api/admin/users/:id",
   authenticateToken,
@@ -927,70 +936,54 @@ app.delete(
     }
 
     try {
-      // Begin transaction to ensure all deletions succeed or none
       await pool.query("BEGIN");
 
       // 1. Delete admin sessions
       await pool.query("DELETE FROM admin_sessions WHERE admin_id = $1", [targetId]);
 
-      // 2. Delete direct messages (sender or recipient)
-      // First, get the admin's phone number
+      // 2. Get the admin's phone number (for direct messages)
       const adminResult = await pool.query(
         "SELECT phone FROM admin WHERE id = $1",
         [targetId]
       );
-      if (adminResult.rows.length === 0) {
-        throw new Error("Admin not found");
-      }
+      if (adminResult.rows.length === 0) throw new Error("Admin not found");
       const phone = adminResult.rows[0].phone;
 
-      // Delete messages where this admin is sender or recipient
+      // 3. Delete direct messages (sender or recipient)
       await pool.query(
         "DELETE FROM direct_messages WHERE sender_phone = $1 OR recipient_phone = $1",
         [phone]
       );
 
-      // 3. Delete chat messages sent by this admin
+      // 4. Delete chat messages sent by this admin
       await pool.query("DELETE FROM chat_messages WHERE sender_id = $1", [targetId]);
 
-      // 4. Remove this admin from job approval requests (as requester or owner)
+      // 5. Delete job approval requests (requester or owner)
       await pool.query(
         "DELETE FROM job_approval_requests WHERE requester_admin_id = $1 OR owner_admin_id = $1",
         [targetId]
       );
 
-      // 5. Set created_by and approved_by to NULL in job table (optional – keep job history)
-      await pool.query(
-        "UPDATE job SET created_by = NULL WHERE created_by = $1",
-        [targetId]
-      );
-      await pool.query(
-        "UPDATE job SET approved_by = NULL WHERE approved_by = $1",
-        [targetId]
-      );
+      // 6. Set created_by / approved_by to NULL in job table
+      await pool.query("UPDATE job SET created_by = NULL WHERE created_by = $1", [targetId]);
+      await pool.query("UPDATE job SET approved_by = NULL WHERE approved_by = $1", [targetId]);
 
-      // 6. Remove from monthly reports
+      // 7. Delete monthly reports
       await pool.query("DELETE FROM monthly_reports WHERE admin_id = $1", [targetId]);
 
-      // 7. Remove from popup_content (created_by / approved_by)
-      await pool.query(
-        "UPDATE popup_content SET created_by = NULL WHERE created_by = $1",
-        [targetId]
-      );
-      await pool.query(
-        "UPDATE popup_content SET approved_by = NULL WHERE approved_by = $1",
-        [targetId]
-      );
+      // 8. Update popup_content (set creator/approver to NULL)
+      await pool.query("UPDATE popup_content SET created_by = NULL WHERE created_by = $1", [targetId]);
+      await pool.query("UPDATE popup_content SET approved_by = NULL WHERE approved_by = $1", [targetId]);
 
-      // 8. Finally, delete the admin
+      // 9. 🆕 Handle live_classes: set mentor_id to NULL
+      await pool.query("UPDATE live_classes SET mentor_id = NULL WHERE mentor_id = $1", [targetId]);
+
+      // 10. Finally delete the admin
       const result = await pool.query(
         "DELETE FROM admin WHERE id = $1 RETURNING id",
         [targetId]
       );
-
-      if (result.rows.length === 0) {
-        throw new Error("Admin not found after cleanup");
-      }
+      if (result.rows.length === 0) throw new Error("Admin not found after cleanup");
 
       await pool.query("COMMIT");
       res.json({ message: "User deleted successfully" });
@@ -1053,6 +1046,46 @@ app.put(
     } catch (error) {
       console.error("Error updating user:", error);
       res.status(500).json({ error: "Update failed" });
+    }
+  }
+);
+
+
+// Toggle admin active status (Super Admin only)
+app.put(
+  "/api/admin/users/:id/toggle-active",
+  authenticateToken,
+  authorizeSuperAdmin,
+  async (req, res) => {
+    const { id } = req.params;
+    const targetId = parseInt(id);
+
+    if (targetId === req.user.id) {
+      return res.status(400).json({ error: "Cannot change your own active status" });
+    }
+
+    try {
+      const result = await pool.query(
+        "SELECT is_active FROM admin WHERE id = $1",
+        [targetId]
+      );
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Admin not found" });
+      }
+
+      const newStatus = !result.rows[0].is_active;
+      await pool.query(
+        "UPDATE admin SET is_active = $1 WHERE id = $2",
+        [newStatus, targetId]
+      );
+
+      res.json({
+        message: `Admin ${newStatus ? "enabled" : "disabled"} successfully`,
+        is_active: newStatus,
+      });
+    } catch (error) {
+      console.error("Error toggling active status:", error);
+      res.status(500).json({ error: "Failed to update status" });
     }
   }
 );
@@ -1664,17 +1697,18 @@ app.get(
   async (req, res) => {
     try {
       const adminsQuery = `
-      SELECT 
-        id, 
-        adminname, 
-        username, 
-        phone, 
-        admin_image_link, 
-        createdat AS "createdAt"
-      FROM admin 
-      WHERE is_approved = TRUE
-      ORDER BY createdat DESC;
-    `;
+        SELECT 
+          id, 
+          adminname, 
+          username, 
+          phone, 
+          admin_image_link, 
+          createdat AS "createdAt",
+          is_active
+        FROM admin 
+        WHERE is_approved = TRUE AND is_active = TRUE   -- ← add active filter
+        ORDER BY createdat DESC;
+      `;
       const result = await pool.query(adminsQuery);
       res.json(result.rows);
     } catch (error) {

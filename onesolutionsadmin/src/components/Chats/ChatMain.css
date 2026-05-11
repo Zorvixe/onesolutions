@@ -1053,6 +1053,7 @@
   top: 20px;
   padding: 5px;
 }
+
 .messgae-menu-icons {
   margin-right: 10px;
 }
@@ -1118,87 +1119,86 @@
   border: 8px solid #514b82;
   animation: l20-1 0.8s infinite linear alternate, l20-2 1.6s infinite linear;
 }
+
 @keyframes l20-1 {
   0% {
     clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
   }
+
   12.5% {
-    clip-path: polygon(
-      50% 50%,
-      0 0,
-      50% 0%,
-      100% 0%,
-      100% 0%,
-      100% 0%,
-      100% 0%
-    );
+    clip-path: polygon(50% 50%,
+        0 0,
+        50% 0%,
+        100% 0%,
+        100% 0%,
+        100% 0%,
+        100% 0%);
   }
+
   25% {
-    clip-path: polygon(
-      50% 50%,
-      0 0,
-      50% 0%,
-      100% 0%,
-      100% 100%,
-      100% 100%,
-      100% 100%
-    );
+    clip-path: polygon(50% 50%,
+        0 0,
+        50% 0%,
+        100% 0%,
+        100% 100%,
+        100% 100%,
+        100% 100%);
   }
+
   50% {
-    clip-path: polygon(
-      50% 50%,
-      0 0,
-      50% 0%,
-      100% 0%,
-      100% 100%,
-      50% 100%,
-      0% 100%
-    );
+    clip-path: polygon(50% 50%,
+        0 0,
+        50% 0%,
+        100% 0%,
+        100% 100%,
+        50% 100%,
+        0% 100%);
   }
+
   62.5% {
-    clip-path: polygon(
-      50% 50%,
-      100% 0,
-      100% 0%,
-      100% 0%,
-      100% 100%,
-      50% 100%,
-      0% 100%
-    );
+    clip-path: polygon(50% 50%,
+        100% 0,
+        100% 0%,
+        100% 0%,
+        100% 100%,
+        50% 100%,
+        0% 100%);
   }
+
   75% {
-    clip-path: polygon(
-      50% 50%,
-      100% 100%,
-      100% 100%,
-      100% 100%,
-      100% 100%,
-      50% 100%,
-      0% 100%
-    );
+    clip-path: polygon(50% 50%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        50% 100%,
+        0% 100%);
   }
+
   100% {
-    clip-path: polygon(
-      50% 50%,
-      50% 100%,
-      50% 100%,
-      50% 100%,
-      50% 100%,
-      50% 100%,
-      0% 100%
-    );
+    clip-path: polygon(50% 50%,
+        50% 100%,
+        50% 100%,
+        50% 100%,
+        50% 100%,
+        50% 100%,
+        0% 100%);
   }
 }
+
 @keyframes l20-2 {
   0% {
     transform: scaleY(1) rotate(0deg);
   }
+
   49.99% {
     transform: scaleY(1) rotate(135deg);
   }
+
   50% {
     transform: scaleY(-1) rotate(0deg);
   }
+
   100% {
     transform: scaleY(-1) rotate(-135deg);
   }
@@ -1208,17 +1208,22 @@
   height: 40px;
   width: 150px;
 }
+
 .name-max-min-screen-con {
   display: flex;
   justify-content: space-between;
 }
+
 .min-max-button {
   cursor: pointer;
   margin-right: 18px;
-  font-size: 25px; /* Adjust size here */
+  font-size: 25px;
+  /* Adjust size here */
 }
+
 .min-max-button:hover {
-  color: #007bff; /* blue on hover */
+  color: #007bff;
+  /* blue on hover */
   transform: scale(1.1);
   transition: all 0.2s ease-in-out;
 }
@@ -1268,7 +1273,7 @@
   background: white;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
 .admin-table th,
@@ -1336,6 +1341,7 @@
 .edit-btn {
   color: #2196f3;
 }
+
 .edit-btn:hover {
   background-color: #e3f2fd;
   transform: scale(1.05);
@@ -1344,6 +1350,7 @@
 .delete-btn {
   color: #f44336;
 }
+
 .delete-btn:hover {
   background-color: #ffebee;
   transform: scale(1.05);
@@ -1352,6 +1359,7 @@
 .save-btn {
   color: #4caf50;
 }
+
 .save-btn:hover {
   background-color: #e8f5e9;
 }
@@ -1359,6 +1367,7 @@
 .cancel-btn {
   color: #ff9800;
 }
+
 .cancel-btn:hover {
   background-color: #fff3e0;
 }
@@ -1418,7 +1427,7 @@
   margin-bottom: 20px;
 }
 
-.settings-controls-button{
+.settings-controls-button {
   display: flex;
   align-items: center;
   padding: 12px 16px;
@@ -1430,7 +1439,7 @@
   border: none;
   width: 100%;
   text-align: left;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .settings-controls-button {
@@ -1453,6 +1462,7 @@
   background-color: #ffe5e5;
   transform: translateX(4px);
 }
+
 /* Modal Overlay */
 .modal-overlay {
   position: fixed;
@@ -1484,6 +1494,7 @@
     opacity: 0;
     transform: translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1569,4 +1580,55 @@
 .modal-footer .cancel-btn {
   background: #f0f0f0;
   color: #333;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+input:checked+.slider {
+  background-color: #4caf50;
+}
+
+input:checked+.slider:before {
+  transform: translateX(24px);
+}
+
+input:disabled+.slider {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

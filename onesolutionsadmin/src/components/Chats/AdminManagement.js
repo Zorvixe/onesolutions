@@ -113,6 +113,21 @@ const AdminManagement = ({ currentUser }) => {
     }
   };
 
+  const handleToggleActive = async (userId, newStatus) => {
+  try {
+    const token = localStorage.getItem("token");
+    await axios.put(
+      `https://apiose.onesolutionsekam.in/api/admin/users/${userId}/toggle-active`,
+      {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    toast.success(`Admin ${newStatus ? "enabled" : "disabled"}`);
+    fetchUsers(); // refresh the list
+  } catch (err) {
+    toast.error(err.response?.data?.error || "Status update failed");
+  }
+};
+
   if (loading) return <div className="loader-approval"></div>;
 
   return (
@@ -127,6 +142,8 @@ const AdminManagement = ({ currentUser }) => {
               <th>Username</th>
               <th>Phone</th>
               <th>Role</th>
+              <th>Status</th>
+
               <th>Actions</th>
             </tr>
           </thead>
@@ -148,6 +165,17 @@ const AdminManagement = ({ currentUser }) => {
                     <option value="admin">Admin</option>
                     <option value="super_admin">Super Admin</option>
                   </select>
+                </td>
+                <td>
+                  <label className="toggle-switch">
+                    <input
+                      type="checkbox"
+                      checked={user.is_active}
+                      onChange={() => handleToggleActive(user.id, !user.is_active)}
+                      disabled={user.id === currentUser?.id}
+                    />
+                    <span className="slider"></span>
+                  </label>
                 </td>
                 <td>
                   <button className="edit-btn" onClick={() => openEditModal(user)}>
