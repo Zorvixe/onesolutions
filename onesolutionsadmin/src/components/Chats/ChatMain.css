@@ -1053,7 +1053,6 @@
   top: 20px;
   padding: 5px;
 }
-
 .messgae-menu-icons {
   margin-right: 10px;
 }
@@ -1119,86 +1118,87 @@
   border: 8px solid #514b82;
   animation: l20-1 0.8s infinite linear alternate, l20-2 1.6s infinite linear;
 }
-
 @keyframes l20-1 {
   0% {
     clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
   }
-
   12.5% {
-    clip-path: polygon(50% 50%,
-        0 0,
-        50% 0%,
-        100% 0%,
-        100% 0%,
-        100% 0%,
-        100% 0%);
+    clip-path: polygon(
+      50% 50%,
+      0 0,
+      50% 0%,
+      100% 0%,
+      100% 0%,
+      100% 0%,
+      100% 0%
+    );
   }
-
   25% {
-    clip-path: polygon(50% 50%,
-        0 0,
-        50% 0%,
-        100% 0%,
-        100% 100%,
-        100% 100%,
-        100% 100%);
+    clip-path: polygon(
+      50% 50%,
+      0 0,
+      50% 0%,
+      100% 0%,
+      100% 100%,
+      100% 100%,
+      100% 100%
+    );
   }
-
   50% {
-    clip-path: polygon(50% 50%,
-        0 0,
-        50% 0%,
-        100% 0%,
-        100% 100%,
-        50% 100%,
-        0% 100%);
+    clip-path: polygon(
+      50% 50%,
+      0 0,
+      50% 0%,
+      100% 0%,
+      100% 100%,
+      50% 100%,
+      0% 100%
+    );
   }
-
   62.5% {
-    clip-path: polygon(50% 50%,
-        100% 0,
-        100% 0%,
-        100% 0%,
-        100% 100%,
-        50% 100%,
-        0% 100%);
+    clip-path: polygon(
+      50% 50%,
+      100% 0,
+      100% 0%,
+      100% 0%,
+      100% 100%,
+      50% 100%,
+      0% 100%
+    );
   }
-
   75% {
-    clip-path: polygon(50% 50%,
-        100% 100%,
-        100% 100%,
-        100% 100%,
-        100% 100%,
-        50% 100%,
-        0% 100%);
+    clip-path: polygon(
+      50% 50%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      50% 100%,
+      0% 100%
+    );
   }
-
   100% {
-    clip-path: polygon(50% 50%,
-        50% 100%,
-        50% 100%,
-        50% 100%,
-        50% 100%,
-        50% 100%,
-        0% 100%);
+    clip-path: polygon(
+      50% 50%,
+      50% 100%,
+      50% 100%,
+      50% 100%,
+      50% 100%,
+      50% 100%,
+      0% 100%
+    );
   }
 }
-
 @keyframes l20-2 {
   0% {
     transform: scaleY(1) rotate(0deg);
   }
-
   49.99% {
     transform: scaleY(1) rotate(135deg);
   }
-
   50% {
     transform: scaleY(-1) rotate(0deg);
   }
-
   100% {
     transform: scaleY(-1) rotate(-135deg);
   }
@@ -1208,70 +1208,248 @@
   height: 40px;
   width: 150px;
 }
-
 .name-max-min-screen-con {
   display: flex;
   justify-content: space-between;
 }
-
 .min-max-button {
   cursor: pointer;
   margin-right: 18px;
-  font-size: 25px;
-  /* Adjust size here */
+  font-size: 25px; /* Adjust size here */
 }
-
 .min-max-button:hover {
-  color: #007bff;
-  /* blue on hover */
+  color: #007bff; /* blue on hover */
   transform: scale(1.1);
   transition: all 0.2s ease-in-out;
+}
+
+
+/* ========== SETTINGS TABS ========== */
+.settings-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 8px;
+}
+
+.settings-tabs button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #666;
+}
+
+.settings-tabs button:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.settings-tabs button.active {
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+}
+
+/* ========== ADMIN MANAGEMENT TABLE ========== */
+.admin-management {
+  width: 100%;
+  padding: 8px 0;
 }
 
 .admin-table {
   width: 100%;
   border-collapse: collapse;
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 
 .admin-table th,
 .admin-table td {
-  padding: 12px;
+  padding: 12px 10px;
   text-align: left;
   border-bottom: 1px solid #eee;
+  vertical-align: middle;
 }
 
 .admin-table th {
-  background-color: #f5f5f5;
+  background-color: #f8f9fa;
   font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
+.admin-table tr:hover {
+  background-color: #fafafa;
+}
+
+.admin-table img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.admin-table input,
+.admin-table select {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  width: 100%;
+  max-width: 140px;
+}
+
+.admin-table select {
+  cursor: pointer;
+  background-color: white;
+}
+
+/* Action Buttons inside table */
 .edit-btn,
 .delete-btn,
 .save-btn,
 .cancel-btn {
   background: none;
   border: none;
-  cursor: pointer;
   font-size: 1.2rem;
+  cursor: pointer;
   margin: 0 4px;
+  padding: 6px;
+  border-radius: 30px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .edit-btn {
   color: #2196f3;
 }
+.edit-btn:hover {
+  background-color: #e3f2fd;
+  transform: scale(1.05);
+}
 
 .delete-btn {
   color: #f44336;
+}
+.delete-btn:hover {
+  background-color: #ffebee;
+  transform: scale(1.05);
 }
 
 .save-btn {
   color: #4caf50;
 }
+.save-btn:hover {
+  background-color: #e8f5e9;
+}
 
 .cancel-btn {
   color: #ff9800;
+}
+.cancel-btn:hover {
+  background-color: #fff3e0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .settings-tabs button {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 8px 6px;
+    font-size: 0.75rem;
+  }
+
+  .admin-table input,
+  .admin-table select {
+    max-width: 100px;
+    font-size: 0.7rem;
+    padding: 4px;
+  }
+
+  .settings-empl-image {
+    width: 70px;
+    height: 70px;
+  }
+
+  .empl-name-phn {
+    font-size: 1rem;
+  }
+}
+
+/* ========== PROFILE SECTION (already exists, but ensuring consistency) ========== */
+
+
+.empl-name-phn {
+  font-size: 1.2rem;
+  margin: 4px 0;
+  color: #333;
+}
+
+.settings-scroller-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: calc(100vh - 280px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.settings-controls-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.settings-controls-button{
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: white;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+  border: none;
+  width: 100%;
+  text-align: left;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.settings-controls-button {
+  color: #1e88e5;
+  background-color: #f5f9ff;
+}
+
+.settings-controls-button:hover {
+  background-color: #e3f2fd;
+  transform: translateX(4px);
+}
+
+.settings-controls-button-logout {
+  color: #d32f2f;
+  background-color: #fff5f5;
+  margin-top: 8px;
+}
+
+.settings-controls-button-logout:hover {
+  background-color: #ffe5e5;
+  transform: translateX(4px);
 }
