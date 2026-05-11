@@ -344,13 +344,13 @@ app.post("/api/admin/login", async (req, res) => {
 
   try {
     // 1. Fetch admin by username (include all needed fields)
-    const adminQuery = `
-      SELECT id, adminname, username, phone, password, status, is_approved, created_by, role
+   const adminQuery = `
+      SELECT id, adminname, username, phone, password, status, is_approved, created_by, role, is_active
       FROM admin
       WHERE username = $1
     `;
     const result = await pool.query(adminQuery, [username]);
-
+    
     if (result.rows.length === 0) {
       return res.status(401).json({ error: "Invalid credentials or Please Register" });
     }
