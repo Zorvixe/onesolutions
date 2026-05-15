@@ -285,6 +285,8 @@ const createTables = async () => {
     );
   `;
 
+  
+
 
   await pool.query(`
   CREATE OR REPLACE FUNCTION generate_thread_slug_function(title VARCHAR)
@@ -487,6 +489,48 @@ CHECK (student_type IN (
     'digital_marketing',
     'java_programming'
   ));
+  `);
+
+  await pool.query(`
+       SELECT id, student_id, course_selection 
+FROM students 
+WHERE course_selection IS NULL 
+   OR course_selection NOT IN ('web_development', 'digital_marketing', 'java_programming');
+
+   -- Update NULL values to default
+UPDATE students 
+SET course_selection = 'web_development' 
+WHERE course_selection IS NULL;
+
+-- Update any other invalid values
+UPDATE students 
+SET course_selection = 'web_development' 
+WHERE course_selection NOT IN ('web_development', 'digital_marketing', 'java_programming');
+      `);
+
+
+
+      await pool.query(`
+  ALTER TABLE students
+  ADD COLUMN IF NOT EXISTS course_selection VARCHAR(250)
+  DEFAULT 'web_development'
+  CHECK (course_selection IN (
+    'web_development',
+    'digital_marketing',
+    'java_programming'
+  ));
+  `);
+
+  // 🔥 ADD THIS ENTIRE BLOCK FOR ROLES
+  await pool.query(`
+  ALTER TABLE students
+  ADD COLUMN IF NOT EXISTS role VARCHAR(50) 
+  DEFAULT 'student'
+  CHECK (role IN ('student', 'admin'));
+  `);
+
+  await pool.query(`
+  UPDATE students SET role = 'student' WHERE role IS NULL;
   `);
 
   await pool.query(`
@@ -959,10 +1003,10 @@ const auth = async (req, res, next) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     console.log(`✅ Token decoded for user ID: ${decoded.id}`);
 
-    // 🔥 FIXED: Include ALL student fields including student_type and course_selection
+    // 🔥 FIXED: Include ALL student fields including student_type, course_selection, and role
     const result = await pool.query(
       `SELECT id, student_id, email, first_name, last_name, phone, 
-              profile_image, student_type, course_selection, batch_month, batch_year, is_current_batch,
+              profile_image, student_type, course_selection, role, batch_month, batch_year, is_current_batch,
               name_on_certificate, gender, preferred_languages, date_of_birth,
               code_playground_username, linkedin_profile_url, github_profile_url,
               hackerrank_profile_url, leetcode_profile_url, resume_url,
@@ -993,7 +1037,7 @@ const auth = async (req, res, next) => {
     req.student = result.rows[0];
     console.log(`✅ Auth successful for: ${req.student.email}`);
     console.log(
-      `📊 Student Type: ${req.student.student_type}, Course: ${req.student.course_selection}`
+      `📊 Student Type: ${req.student.student_type}, Course: ${req.student.course_selection}, Role: ${req.student.role}`
     );
     next();
   } catch (error) {
@@ -4386,10 +4430,9 @@ app.post(
         });
       }
 
-      // 🔥 FIXED: Include student_type and course_selection
       const result = await pool.query(
         `SELECT id, student_id, email, first_name, last_name, phone, 
-                profile_image, student_type, course_selection, batch_month, batch_year, is_current_batch, created_at 
+                profile_image, student_type, course_selection, role, batch_month, batch_year, is_current_batch, created_at 
          FROM students WHERE email = $1`,
         [normalizedEmail]
       );
@@ -4402,7 +4445,6 @@ app.post(
         });
       }
 
-      // 🔥 FIXED: Include student_type and course_selection in JWT
       const token = jwt.sign(
         {
           id: student.id,
@@ -4412,6 +4454,7 @@ app.post(
           lastName: student.last_name,
           studentType: student.student_type,
           courseSelection: student.course_selection,
+          role: student.role,
           batchMonth: student.batch_month,
           batchYear: student.batch_year,
         },
@@ -4436,6 +4479,7 @@ app.post(
           : null,
         studentType: student.student_type,
         courseSelection: student.course_selection,
+        role: student.role,
         batchMonth: student.batch_month,
         batchYear: student.batch_year,
         isCurrentBatch: student.is_current_batch,
@@ -5419,6 +5463,10 @@ app.post(
       .optional()
       .isIn(["web_development", "digital_marketing", "java_programming"])
       .withMessage("Invalid course selection"),
+    body("role")
+      .optional()
+      .isIn(["student", "admin"])
+      .withMessage("Invalid role"),
   ],
   async (req, res) => {
     try {
@@ -5444,14 +5492,14 @@ app.post(
         firstName,
         lastName,
         phone,
-        studentType = "zorvixe_core", // Default to core
-        courseSelection = "web_development", // 🔥 FIXED: Default to web_development
+        studentType = "zorvixe_core",
+        courseSelection = "web_development",
+        role = "student",
         batchMonth,
         batchYear,
         isCurrentBatch,
       } = req.body;
 
-      // Check if email or student ID already exists
       const existingEmail = await pool.query(
         "SELECT * FROM students WHERE email = $1",
         [email]
@@ -5477,32 +5525,27 @@ app.post(
         });
       }
 
-      // Hash password
-      // Helper to escape single quotes for SQL literals
       await pool.query(`SET myapp.changed_by = '${escapeSqlString(email)}'`);
       await pool.query(`SET myapp.change_source = 'registration'`);
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      // Handle profile image
       let profileImagePath = null;
       if (req.file) {
         profileImagePath = `/uploads/${req.file.filename}`;
       }
 
-      // Parse batch data
       const currentBatch = isCurrentBatch === "true" || isCurrentBatch === true;
       const batchYearInt = batchYear
         ? Number.parseInt(batchYear)
         : new Date().getFullYear();
 
-      // 🔥 FIXED: Include course_selection in INSERT
       const result = await pool.query(
         `INSERT INTO students (student_id, email, password, first_name, last_name, phone, 
-                        profile_image, student_type, course_selection, batch_month, batch_year, is_current_batch, join_date)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, CURRENT_DATE)
+                        profile_image, student_type, course_selection, role, batch_month, batch_year, is_current_batch, join_date)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, CURRENT_DATE)
          RETURNING id, student_id, email, first_name, last_name, phone, profile_image, 
-                   student_type, course_selection, batch_month, batch_year, is_current_batch, join_date, created_at`,
+                   student_type, course_selection, role, batch_month, batch_year, is_current_batch, join_date, created_at`,
         [
           studentId,
           email,
@@ -5512,7 +5555,8 @@ app.post(
           phone,
           profileImagePath,
           studentType,
-          courseSelection, // 🔥 FIXED: Added course_selection
+          courseSelection,
+          role,
           batchMonth,
           batchYearInt,
           currentBatch,
@@ -5521,7 +5565,6 @@ app.post(
 
       const student = result.rows[0];
 
-      // 🔥 FIXED: Include course_selection in JWT
       const token = jwt.sign(
         {
           id: student.id,
@@ -5531,6 +5574,7 @@ app.post(
           lastName: student.last_name,
           studentType: student.student_type,
           courseSelection: student.course_selection,
+          role: student.role,
           batchMonth: student.batch_month,
           batchYear: student.batch_year,
         },
@@ -5539,10 +5583,10 @@ app.post(
         { expiresIn: "30d" }
       );
 
-      // Construct full image URL
       const baseUrl =
         process.env.BACKEND_URL ||
         `http://localhost:${process.env.PORT || 5002}`;
+      
       const studentResponse = {
         id: student.id,
         studentId: student.student_id,
@@ -5555,6 +5599,7 @@ app.post(
           : null,
         studentType: student.student_type,
         courseSelection: student.course_selection,
+        role: student.role,
         batchMonth: student.batch_month,
         batchYear: student.batch_year,
         isCurrentBatch: student.is_current_batch,
@@ -5607,10 +5652,9 @@ app.post(
 
       const { email, password } = req.body;
 
-      // Fetch student by email
       const result = await pool.query(
         `SELECT id, student_id, email, password, first_name, last_name, phone, 
-                profile_image, student_type, course_selection, 
+                profile_image, student_type, course_selection, role,
                 batch_month, batch_year, is_current_batch, created_at 
          FROM students WHERE email = $1`,
         [email]
@@ -5627,21 +5671,18 @@ app.post(
       let storedHash = student.password;
       let isValid = false;
 
-      // Check if stored hash is a valid bcrypt hash (60 chars, starts with $2b$)
       const isValidBcrypt = storedHash && storedHash.startsWith('$2b$') && storedHash.length === 60;
 
       if (isValidBcrypt) {
-        // Normal bcrypt comparison
         isValid = await bcrypt.compare(password, storedHash);
       } else {
-        // Corrupted hash – repair it
         console.warn(`⚠️ Corrupted password hash for user ${student.email}, repairing...`);
         const newHash = await bcrypt.hash(password, 10);
         await pool.query(
           `UPDATE students SET password = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2`,
           [newHash, student.id]
         );
-        isValid = true; // after repair, login succeeds
+        isValid = true;
       }
 
       if (!isValid) {
@@ -5651,7 +5692,6 @@ app.post(
         });
       }
 
-      // Generate token (include student_type and course_selection)
       const token = jwt.sign(
         {
           id: student.id,
@@ -5661,6 +5701,7 @@ app.post(
           lastName: student.last_name,
           studentType: student.student_type,
           courseSelection: student.course_selection,
+          role: student.role,
           batchMonth: student.batch_month,
           batchYear: student.batch_year,
         },
@@ -5679,6 +5720,7 @@ app.post(
         profileImage: student.profile_image ? `${baseUrl}${student.profile_image}` : null,
         studentType: student.student_type,
         courseSelection: student.course_selection,
+        role: student.role,
         batchMonth: student.batch_month,
         batchYear: student.batch_year,
         isCurrentBatch: student.is_current_batch,
@@ -5726,6 +5768,7 @@ app.get("/api/auth/profile", auth, async (req, res) => {
         : null,
       studentType: req.student.student_type,
       courseSelection: req.student.course_selection,
+      role: req.student.role,
       batchMonth: req.student.batch_month,
       batchYear: req.student.batch_year,
       isCurrentBatch: req.student.is_current_batch,
@@ -8329,16 +8372,15 @@ app.get("/api/admin/students", async (req, res) => {
       batchYear,
       status,
       studentType,
-      courseSelection, // 🔥 FIXED: Add course filter
+      courseSelection,
     } = req.query;
 
     const offset = (page - 1) * limit;
 
-    // Build base query
     let baseQuery = `
     SELECT 
       id, student_id, email, first_name, last_name, phone,
-      profile_image, student_type, course_selection, batch_month, batch_year, is_current_batch,
+      profile_image, student_type, course_selection, role, batch_month, batch_year, is_current_batch,
       status, join_date, created_at, password,
       name_on_certificate, gender, current_coding_level,
       occupation_status, has_work_experience
@@ -8350,7 +8392,6 @@ app.get("/api/admin/students", async (req, res) => {
     let queryParams = [];
     let paramCount = 1;
 
-    // Search filter
     if (search && search.trim() !== "") {
       const searchCondition = ` AND (
         first_name ILIKE $${paramCount} OR 
@@ -8365,7 +8406,6 @@ app.get("/api/admin/students", async (req, res) => {
       paramCount++;
     }
 
-    // Batch month filter
     if (batchMonth && batchMonth !== "") {
       baseQuery += ` AND batch_month = $${paramCount}`;
       countQuery += ` AND batch_month = $${paramCount}`;
@@ -8373,7 +8413,6 @@ app.get("/api/admin/students", async (req, res) => {
       paramCount++;
     }
 
-    // Batch year filter
     if (batchYear && batchYear !== "") {
       baseQuery += ` AND batch_year = $${paramCount}`;
       countQuery += ` AND batch_year = $${paramCount}`;
@@ -8381,7 +8420,6 @@ app.get("/api/admin/students", async (req, res) => {
       paramCount++;
     }
 
-    // Status filter
     if (status && status !== "") {
       baseQuery += ` AND status = $${paramCount}`;
       countQuery += ` AND status = $${paramCount}`;
@@ -8389,7 +8427,6 @@ app.get("/api/admin/students", async (req, res) => {
       paramCount++;
     }
 
-    // 🔥 FIXED: Student Type filter
     if (studentType && studentType !== "") {
       baseQuery += ` AND student_type = $${paramCount}`;
       countQuery += ` AND student_type = $${paramCount}`;
@@ -8397,7 +8434,6 @@ app.get("/api/admin/students", async (req, res) => {
       paramCount++;
     }
 
-    // 🔥 FIXED: Course Selection filter
     if (courseSelection && courseSelection !== "") {
       baseQuery += ` AND course_selection = $${paramCount}`;
       countQuery += ` AND course_selection = $${paramCount}`;
@@ -8405,28 +8441,20 @@ app.get("/api/admin/students", async (req, res) => {
       paramCount++;
     }
 
-    // Add ordering and pagination
-    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1
-      }`;
+    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
     queryParams.push(parseInt(limit), offset);
 
-    // Execute queries
     const studentsResult = await pool.query(baseQuery, queryParams);
-
-    // For count query, remove the limit and offset parameters
     const countParams = queryParams.slice(0, -2);
     const countResult = await pool.query(countQuery, countParams);
 
     const total = parseInt(countResult.rows[0]?.total || 0);
-    const baseUrl =
-      process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
 
-    // Get online student IDs
     const onlineStudentIds = new Set(
       Array.from(activeStudents.values()).map((data) => data.student.id)
     );
 
-    // Format students with full URLs for images and online status
     const students = studentsResult.rows.map((student) => ({
       id: student.id,
       student_id: student.student_id,
@@ -8440,6 +8468,7 @@ app.get("/api/admin/students", async (req, res) => {
         : null,
       student_type: student.student_type,
       course_selection: student.course_selection,
+      role: student.role,
       batch_month: student.batch_month,
       batch_year: student.batch_year,
       is_current_batch: student.is_current_batch,
@@ -8547,7 +8576,6 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
     const { studentId } = req.params;
     const { updatePassword = false, ...updateData } = req.body;
 
-    // 🔒 Block password update without flag
     if (updateData.password && !updatePassword) {
       return res.status(403).json({
         success: false,
@@ -8555,7 +8583,6 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       });
     }
 
-    // Verify student exists
     const existing = await client.query(
       "SELECT id FROM students WHERE id = $1",
       [studentId]
@@ -8564,10 +8591,9 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       return res.status(404).json({ success: false, message: "Student not found" });
     }
 
-    // Build SET clause dynamically
     const allowedFields = [
       "student_id", "email", "first_name", "last_name", "phone",
-      "student_type", "course_selection", "batch_month", "batch_year",
+      "student_type", "course_selection", "role", "batch_month", "batch_year",
       "is_current_batch", "status", "name_on_certificate", "gender"
     ];
 
@@ -8596,7 +8622,6 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
 
     setClauses.push(`updated_at = CURRENT_TIMESTAMP`);
 
-    // Begin transaction and set audit context (FIXED: no $1 placeholders)
     await client.query("BEGIN");
     const adminEmail = req.headers['x-admin-email'] || 'admin';
     const safeAdminEmail = adminEmail.replace(/'/g, "''");

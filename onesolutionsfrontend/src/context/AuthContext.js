@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // 🔥 FIXED: Auth check with complete user data including studentType and courseSelection
+  // 🔥 FIXED: Auth check with complete user data including studentType, courseSelection, and role
   const checkAuthStatus = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -95,6 +95,7 @@ export const AuthProvider = ({ children }) => {
           ...userData,
           studentType: userData.studentType || userData.student_type || "zorvixe_core",
           courseSelection: userData.courseSelection || userData.course_selection || "web_development",
+          role: userData.role || "student", // 🔥 ADDED ROLE
           batchMonth: userData.batchMonth || userData.batch_month || "",
           batchYear: userData.batchYear || userData.batch_year || "",
         };
@@ -117,6 +118,7 @@ export const AuthProvider = ({ children }) => {
         console.log("[AUTH] Auth check successful:", enrichedUserData.email);
         console.log("[AUTH] Student Type:", enrichedUserData.studentType);
         console.log("[AUTH] Course Selection:", enrichedUserData.courseSelection);
+        console.log("[AUTH] Role:", enrichedUserData.role); // 🔥 LOG ADDED
       } else {
         setUser(null);
         setCompleteProfile(null);
@@ -675,7 +677,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
     }
   };
 
-  // 🔥 FIXED: Load complete profile with all fields (including work experiences)
+  // 🔥 FIXED: Load complete profile with all fields (including role)
   const loadCompleteProfile = async () => {
     try {
       const response = await authAPI.getCompleteProfile();
@@ -686,10 +688,10 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
           ...profileData,
           studentType: profileData.studentType || profileData.student_type || "zorvixe_core",
           courseSelection: profileData.courseSelection || profileData.course_selection || "web_development",
+          role: profileData.role || "student", // 🔥 ADDED ROLE
         };
 
         setCompleteProfile(enrichedProfile);
-        // 🔥 NEW WORK EXPERIENCE: Also set work experiences from profile
         setWorkExperiences(profileData.workExperiences || []);
 
         if (user) {
@@ -697,6 +699,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
             ...prev,
             studentType: enrichedProfile.studentType,
             courseSelection: enrichedProfile.courseSelection,
+            role: enrichedProfile.role, // 🔥 ADDED ROLE
           }));
 
           const storedUser = localStorage.getItem("user");
@@ -705,6 +708,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
               const parsedUser = JSON.parse(storedUser);
               parsedUser.studentType = enrichedProfile.studentType;
               parsedUser.courseSelection = enrichedProfile.courseSelection;
+              parsedUser.role = enrichedProfile.role; // 🔥 ADDED ROLE
               localStorage.setItem("user", JSON.stringify(parsedUser));
             } catch (e) {}
           }
@@ -713,13 +717,14 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
         console.log("[AUTH] Complete profile loaded:", enrichedProfile.email);
         console.log("[AUTH] Student Type:", enrichedProfile.studentType);
         console.log("[AUTH] Course Selection:", enrichedProfile.courseSelection);
+        console.log("[AUTH] Role:", enrichedProfile.role);
       }
     } catch (error) {
       console.error("[AUTH] Complete profile load failed:", error.message);
     }
   };
 
-  // 🔥 AUTO LOAD ALL USER DATA WHEN TOKEN IS SET (includes work experiences)
+  // 🔥 AUTO LOAD ALL USER DATA WHEN TOKEN IS SET
   useEffect(() => {
     if (!token) {
       setLoading(false);
@@ -735,7 +740,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
           loadUserProgress(),
           loadProgressSummary(),
           loadOverallProgress(),
-          loadWorkExperiences(), // 🔥 NEW WORK EXPERIENCE
+          loadWorkExperiences(), 
         ]);
 
         const currentUser = user;
@@ -990,7 +995,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
       if (response.data.success) {
         const updatedStudent = response.data.data.student;
 
-        // 🔥 Ensure studentType and courseSelection are preserved
+        // 🔥 Ensure studentType, courseSelection, and role are preserved
         const enrichedStudent = {
           ...updatedStudent,
           studentType:
@@ -1003,6 +1008,10 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
             updatedStudent.course_selection ||
             user?.courseSelection ||
             "web_development",
+          role: 
+            updatedStudent.role || 
+            user?.role || 
+            "student", // 🔥 ADDED ROLE
         };
 
         setUser(enrichedStudent);
@@ -1013,10 +1022,8 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
 
         console.log("[AUTH] Profile updated successfully");
         console.log("[AUTH] Student Type:", enrichedStudent.studentType);
-        console.log(
-          "[AUTH] Course Selection:",
-          enrichedStudent.courseSelection
-        );
+        console.log("[AUTH] Course Selection:", enrichedStudent.courseSelection);
+        console.log("[AUTH] Role:", enrichedStudent.role);
 
         return { success: true, message: "Profile updated successfully" };
       } else {
@@ -1124,8 +1131,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
     }
   };
 
-  // ✅ OTP Verification - 🔥 FIXED: Store complete user data with studentType and courseSelection
-  // ✅ OTP Verification - 🔥 FIXED: Store complete user data with studentType and courseSelection
+  // ✅ OTP Verification - 🔥 FIXED: Store complete user data with studentType, courseSelection, and role
   const loginOtpVerify = async (email, otp) => {
     try {
       setError("");
@@ -1153,6 +1159,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
             student.courseSelection ||
             student.course_selection ||
             "web_development",
+          role: student.role || "student", // 🔥 ADDED ROLE
           batchMonth: student.batchMonth || student.batch_month || "",
           batchYear: student.batchYear || student.batch_year || "",
           isCurrentBatch: student.isCurrentBatch || student.is_current_batch,
@@ -1169,6 +1176,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
         console.log("[AUTH] OTP login successful:", userData.email);
         console.log("[AUTH] Student Type:", userData.studentType);
         console.log("[AUTH] Course Selection:", userData.courseSelection);
+        console.log("[AUTH] Role:", userData.role);
 
         // 🔥 Immediately load digital marketing data if user is digital marketing
         if (userData.courseSelection === "digital_marketing") {
@@ -1214,7 +1222,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
     }
   };
 
-  // 🔥 FIXED: Enhanced register - store complete user data with studentType and courseSelection
+  // 🔥 FIXED: Enhanced register - store complete user data with studentType, courseSelection, and role
   const register = async (formData) => {
     try {
       setError("");
@@ -1244,6 +1252,10 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
             formData.get("courseSelection") ||
             formData.get("course_selection") ||
             "web_development",
+          role:
+            student.role ||
+            formData.get("role") ||
+            "student", // 🔥 ADDED ROLE
           batchMonth:
             student.batchMonth ||
             student.batch_month ||
@@ -1267,6 +1279,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
         console.log("[AUTH] Registration successful:", userData.email);
         console.log("[AUTH] Student Type:", userData.studentType);
         console.log("[AUTH] Course Selection:", userData.courseSelection);
+        console.log("[AUTH] Role:", userData.role);
 
         // 🔥 Immediately load digital marketing data if user is digital marketing
         if (userData.courseSelection === "digital_marketing") {
@@ -1292,7 +1305,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
     }
   };
 
-  // 🔥 FIXED: Enhanced update profile - preserve studentType and courseSelection
+  // 🔥 FIXED: Enhanced update profile - preserve studentType, courseSelection, and role
   const updateProfile = async (formData) => {
     try {
       setError("");
@@ -1301,7 +1314,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
       if (response.data.success) {
         const updatedStudent = response.data.data.student;
 
-        // 🔥 Preserve existing studentType and courseSelection if not returned
+        // 🔥 Preserve existing studentType, courseSelection, and role if not returned
         const enrichedStudent = {
           ...updatedStudent,
           studentType:
@@ -1314,6 +1327,10 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
             updatedStudent.course_selection ||
             user?.courseSelection ||
             "web_development",
+          role:
+            updatedStudent.role ||
+            user?.role ||
+            "student", // 🔥 ADDED ROLE
         };
 
         setUser(enrichedStudent);
@@ -1328,6 +1345,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
               ...enrichedStudent,
               studentType: enrichedStudent.studentType,
               courseSelection: enrichedStudent.courseSelection,
+              role: enrichedStudent.role, // 🔥 ADDED ROLE
             };
             localStorage.setItem("user", JSON.stringify(updatedUser));
           } catch (e) {
@@ -1339,10 +1357,8 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
 
         console.log("[AUTH] Profile updated successfully");
         console.log("[AUTH] Student Type:", enrichedStudent.studentType);
-        console.log(
-          "[AUTH] Course Selection:",
-          enrichedStudent.courseSelection
-        );
+        console.log("[AUTH] Course Selection:", enrichedStudent.courseSelection);
+        console.log("[AUTH] Role:", enrichedStudent.role);
 
         return { success: true, message: "Profile updated successfully" };
       } else {

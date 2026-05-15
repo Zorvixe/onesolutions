@@ -16,18 +16,23 @@ const Register = () => {
     phone: "",
     studentType: "zorvixe_core",
     courseSelection: "web_development",
+    role: "student", // 🔥 NEW: Added role
     batchMonth: "",
     batchYear: new Date().getFullYear(),
     isCurrentBatch: false,
   });
 
   // Course options
-  // In Register.js - Line around 20-25
-  // In Register.js - around line 20-25
   const courseOptions = [
     { value: "web_development", label: "Web Development" },
     { value: "digital_marketing", label: "Digital Marketing" },
-    { value: "java_programming", label: "Java Programming" }, // Make sure this is exactly "java_programming"
+    { value: "java_programming", label: "Java Programming" }, 
+  ];
+
+  // 🔥 NEW: Role options
+  const roleOptions = [
+    { value: "student", label: "Student" },
+    { value: "admin", label: "Admin" },
   ];
 
   const [profileImage, setProfileImage] = useState(null);
@@ -175,11 +180,19 @@ const Register = () => {
     }
 
     // Course selection validation
-    const validCourses = ["web_development", "digital_marketing", "java_programming"]; // 🔥 UPDATE THIS
+    const validCourses = ["web_development", "digital_marketing", "java_programming"]; 
     if (!formData.courseSelection) {
       errors.courseSelection = "Course selection is required";
     } else if (!validCourses.includes(formData.courseSelection)) {
       errors.courseSelection = "Please select a valid course";
+    }
+
+    // 🔥 NEW: Role selection validation
+    const validRoles = ["student", "admin"];
+    if (!formData.role) {
+      errors.role = "Role selection is required";
+    } else if (!validRoles.includes(formData.role)) {
+      errors.role = "Please select a valid role";
     }
 
     setValidationErrors(errors);
@@ -229,6 +242,7 @@ const Register = () => {
         lastName: formData.lastName,
         studentType: formData.studentType,
         courseSelection: formData.courseSelection,
+        role: formData.role, // 🔥 NEW
         batchMonth: formData.batchMonth,
         batchYear: formData.batchYear,
         isCurrentBatch: formData.isCurrentBatch,
@@ -272,8 +286,8 @@ const Register = () => {
             student.studentType || student.student_type || formData.studentType,
           courseSelection:
             student.courseSelection ||
-            student.courseSelection ||
             formData.courseSelection,
+          role: student.role || formData.role, // 🔥 NEW
           batchMonth:
             student.batchMonth || student.batch_month || formData.batchMonth,
           batchYear:
@@ -300,6 +314,7 @@ const Register = () => {
           email: userData.email,
           studentType: userData.studentType,
           courseSelection: userData.courseSelection,
+          role: userData.role, // 🔥 NEW
         });
 
         // Redirect to login after a short delay
@@ -409,6 +424,29 @@ const Register = () => {
         return "#ea580c"; // Orange color for Java
       default:
         return "#0d9488";
+    }
+  };
+
+  // 🔥 NEW: Helper for role styling
+  const getRoleDescription = (role) => {
+    switch (role) {
+      case "student":
+        return "Standard access to enrolled courses and materials";
+      case "admin":
+        return "Full access to all courses, dashboard, and management tools";
+      default:
+        return "";
+    }
+  };
+
+  const getRoleColor = (role) => {
+    switch (role) {
+      case "student":
+        return "#3b82f6"; // Blue
+      case "admin":
+        return "#ef4444"; // Red
+      default:
+        return "#3b82f6";
     }
   };
 
@@ -781,6 +819,75 @@ const Register = () => {
               {validationErrors.studentType && (
                 <span className="error-text">
                   {validationErrors.studentType}
+                </span>
+              )}
+            </div>
+
+            {/* 🔥 NEW: Role Selection */}
+            <div className="form-group">
+              <label>Role *</label>
+              <div className="student-type-selector">
+                {roleOptions.map((role) => (
+                  <div
+                    key={role.value}
+                    className={`student-type-option ${formData.role === role.value ? "selected" : ""
+                      }`}
+                    onClick={() => {
+                      if (!isSubmitting) {
+                        setFormData((prev) => ({
+                          ...prev,
+                          role: role.value,
+                        }));
+                        if (validationErrors.role) {
+                          setValidationErrors((prev) => ({
+                            ...prev,
+                            role: "",
+                          }));
+                        }
+                      }
+                    }}
+                    style={{
+                      borderColor:
+                        formData.role === role.value
+                          ? getRoleColor(role.value)
+                          : "#e0e0e0",
+                    }}
+                  >
+                    <div className="type-radio">
+                      <input
+                        type="radio"
+                        name="role"
+                        value={role.value}
+                        checked={formData.role === role.value}
+                        onChange={handleChange}
+                        disabled={isSubmitting}
+                        id={`role-${role.value}`}
+                      />
+                      <span
+                        className="radio-custom"
+                        style={{
+                          borderColor:
+                            formData.role === role.value
+                              ? getRoleColor(role.value)
+                              : "#ccc",
+                        }}
+                      ></span>
+                    </div>
+                    <label
+                      htmlFor={`role-${role.value}`}
+                      className="type-label"
+                    >
+                      <span className="type-name">{role.label}</span>
+                      <span className="type-description">
+                        {getRoleDescription(role.value)}
+                      </span>
+                    </label>
+                  </div>
+                ))}
+              </div>
+              {validationErrors.role && (
+                <span className="error-text">
+                  {validationErrors.role}
                 </span>
               )}
             </div>

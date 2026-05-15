@@ -23,6 +23,7 @@ const StudentList = () => {
     phone: "",
     student_type: "zorvixe_core",
     course_selection: "web_development", // 🔥 FIXED: Added with default
+    role: "student", // 🔥 NEW: Added role with default
     batch_month: "",
     batch_year: "",
     password: "",
@@ -46,6 +47,12 @@ const courseOptions = [
     { value: "zorvixe_core", label: "Zorvixe Core" },
     { value: "zorvixe_pro", label: "Zorvixe Pro" },
     { value: "zorvixe_elite", label: "Zorvixe Elite" },
+  ];
+
+  // 🔥 NEW: Role options
+  const roleOptions = [
+    { value: "student", label: "Student" },
+    { value: "admin", label: "Admin" },
   ];
 
   // 🔥 FIXED: Filters with courseSelection
@@ -240,7 +247,28 @@ const courseOptions = [
     );
   };
 
-  // 🔥 FIXED: Handle form submit with course_selection
+  // 🔥 NEW: Get role badge
+  const getRoleBadge = (role) => {
+    const isAdmin = role === 'admin';
+    return (
+      <span
+        className="course-badge-stud"
+        style={{
+          backgroundColor: isAdmin ? '#fef2f2' : '#f0fdfa',
+          color: isAdmin ? '#ef4444' : '#0d9488',
+          border: `1px solid ${isAdmin ? '#ef4444' : '#0d9488'}20`,
+          padding: '4px 8px',
+          borderRadius: '12px',
+          fontSize: '11px',
+          fontWeight: '600'
+        }}
+      >
+        {isAdmin ? 'ADMIN' : 'STUDENT'}
+      </span>
+    );
+  };
+
+  // 🔥 FIXED: Handle form submit with course_selection and role
 // In StudentList.js - Update handleSubmit function around line 280
 
 const handleSubmit = async (e) => {
@@ -267,8 +295,9 @@ const handleSubmit = async (e) => {
       }
     }
 
-    // Ensure course_selection is always set (fallback to web_development)
+    // Ensure course_selection and role are always set
     submitData.course_selection = submitData.course_selection || "web_development";
+    submitData.role = submitData.role || "student";
 
     console.log("📤 Sending data to server:", {
       url,
@@ -276,6 +305,7 @@ const handleSubmit = async (e) => {
       hasPassword: !!submitData.password,
       updatePasswordFlag: submitData.updatePassword,
       course_selection: submitData.course_selection,
+      role: submitData.role,
     });
 
     const response = await fetch(url, {
@@ -301,6 +331,7 @@ const handleSubmit = async (e) => {
         phone: "",
         student_type: "zorvixe_core",
         course_selection: "web_development",
+        role: "student",
         batch_month: "",
         batch_year: "",
         password: "",
@@ -329,6 +360,7 @@ const handleSubmit = async (e) => {
       phone: "",
       student_type: "zorvixe_core",
       course_selection: "web_development",
+      role: "student",
       batch_month: "",
       batch_year: "",
       password: "",
@@ -341,7 +373,7 @@ const handleSubmit = async (e) => {
     navigate("/student_register");
   };
 
-  // 🔥 FIXED: Handle edit with course_selection
+  // 🔥 FIXED: Handle edit with course_selection and role
   // In StudentList.js - Update handleEdit function
 
 const handleEdit = (student) => {
@@ -349,17 +381,7 @@ const handleEdit = (student) => {
   
   // Log the course_selection value specifically
   console.log("📚 Student course_selection value:", student.course_selection);
-  console.log("📚 Student course_selection type:", typeof student.course_selection);
-  
-  // Check if it's one of the valid values
-  const validCourses = ["web_development", "digital_marketing", "java_programming"];
-  const isValid = validCourses.includes(student.course_selection);
-  console.log("✅ Is valid course_selection?", isValid);
-  
-  // If not valid, what is it?
-  if (!isValid) {
-    console.log("⚠️ Invalid course_selection found, value:", student.course_selection);
-  }
+  console.log("📚 Student role value:", student.role);
   
   setEditingStudent(student);
   setFormData({
@@ -370,6 +392,7 @@ const handleEdit = (student) => {
     phone: student.phone || "",
     student_type: student.student_type || "zorvixe_core",
     course_selection: student.course_selection || "web_development", // 🔥 FIXED
+    role: student.role || "student", // 🔥 NEW
     batch_month: student.batch_month || "",
     batch_year: student.batch_year || "",
     password: "",
@@ -876,6 +899,7 @@ const handleEdit = (student) => {
                   <th>Contact</th>
                   <th>Type</th>
                   <th>Course</th> {/* 🔥 FIXED: Course column */}
+                  <th>Role</th> {/* 🔥 NEW: Role column */}
                   <th>Batch</th>
                   <th>Password</th>
                   <th>Status</th>
@@ -938,6 +962,9 @@ const handleEdit = (student) => {
                     </td>
                     <td>
                       {getCourseBadge(student.course_selection || "web_development")}
+                    </td>
+                    <td>
+                      {getRoleBadge(student.role || "student")}
                     </td>
                     <td style={{ color: "#6b7280", fontSize: "12px" }}>
                       {getBatchInfo(student.batch_month, student.batch_year)}
@@ -1097,22 +1124,23 @@ const handleEdit = (student) => {
                   />
                 </div>
 
+                {/* 🔥 NEW: Role Selection */}
                 <div className="form-group-stud">
-                  <label htmlFor="student-type" className="form-label-stud">
-                    Student Type *
+                  <label htmlFor="role" className="form-label-stud">
+                    Role *
                   </label>
                   <select
                     className="form-input-stud"
-                    id="student-type"
-                    value={formData.student_type}
+                    id="role"
+                    value={formData.role}
                     onChange={(e) =>
-                      setFormData({ ...formData, student_type: e.target.value })
+                      setFormData({ ...formData, role: e.target.value })
                     }
                     required
                   >
-                    {studentTypes.map((type) => (
-                      <option key={type.value} value={type.value}>
-                        {type.label}
+                    {roleOptions.map((role) => (
+                      <option key={role.value} value={role.value}>
+                        {role.label}
                       </option>
                     ))}
                   </select>
@@ -1138,6 +1166,27 @@ const handleEdit = (student) => {
                     {courseOptions.map((course) => (
                       <option key={course.value} value={course.value}>
                         {course.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form-group-stud">
+                  <label htmlFor="student-type" className="form-label-stud">
+                    Student Type *
+                  </label>
+                  <select
+                    className="form-input-stud"
+                    id="student-type"
+                    value={formData.student_type}
+                    onChange={(e) =>
+                      setFormData({ ...formData, student_type: e.target.value })
+                    }
+                    required
+                  >
+                    {studentTypes.map((type) => (
+                      <option key={type.value} value={type.value}>
+                        {type.label}
                       </option>
                     ))}
                   </select>

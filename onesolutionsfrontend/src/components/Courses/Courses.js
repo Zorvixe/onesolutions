@@ -32,9 +32,10 @@ export default function Courses() {
   // Get student type and course selection from user context
   const studentType = user?.studentType || "zorvixe_core";
   const courseSelection = user?.courseSelection || "web_development";
+  const isAdmin = user?.role === "admin"; // 🔥 NEW: Check if user is admin
 
   // Check if user has web development access
-  const hasWebDevelopmentAccess = courseSelection === "web_development";
+  const hasWebDevelopmentAccess = courseSelection === "web_development" || isAdmin; // 🔥 UPDATED: Admins always get access
 
   // ========== FILTER FUNCTIONS (memoized with stable dependencies) ==========
   const getFilteredCourses = useCallback(
@@ -45,6 +46,9 @@ export default function Courses() {
         if (course.id === "g3 c3" || course.id === "QW9_m1_A0 g3_H c5_7B") {
           return false;
         }
+        
+        if (isAdmin) return true; // 🔥 UPDATED: Admins see all courses
+
         const isAccessibleByType =
           !course.accessibleTo || course.accessibleTo.includes(studentType);
         const isSelectedByCourse =
@@ -53,36 +57,36 @@ export default function Courses() {
         return isAccessibleByType && isSelectedByCourse;
       });
     },
-    [studentType, courseSelection]
+    [studentType, courseSelection, isAdmin]
   );
 
   const getFilteredModules = useCallback(
     (modules) => {
       if (!modules) return [];
       return modules.filter(
-        (module) => !module.accessibleTo || module.accessibleTo.includes(studentType)
-      );
+        (module) => isAdmin || !module.accessibleTo || module.accessibleTo.includes(studentType)
+      ); // 🔥 UPDATED: Admins see all modules
     },
-    [studentType]
+    [studentType, isAdmin]
   );
 
   const getFilteredSubtopics = useCallback(
     (topics) => {
       if (!topics) return [];
       return topics.filter(
-        (topic) => !topic.accessibleTo || topic.accessibleTo.includes(studentType)
-      );
+        (topic) => isAdmin || !topic.accessibleTo || topic.accessibleTo.includes(studentType)
+      ); // 🔥 UPDATED: Admins see all subtopics
     },
-    [studentType]
+    [studentType, isAdmin]
   );
 
   // Memoized filtered goals based on student type and access
   const filteredGoals = useMemo(() => {
     if (!hasWebDevelopmentAccess) return [];
     return goalsData.filter(
-      (goal) => !goal.accessibleTo || goal.accessibleTo.includes(studentType)
-    );
-  }, [hasWebDevelopmentAccess, studentType]);
+      (goal) => isAdmin || !goal.accessibleTo || goal.accessibleTo.includes(studentType)
+    ); // 🔥 UPDATED: Admins see all goals
+  }, [hasWebDevelopmentAccess, studentType, isAdmin]);
 
   // ========== CORE PROGRESS CALCULATION (memoized with stable dependencies) ==========
   const calculateLocalProgress = useCallback(() => {
@@ -246,6 +250,8 @@ export default function Courses() {
 
   // ========== UI HELPERS ==========
   const isGoalLocked = useCallback((goalIndex) => {
+    if (isAdmin) return false; // 🔥 UPDATED: Admin bypasses the lock
+
     if (goalIndex === 0 || goalIndex === 1 || goalIndex === 2) return false;
 
     for (let i = 0; i < goalIndex; i++) {
@@ -257,7 +263,7 @@ export default function Courses() {
       }
     }
     return false;
-  }, [filteredGoals, localProgress.goals]);
+  }, [filteredGoals, localProgress.goals, isAdmin]);
 
   const toggleGoal = (goalId, goalIndex) => {
     if (!hasWebDevelopmentAccess) {

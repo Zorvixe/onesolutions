@@ -22,7 +22,11 @@ export default function JavaCourses() {
   const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
 
   const courseSelection = user?.courseSelection;
-  const hasJavaAccess = courseSelection === "java_programming" || courseSelection === "all";
+  const isAdmin = user?.role === "admin"; // 🔥 NEW: Check if user is admin
+
+  // 🔥 UPDATED: Admins always get access
+  const hasJavaAccess = courseSelection === "java_programming" || courseSelection === "all" || isAdmin;
+
   useEffect(() => {
     if (hasJavaAccess) {
       loadJavaAllStructure().catch(console.error);
@@ -105,7 +109,10 @@ export default function JavaCourses() {
     return total === 0 ? 0 : (completed / total) * 100;
   };
 
+  // 🔥 UPDATED: Admin bypasses sequential goal locks
   const isGoalLocked = (goalIndex) => {
+    if (isAdmin) return false;
+
     if (goalIndex === 0) return false;
     for (let i = 0; i < goalIndex; i++) {
       if (localProgress[javaGoals[i]?.id] < 100) return true;
@@ -140,7 +147,6 @@ export default function JavaCourses() {
     });
   };
 
-  // 🔥 UPDATED: Use unified /java/content/:uuid with practice_uuid
   const handlePracticeClick = (practice, goal, module, topic, subtopic) => {
     navigate(`/java/content/${practice.practice_uuid}`, {
       state: {
@@ -172,6 +178,8 @@ export default function JavaCourses() {
       <div className="courses-container" style={{ marginTop: "50px" }}>
         <div className="access-denied-container">
           <img src="/assets/img/locked_image.png" alt="Access Denied" className="locked_image" />
+          <h3>Access Denied</h3>
+          <p>You don't have access to Java Programming courses.</p>
         </div>
       </div>
     );
@@ -191,7 +199,8 @@ export default function JavaCourses() {
       <div className="goals-wrapper">
         {javaGoals.map((goal, goalIndex) => {
           const locked = isGoalLocked(goalIndex);
-          const isEnrolled = goal.is_enrolled;
+          // 🔥 UPDATED: Admins are automatically considered enrolled so they don't get the enroll prompt
+          const isEnrolled = goal.is_enrolled || isAdmin; 
           const progress = localProgress[goal.id] || 0;
 
           return (

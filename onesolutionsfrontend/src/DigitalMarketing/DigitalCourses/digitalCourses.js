@@ -22,11 +22,12 @@ export default function DigitalCourses() {
   const [localProgress, setLocalProgress] = useState({});
   const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
 
-  // Get student type from user context
+  // Get student type and role from user context
   const courseSelection = user?.courseSelection || "digital_marketing";
+  const isAdmin = user?.role === "admin"; // 🔥 NEW: Check if user is admin
 
-  // Check if user has digital marketing access
-  const hasDigitalAccess = courseSelection === "digital_marketing";
+  // 🔥 UPDATED: Admins always get access to the courses
+  const hasDigitalAccess = courseSelection === "digital_marketing" || courseSelection === "all" || isAdmin;
 
   // Load digital marketing courses from backend
   useEffect(() => {
@@ -41,7 +42,7 @@ export default function DigitalCourses() {
   const checkIsContentCompleted = useCallback(
     (content) => {
       if (!content) return false;
-      // Check 1: Is the ID in the global completedContent array? (String comparison for safety)
+      // Check 1: Is the ID in the global completedContent array?
       const isRx = completedContent.some(
         (id) => String(id) === String(content.id)
       );
@@ -146,8 +147,10 @@ export default function DigitalCourses() {
     return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
   }, [checkIsContentCompleted]);
 
-  // Check if goal is locked
+  // 🔥 UPDATED: Admin bypasses sequential goal locks
   const isGoalLocked = useCallback((goalIndex) => {
+    if (isAdmin) return false;
+
     if (goalIndex === 0) return false;
 
     for (let i = 0; i < goalIndex; i++) {
@@ -160,7 +163,7 @@ export default function DigitalCourses() {
       }
     }
     return false;
-  }, [digitalMarketingGoals, getGoalProgress]);
+  }, [digitalMarketingGoals, getGoalProgress, isAdmin]);
 
   const toggleGoal = (goalId, goalIndex) => {
     if (!hasDigitalAccess) {
@@ -283,7 +286,7 @@ export default function DigitalCourses() {
 
   const showNoAccessMessage = () => {
     alert(
-      "You don't have access to Digital Marketing. Please upgrade your subscription."
+      "You don't have access to Digital Marketing. Please update your profile selection."
     );
   };
 
@@ -308,6 +311,8 @@ export default function DigitalCourses() {
             alt="Access Denied"
             className="locked_image"
           />
+          <h3>Access Denied</h3>
+          <p>You don't have access to Digital Marketing courses.</p>
         </div>
       </div>
     );
@@ -324,12 +329,6 @@ export default function DigitalCourses() {
         <div className="no-courses-container">
           <h3>No courses available</h3>
           <p>Please check back later or contact support.</p>
-          <button
-            className="enroll-button"
-            onClick={() => navigate("/profile")}
-          >
-            Enroll in Courses
-          </button>
         </div>
       </div>
     );
@@ -346,7 +345,8 @@ export default function DigitalCourses() {
         {digitalMarketingGoals.map((goal, goalIndex) => {
           const goalPercent = getGoalProgress(goal);
           const locked = isGoalLocked(goalIndex);
-          const isEnrolled = goal.is_enrolled;
+          // 🔥 UPDATED: Admins are auto-enrolled visually
+          const isEnrolled = goal.is_enrolled || isAdmin;
 
           return (
             <section
@@ -425,6 +425,7 @@ export default function DigitalCourses() {
                   goal.modules?.map((module) => {
                     const moduleProgress = getModuleProgress(module);
                     const isModuleCompleted = moduleProgress >= 100;
+                    const isExpandedModule = expandedModule === module.id;
 
                     return (
                       <div className="courses" key={module.id}>
@@ -452,7 +453,7 @@ export default function DigitalCourses() {
                                 : toggleModule(module.id, goalIndex)
                             }
                           >
-                            {expandedModule === module.id ? (
+                            {isExpandedModule ? (
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="22"
@@ -482,14 +483,12 @@ export default function DigitalCourses() {
                             }
                             style={{ cursor: "pointer", color: "inherit" }}
                           >
-                            {expandedModule === module.id
-                              ? "Active Modules"
-                              : "Active Modules"}
+                            Active Modules
                           </p>
                         </div>
 
                         {/* Topics Section */}
-                        {expandedModule === module.id && !locked && (
+                        {isExpandedModule && !locked && (
                           <div className="module-details">
                             {module.topics?.map((topic) => {
                               const topicProgress = getTopicProgress(topic);
@@ -589,9 +588,27 @@ export default function DigitalCourses() {
                                               toggleTopic(topic.id, goalIndex);
                                             }}
                                           >
-                                            {isTopicExpanded ? "−" :
-                                              "+"
-                                            }
+                                            {isTopicExpanded ? (
+                                              <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="22"
+                                                height="22"
+                                                fill="currentColor"
+                                                viewBox="0 0 16 16"
+                                              >
+                                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
+                                              </svg>
+                                            ) : (
+                                              <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="22"
+                                                height="22"
+                                                fill="currentColor"
+                                                viewBox="0 0 16 16"
+                                              >
+                                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                                              </svg>
+                                            )}
                                           </button>
                                         </div>
                                       </div>
