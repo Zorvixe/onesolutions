@@ -2119,6 +2119,88 @@ app.post("/api/admin/course/subtopics/reorder", async (req, res) => {
   }
 });
 
+// Move content to a different subtopic
+app.post("/api/admin/course/content/move", async (req, res) => {
+  const { contentId, newSubtopicId, newOrderIndex } = req.body;
+
+  if (!contentId || !newSubtopicId) {
+    return res.status(400).json({ success: false, message: "Missing contentId or newSubtopicId" });
+  }
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+
+    // Get the content's current subtopic
+    const currentRes = await client.query(
+      "SELECT subtopic_id FROM subtopic_content WHERE id = $1 FOR UPDATE",
+      [contentId]
+    );
+    if (currentRes.rows.length === 0) {
+      throw new Error("Content not found");
+    }
+    const oldSubtopicId = currentRes.rows[0].subtopic_id;
+
+    // If moving to same subtopic, just reorder – reuse reorder logic (optional)
+    if (oldSubtopicId === newSubtopicId) {
+      // You could call internal reorder logic, but for simplicity reject or just reorder via existing endpoint
+      return res.status(400).json({ success: false, message: "Same subtopic – use reorder endpoint" });
+    }
+
+    // 1. Remove from old subtopic and reorder remaining items
+    await client.query(`
+      UPDATE subtopic_content
+      SET order_number = order_number - 1
+      WHERE subtopic_id = $1 AND order_number > (
+        SELECT order_number FROM subtopic_content WHERE id = $2
+      )
+    `, [oldSubtopicId, contentId]);
+
+    // 2. Update content's subtopic_id and temporarily set order_number to a high value (e.g., -1)
+    await client.query(
+      "UPDATE subtopic_content SET subtopic_id = $1, order_number = -1 WHERE id = $2",
+      [newSubtopicId, contentId]
+    );
+
+    // 3. Reorder destination subtopic: shift items after insertion point
+    const insertPos = newOrderIndex !== undefined ? newOrderIndex : 999999;
+    await client.query(`
+      UPDATE subtopic_content
+      SET order_number = order_number + 1
+      WHERE subtopic_id = $1 AND order_number >= $2
+    `, [newSubtopicId, insertPos]);
+
+    // 4. Set final order_number for moved content
+    await client.query(
+      "UPDATE subtopic_content SET order_number = $1 WHERE id = $2",
+      [insertPos, contentId]
+    );
+
+    // Optional: renumber all items in destination subtopic to be 0,1,2...
+    // (keeps order clean)
+    await client.query(`
+      WITH numbered AS (
+        SELECT id, ROW_NUMBER() OVER (ORDER BY order_number) - 1 AS new_order
+        FROM subtopic_content
+        WHERE subtopic_id = $1
+      )
+      UPDATE subtopic_content
+      SET order_number = numbered.new_order
+      FROM numbered
+      WHERE subtopic_content.id = numbered.id
+    `, [newSubtopicId]);
+
+    await client.query("COMMIT");
+    res.json({ success: true, message: "Content moved successfully" });
+  } catch (err) {
+    await client.query("ROLLBACK");
+    console.error("Move content error:", err);
+    res.status(500).json({ success: false, error: err.message });
+  } finally {
+    client.release();
+  }
+});
+
 // -------------------------------------------
 // Health Check
 // -------------------------------------------

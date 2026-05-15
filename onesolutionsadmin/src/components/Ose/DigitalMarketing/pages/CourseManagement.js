@@ -81,6 +81,15 @@ const CourseManagement = () => {
   const [dragOverItem, setDragOverItem] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
 
+  // Custom Modal State
+  const [customModal, setCustomModal] = useState({
+    isOpen: false,
+    type: "alert", // 'alert' or 'confirm'
+    title: "",
+    message: "",
+    onConfirm: null,
+  });
+
   // Store which parent's children are currently loading
   const [loadingStates, setLoadingStates] = useState({
     modules: {},
@@ -106,6 +115,31 @@ const CourseManagement = () => {
     setContentViewMode("dashboard");
     setContentToEdit(null);
   }, [selectedSubtopic]);
+
+  // Custom Modal Helpers
+  const showAlert = (message, title = "Notice") => {
+    setCustomModal({
+      isOpen: true,
+      type: "alert",
+      title,
+      message,
+      onConfirm: null,
+    });
+  };
+
+  const showConfirm = (message, onConfirm, title = "Confirm Action") => {
+    setCustomModal({
+      isOpen: true,
+      type: "confirm",
+      title,
+      message,
+      onConfirm,
+    });
+  };
+
+  const closeCustomModal = () => {
+    setCustomModal((prev) => ({ ...prev, isOpen: false }));
+  };
 
   const fetchGoals = async () => {
     try {
@@ -326,10 +360,10 @@ const CourseManagement = () => {
       if (type === "topic") startEditTopic(item, e);
       if (type === "subtopic") startEditSubtopic(item, e);
     } else if (action === "delete") {
-      if (type === "goal") deleteGoal(item.id, e);
-      if (type === "module") deleteModule(item.id, e);
-      if (type === "topic") deleteTopic(item.id, e);
-      if (type === "subtopic") deleteSubtopic(item.id, e);
+      if (type === "goal") confirmDeleteGoal(item.id, e);
+      if (type === "module") confirmDeleteModule(item.id, e);
+      if (type === "topic") confirmDeleteTopic(item.id, e);
+      if (type === "subtopic") confirmDeleteSubtopic(item.id, e);
     } else if (action === "add") {
       if (type === "goal") {
         setAddingTo({ type: "goal", id: item.id });
@@ -364,7 +398,6 @@ const CourseManagement = () => {
     setDraggedItem({ type, item, parentId });
     setIsDragging(true);
     e.dataTransfer.effectAllowed = "move";
-    // Store the item ID for later reference
     e.dataTransfer.setData("text/plain", item.id);
   };
 
@@ -380,8 +413,7 @@ const CourseManagement = () => {
     setIsDragging(false);
   };
 
-  // Update the handleDrop function - find the "content" case and modify it:
-
+  // UPDATED handleDrop with cross-subtopic content move support
   const handleDrop = async (e, targetType, targetId, targetParentId = null) => {
     e.preventDefault();
     e.stopPropagation();
@@ -391,99 +423,135 @@ const CourseManagement = () => {
       return;
     }
 
-    // Only allow reordering within the same type and same parent
-    if (
-      draggedItem.type !== targetType ||
-      draggedItem.parentId !== targetParentId
-    ) {
-      alert(`Cannot move ${draggedItem.type} to a different parent`);
+    // Basic type check
+    if (draggedItem.type !== targetType) {
+      showAlert(`Cannot move ${draggedItem.type} to a different type`, "Error");
       handleDragEnd();
       return;
     }
 
-    // Don't do anything if dropped on itself
+    // For content items, allow moving to a different parent (subtopic)
+    let isCrossParentMove = false;
+    if (draggedItem.type === "content" && draggedItem.parentId !== targetParentId) {
+      isCrossParentMove = true;
+    } else if (draggedItem.type !== "content" && draggedItem.parentId !== targetParentId) {
+      showAlert(`Cannot move ${draggedItem.type} to a different parent`, "Error");
+      handleDragEnd();
+      return;
+    }
+
+    // Don't move onto itself
     if (draggedItem.item.id === targetId) {
       handleDragEnd();
       return;
     }
 
     try {
-      // Get the current list
-      let currentList = [];
+      // Get the current list (source list for reorder, target list for cross move)
+      let sourceList = [];
+      let targetList = [];
       if (targetType === "goal") {
-        currentList = [...goals];
+        sourceList = [...goals];
+        targetList = sourceList;
       } else if (targetType === "module") {
-        currentList = [...(modulesByGoal[targetParentId] || [])];
+        sourceList = [...(modulesByGoal[targetParentId] || [])];
+        targetList = sourceList;
       } else if (targetType === "topic") {
-        currentList = [...(topicsByModule[targetParentId] || [])];
+        sourceList = [...(topicsByModule[targetParentId] || [])];
+        targetList = sourceList;
       } else if (targetType === "subtopic") {
-        currentList = [...(subtopicsByTopic[targetParentId] || [])];
+        sourceList = [...(subtopicsByTopic[targetParentId] || [])];
+        targetList = sourceList;
       } else if (targetType === "content") {
-        currentList = [...(contentBySubtopic[targetParentId] || [])];
+        // For content, source list is the original subtopic's content
+        sourceList = [...(contentBySubtopic[draggedItem.parentId] || [])];
+        targetList = [...(contentBySubtopic[targetParentId] || [])];
       }
 
       // Find indices
-      const draggedIndex = currentList.findIndex(
-        (item) => item.id === draggedItem.item.id
-      );
-      const targetIndex = currentList.findIndex((item) => item.id === targetId);
+      let draggedIndex = sourceList.findIndex((item) => item.id === draggedItem.item.id);
+      let targetIndex = targetList.findIndex((item) => item.id === targetId);
 
       if (draggedIndex === -1 || targetIndex === -1) {
         handleDragEnd();
         return;
       }
 
-      // Reorder the array
-      const [removed] = currentList.splice(draggedIndex, 1);
-      currentList.splice(targetIndex, 0, removed);
+      // Perform UI update immediately for better UX
+      if (isCrossParentMove && targetType === "content") {
+        // Remove from source list
+        const [movedItem] = sourceList.splice(draggedIndex, 1);
+        // Insert into target list at targetIndex
+        targetList.splice(targetIndex, 0, movedItem);
 
-      // Update the UI immediately for better UX
-      if (targetType === "goal") {
-        setGoals(currentList);
-      } else if (targetType === "module") {
-        setModulesByGoal((prev) => ({
-          ...prev,
-          [targetParentId]: currentList,
-        }));
-      } else if (targetType === "topic") {
-        setTopicsByModule((prev) => ({
-          ...prev,
-          [targetParentId]: currentList,
-        }));
-      } else if (targetType === "subtopic") {
-        setSubtopicsByTopic((prev) => ({
-          ...prev,
-          [targetParentId]: currentList,
-        }));
-      } else if (targetType === "content") {
+        // Update state for both subtopics
         setContentBySubtopic((prev) => ({
           ...prev,
-          [targetParentId]: currentList,
+          [draggedItem.parentId]: sourceList,
+          [targetParentId]: targetList,
         }));
+      } else {
+        // Normal reorder within same list
+        const [removed] = sourceList.splice(draggedIndex, 1);
+        sourceList.splice(targetIndex, 0, removed);
+
+        // Update the appropriate state
+        if (targetType === "goal") {
+          setGoals(sourceList);
+        } else if (targetType === "module") {
+          setModulesByGoal((prev) => ({
+            ...prev,
+            [targetParentId]: sourceList,
+          }));
+        } else if (targetType === "topic") {
+          setTopicsByModule((prev) => ({
+            ...prev,
+            [targetParentId]: sourceList,
+          }));
+        } else if (targetType === "subtopic") {
+          setSubtopicsByTopic((prev) => ({
+            ...prev,
+            [targetParentId]: sourceList,
+          }));
+        } else if (targetType === "content") {
+          setContentBySubtopic((prev) => ({
+            ...prev,
+            [targetParentId]: sourceList,
+          }));
+        }
       }
 
-      // Call API to save the new order
-      const orderedIds = currentList.map((item) => item.id);
-
+      // Prepare API call
       let endpoint = "";
       let body = {};
 
-      if (targetType === "goal") {
-        endpoint = "/api/admin/course/goals/reorder";
-        body = { orderedIds };
-      } else if (targetType === "module") {
-        endpoint = "/api/admin/course/modules/reorder";
-        body = { goalId: targetParentId, orderedIds };
-      } else if (targetType === "topic") {
-        endpoint = "/api/admin/course/topics/reorder";
-        body = { moduleId: targetParentId, orderedIds };
-      } else if (targetType === "subtopic") {
-        endpoint = "/api/admin/course/subtopics/reorder";
-        body = { topicId: targetParentId, orderedIds };
-      } else if (targetType === "content") {
-        // NEW: Use the content reorder endpoint
-        endpoint = "/api/admin/course/content/reorder";
-        body = { subtopicId: targetParentId, orderedIds };
+      if (isCrossParentMove && targetType === "content") {
+        // Move content to a different subtopic
+        endpoint = "/api/admin/course/content/move";
+        body = {
+          contentId: draggedItem.item.id,
+          newSubtopicId: targetParentId,
+          newOrderIndex: targetIndex,
+        };
+      } else {
+        // Normal reorder endpoint
+        const orderedIds = (targetType === "content" ? targetList : sourceList).map((item) => item.id);
+        if (targetType === "goal") {
+          endpoint = "/api/admin/course/goals/reorder";
+          body = { orderedIds };
+        } else if (targetType === "module") {
+          endpoint = "/api/admin/course/modules/reorder";
+          body = { goalId: targetParentId, orderedIds };
+        } else if (targetType === "topic") {
+          endpoint = "/api/admin/course/topics/reorder";
+          body = { moduleId: targetParentId, orderedIds };
+        } else if (targetType === "subtopic") {
+          endpoint = "/api/admin/course/subtopics/reorder";
+          body = { topicId: targetParentId, orderedIds };
+        } else if (targetType === "content") {
+          endpoint = "/api/admin/course/content/reorder";
+          body = { subtopicId: targetParentId, orderedIds };
+        }
       }
 
       const res = await fetch(`https://api.onesolutionsekam.in${endpoint}`, {
@@ -497,12 +565,29 @@ const CourseManagement = () => {
 
       const data = await res.json();
       if (!data.success) {
-        alert("Failed to save new order. Please refresh and try again.");
-        // Optionally revert the UI change here
+        showAlert("Failed to save changes. Please refresh and try again.", "Error");
+        // Optionally revert UI changes here (e.g., refetch affected data)
+        if (isCrossParentMove && targetType === "content") {
+          fetchContent(draggedItem.parentId);
+          fetchContent(targetParentId);
+        } else {
+          if (targetType === "content") fetchContent(targetParentId);
+          else if (targetType === "subtopic") fetchSubtopics(targetParentId);
+          else if (targetType === "topic") fetchTopics(targetParentId);
+          else if (targetType === "module") fetchModules(targetParentId);
+          else if (targetType === "goal") fetchGoals();
+        }
+      } else {
+        // Refresh affected subtopics after a successful cross move
+        if (isCrossParentMove && targetType === "content") {
+          fetchContent(draggedItem.parentId);
+          fetchContent(targetParentId);
+          // If currently selected subtopic is one of them, also update UI (already done via state)
+        }
       }
     } catch (error) {
-      console.error("Error reordering:", error);
-      alert("Error saving new order");
+      console.error("Error in drop operation:", error);
+      showAlert("Error saving changes", "Error");
     } finally {
       handleDragEnd();
     }
@@ -666,25 +751,24 @@ const CourseManagement = () => {
         setEditingGoal(null);
         setEditGoalName("");
       } else {
-        alert(data.message || data.error || "Failed to update goal");
+        showAlert(data.message || data.error || "Failed to update goal", "Error");
       }
     } catch (error) {
       console.error("Error updating goal:", error);
-      alert("Error updating goal");
+      showAlert("Error updating goal", "Error");
     }
   };
 
-  const deleteGoal = async (goalId, e) => {
+  const confirmDeleteGoal = (goalId, e) => {
     if (e) e.stopPropagation();
+    showConfirm(
+      "Are you sure you want to delete this goal? This will delete all modules, topics, subtopics, and content within it.",
+      () => executeDeleteGoal(goalId),
+      "Delete Goal"
+    );
+  };
 
-    if (
-      !window.confirm(
-        "Are you sure you want to delete this goal? This will delete all modules, topics, subtopics, and content within it."
-      )
-    ) {
-      return;
-    }
-
+  const executeDeleteGoal = async (goalId) => {
     try {
       const token = getToken();
       const response = await fetch(
@@ -717,13 +801,13 @@ const CourseManagement = () => {
           delete newState[goalId];
           return newState;
         });
-        alert("Goal deleted successfully");
+        showAlert("Goal deleted successfully", "Success");
       } else {
-        alert(data.message || "Failed to delete goal");
+        showAlert(data.message || "Failed to delete goal", "Error");
       }
     } catch (error) {
       console.error("Error deleting goal:", error);
-      alert("Error deleting goal. Please try again.");
+      showAlert("Error deleting goal. Please try again.", "Error");
     }
   };
 
@@ -769,25 +853,24 @@ const CourseManagement = () => {
         setEditingModule(null);
         setEditModuleName("");
       } else {
-        alert(data.message || "Failed to update module");
+        showAlert(data.message || "Failed to update module", "Error");
       }
     } catch (error) {
       console.error("Error updating module:", error);
-      alert("Error updating module");
+      showAlert("Error updating module", "Error");
     }
   };
 
-  const deleteModule = async (moduleId, e) => {
+  const confirmDeleteModule = (moduleId, e) => {
     if (e) e.stopPropagation();
+    showConfirm(
+      "Are you sure you want to delete this module? This will delete all topics, subtopics, and content within it.",
+      () => executeDeleteModule(moduleId),
+      "Delete Module"
+    );
+  };
 
-    if (
-      !window.confirm(
-        "Are you sure you want to delete this module? This will delete all topics, subtopics, and content within it."
-      )
-    ) {
-      return;
-    }
-
+  const executeDeleteModule = async (moduleId) => {
     try {
       const token = getToken();
       const response = await fetch(
@@ -835,13 +918,13 @@ const CourseManagement = () => {
           return newState;
         });
 
-        alert("Module deleted successfully");
+        showAlert("Module deleted successfully", "Success");
       } else {
-        alert(data.message || "Failed to delete module");
+        showAlert(data.message || "Failed to delete module", "Error");
       }
     } catch (error) {
       console.error("Error deleting module:", error);
-      alert("Error deleting module. Please try again.");
+      showAlert("Error deleting module. Please try again.", "Error");
     }
   };
 
@@ -887,25 +970,24 @@ const CourseManagement = () => {
         setEditingTopic(null);
         setEditTopicName("");
       } else {
-        alert(data.message || "Failed to update topic");
+        showAlert(data.message || "Failed to update topic", "Error");
       }
     } catch (error) {
       console.error("Error updating topic:", error);
-      alert("Error updating topic");
+      showAlert("Error updating topic", "Error");
     }
   };
 
-  const deleteTopic = async (topicId, e) => {
+  const confirmDeleteTopic = (topicId, e) => {
     if (e) e.stopPropagation();
+    showConfirm(
+      "Are you sure you want to delete this topic? This will delete all subtopics and content within it.",
+      () => executeDeleteTopic(topicId),
+      "Delete Topic"
+    );
+  };
 
-    if (
-      !window.confirm(
-        "Are you sure you want to delete this topic? This will delete all subtopics and content within it."
-      )
-    ) {
-      return;
-    }
-
+  const executeDeleteTopic = async (topicId) => {
     try {
       const token = getToken();
       const response = await fetch(
@@ -954,13 +1036,13 @@ const CourseManagement = () => {
           return newState;
         });
 
-        alert("Topic deleted successfully");
+        showAlert("Topic deleted successfully", "Success");
       } else {
-        alert(data.message || "Failed to delete topic");
+        showAlert(data.message || "Failed to delete topic", "Error");
       }
     } catch (error) {
       console.error("Error deleting topic:", error);
-      alert("Error deleting topic. Please try again.");
+      showAlert("Error deleting topic. Please try again.", "Error");
     }
   };
 
@@ -1006,25 +1088,24 @@ const CourseManagement = () => {
         setEditingSubtopic(null);
         setEditSubtopicName("");
       } else {
-        alert(data.message || "Failed to update subtopic");
+        showAlert(data.message || "Failed to update subtopic", "Error");
       }
     } catch (error) {
       console.error("Error updating subtopic:", error);
-      alert("Error updating subtopic");
+      showAlert("Error updating subtopic", "Error");
     }
   };
 
-  const deleteSubtopic = async (subtopicId, e) => {
+  const confirmDeleteSubtopic = (subtopicId, e) => {
     if (e) e.stopPropagation();
+    showConfirm(
+      "Are you sure you want to delete this subtopic? This will delete all content within it.",
+      () => executeDeleteSubtopic(subtopicId),
+      "Delete Subtopic"
+    );
+  };
 
-    if (
-      !window.confirm(
-        "Are you sure you want to delete this subtopic? This will delete all content within it."
-      )
-    ) {
-      return;
-    }
-
+  const executeDeleteSubtopic = async (subtopicId) => {
     try {
       const token = getToken();
       const response = await fetch(
@@ -1066,13 +1147,13 @@ const CourseManagement = () => {
           setSelectedSubtopic(null);
         }
 
-        alert("Subtopic deleted successfully");
+        showAlert("Subtopic deleted successfully", "Success");
       } else {
-        alert(data.message || "Failed to delete subtopic");
+        showAlert(data.message || "Failed to delete subtopic", "Error");
       }
     } catch (error) {
       console.error("Error deleting subtopic:", error);
-      alert("Error deleting subtopic. Please try again.");
+      showAlert("Error deleting subtopic. Please try again.", "Error");
     }
   };
 
@@ -1089,13 +1170,16 @@ const CourseManagement = () => {
     }
   };
 
-  const deleteContent = async (contentId, e) => {
+  const confirmDeleteContent = (contentId, e) => {
     e.stopPropagation();
+    showConfirm(
+      "Are you sure you want to delete this content?",
+      () => executeDeleteContent(contentId),
+      "Delete Content"
+    );
+  };
 
-    if (!window.confirm("Are you sure you want to delete this content?")) {
-      return;
-    }
-
+  const executeDeleteContent = async (contentId) => {
     try {
       const token = getToken();
       const response = await fetch(
@@ -1118,13 +1202,13 @@ const CourseManagement = () => {
             [subtopicId]: prev[subtopicId].filter((c) => c.id !== contentId),
           }));
         }
-        alert("Content deleted successfully");
+        showAlert("Content deleted successfully", "Success");
       } else {
-        alert(data.message || "Failed to delete content");
+        showAlert(data.message || "Failed to delete content", "Error");
       }
     } catch (error) {
       console.error("Error deleting content:", error);
-      alert("Error deleting content. Please try again.");
+      showAlert("Error deleting content. Please try again.", "Error");
     }
   };
 
@@ -2069,7 +2153,7 @@ const CourseManagement = () => {
                                 </button>
                                 <button
                                   className="course-content-delete"
-                                  onClick={(e) => deleteContent(item.id, e)}
+                                  onClick={(e) => confirmDeleteContent(item.id, e)}
                                 >
                                   <Trash2 size={14} />
                                 </button>
@@ -2170,6 +2254,55 @@ const CourseManagement = () => {
             fetchContent(selectedSubtopic.id);
           }}
         />
+      )}
+
+      {/* Custom General Purpose Modal */}
+      {customModal.isOpen && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 9999,
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <div style={{
+            background: '#fff', padding: '24px', borderRadius: '8px',
+            width: '400px', maxWidth: '90%', boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+          }}>
+            <h3 style={{ marginTop: 0, marginBottom: '16px', color: '#333' }}>
+              {customModal.title}
+            </h3>
+            <p style={{ marginBottom: '24px', color: '#555', lineHeight: '1.5' }}>
+              {customModal.message}
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              {customModal.type === 'confirm' && (
+                <button
+                  onClick={closeCustomModal}
+                  style={{
+                    padding: '8px 16px', border: '1px solid #ccc',
+                    background: '#fff', borderRadius: '4px', cursor: 'pointer',
+                    color: '#333', fontWeight: '500'
+                  }}
+                >
+                  Cancel
+                </button>
+              )}
+              <button
+                onClick={() => {
+                  if (customModal.onConfirm) customModal.onConfirm();
+                  closeCustomModal();
+                }}
+                style={{
+                  padding: '8px 16px', border: 'none',
+                  background: customModal.type === 'confirm' ? '#ef4444' : '#3b82f6',
+                  color: '#fff', borderRadius: '4px', cursor: 'pointer',
+                  fontWeight: '500'
+                }}
+              >
+                {customModal.type === 'confirm' ? 'Confirm' : 'OK'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
