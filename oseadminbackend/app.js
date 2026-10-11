@@ -687,9 +687,10 @@ const initializeDbAndServer = async () => {
 
     try {
       await pool.query(`
-    ALTER TABLE IF NOT EXISTS resumes DROP COLUMN resume_file;
-    ALTER TABLE IF NOT EXISTS resumes ADD COLUMN file_path VARCHAR(500);
-    ALTER TABLE IF NOT EXISTS resumes ADD COLUMN file_name VARCHAR(255);
+    ALTER TABLE resumes
+      DROP COLUMN IF EXISTS resume_file,
+      ADD COLUMN IF NOT EXISTS file_path VARCHAR(500),
+      ADD COLUMN IF NOT EXISTS file_name VARCHAR(255);
   `);
     } catch (alterError) {
       console.error("Error altering resumes table:", alterError.message);
@@ -776,7 +777,7 @@ CREATE TABLE IF NOT EXISTS contacts (
 
     if (popupCount == 0) {
       try {
-        const data = await fs.readFile("pops.json", "utf8");
+        const data = await fs.promises.readFile(path.join(__dirname, "pops.json"), "utf8");
         const popList = JSON.parse(data); // popList should be an array
 
         if (!Array.isArray(popList)) {
@@ -808,7 +809,7 @@ CREATE TABLE IF NOT EXISTS contacts (
     const jobsCount = jobsCountResult.rows[0].count;
 
     if (jobsCount == 0) {
-      const data = await fs.readFile("jobs.json", "utf8");
+      const data = await fs.promises.readFile(path.join(__dirname, "jobs.json"), "utf8");
       const jobList = JSON.parse(data);
 
       const insertJobQuery = `
@@ -841,7 +842,7 @@ CREATE TABLE IF NOT EXISTS contacts (
     );
     const adminCount = adminCountResult.rows[0].count;
     if (adminCount == 0) {
-      const data = await fs.readFile("admin.json", "utf8");
+      const data = await fs.promises.readFile(path.join(__dirname, "admin.json"), "utf8");
       const adminList = JSON.parse(data);
       const insertAdminQuery = `
          INSERT INTO admin (adminname, username, password, phone, admin_image_link)
