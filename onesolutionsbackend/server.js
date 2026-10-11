@@ -285,8 +285,8 @@ const createTables = async () => {
     );
   `;
 
-  
-
+  await pool.query(studentsTableQuery);
+  console.log("✅ Students table ready");
 
   await pool.query(`
   CREATE OR REPLACE FUNCTION generate_thread_slug_function(title VARCHAR)
@@ -900,9 +900,6 @@ CREATE TABLE IF NOT EXISTS student_feedback (
     console.log("✅ Discussion threads table ready");
     await pool.query(discussionRepliesTableQuery);
     console.log("✅ Discussion replies table ready");
-
-    await pool.query(studentsTableQuery);
-    console.log("✅ Students table ready");
 
     await pool.query(progressTableQuery);
     console.log("✅ Student progress table ready");
