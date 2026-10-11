@@ -43,7 +43,7 @@ const Enroll = () => {
 
     try {
       const response = await axios.post(
-        "https://apiose.onesolutionsekam.in/api/enroll",
+        "https://apiose.zorvixetechnologies.in/api/enroll",
         formData,
         {
           headers: {

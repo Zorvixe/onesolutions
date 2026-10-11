@@ -97,7 +97,7 @@ const JavaVideoUploadModal = ({
     if (isEditing) {
       // UPDATE MODE – JSON request, array is sent as JavaScript array (handled automatically)
       const response = await fetch(
-        `https://api.onesolutionsekam.in/admin/java/content/${editData.id}`,
+        `https://api.zorvixetechnologies.in/admin/java/content/${editData.id}`,
         {
           method: "PUT",
           headers: {
@@ -138,7 +138,7 @@ const JavaVideoUploadModal = ({
       formData.append("allowed_student_types", pgArrayLiteral);
 
       const response = await fetch(
-        `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/video`,
+        `https://api.zorvixetechnologies.in/admin/java/subtopics/${subtopicId}/video`,
         {
           method: "POST",
           body: formData,

@@ -13,7 +13,7 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import "react-toastify/dist/ReactToastify.css";
 import "./popup.css";
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || "https://apiose.onesolutionsekam.in";
+const API_BASE_URL = process.env.REACT_APP_API_URL || "https://apiose.zorvixetechnologies.in";
 
 const PopUp = () => {
   const [popups, setPopups] = useState([]);

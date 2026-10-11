@@ -12,7 +12,7 @@ import { javaAPI } from "../../services/api";
 import AiApp from "../AiApp/AiApp";
 
 const API_OSE_URL =
-  process.env.REACT_APP_API_OSE_URL || "https://apiose.onesolutionsekam.in/";
+  process.env.REACT_APP_API_OSE_URL || "https://apiose.zorvixetechnologies.in/";
 
 const Home = () => {
   // --- General State ---

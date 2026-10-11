@@ -76,7 +76,7 @@ const AdminAIContent = () => {
       setLoading(true);
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/ai-content?category=${selectedCategory}&search=${searchTerm}&is_active=${filterActive}`,
+        `https://api.zorvixetechnologies.in/api/admin/ai-content?category=${selectedCategory}&search=${searchTerm}&is_active=${filterActive}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -112,7 +112,7 @@ const AdminAIContent = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/ai-content/categories`,
+        `https://api.zorvixetechnologies.in/api/admin/ai-content/categories`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -191,7 +191,7 @@ const AdminAIContent = () => {
     setSaving(true);
     try {
       const token = localStorage.getItem("token");
-      const url = `https://api.onesolutionsekam.in/api/admin/ai-content`;
+      const url = `https://api.zorvixetechnologies.in/api/admin/ai-content`;
 
       const payload = {
         ...formData,
@@ -252,7 +252,7 @@ const AdminAIContent = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/ai-content/${id}`,
+        `https://api.zorvixetechnologies.in/api/admin/ai-content/${id}`,
         {
           method: "DELETE",
           headers: {

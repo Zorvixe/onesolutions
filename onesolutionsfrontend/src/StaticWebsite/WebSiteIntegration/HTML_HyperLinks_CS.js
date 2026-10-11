@@ -160,7 +160,7 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
 
         <CodeBlock
           language="html"
-          code={`<a href="https://onesolutionsekam.in/">Full Stack Development</a>`}
+          code={`<a href="https://zorvixetechnologies.in/">Full Stack Development</a>`}
         />
 
         <h3>1.2 HTML target Attribute</h3>

@@ -26,7 +26,7 @@ import {
 import "./DiscussionThreadDetail.css";
 
 const API_BASE =
-  process.env.REACT_APP_API_APP_URL || "https://api.onesolutionsekam.in";
+  process.env.REACT_APP_API_APP_URL || "https://api.zorvixetechnologies.in";
 
 const DiscussionThreadDetail = () => {
   const { threadSlug } = useParams();
@@ -61,7 +61,7 @@ const DiscussionThreadDetail = () => {
       console.log("🔍 Fetching admin details...");
 
       const response = await axios.get(
-        `https://apiose.onesolutionsekam.in/api/admin/me`,
+        `https://apiose.zorvixetechnologies.in/api/admin/me`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -111,7 +111,7 @@ const DiscussionThreadDetail = () => {
       console.log(`🔍 Fetching thread details for slug: ${threadSlug}`);
 
       const response = await axios.get(
-        `https://api.onesolutionsekam.in/api/admin/discussions/threads/${threadSlug}`,
+        `https://api.zorvixetechnologies.in/api/admin/discussions/threads/${threadSlug}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -159,7 +159,7 @@ const DiscussionThreadDetail = () => {
       console.log(`👤 Admin details: ${adminName} (ID: ${adminId})`);
 
       await axios.post(
-        `https://api.onesolutionsekam.in/api/admin/discussions/replies`,
+        `https://api.zorvixetechnologies.in/api/admin/discussions/replies`,
         {
           threadId: thread.id,
           content: replyContent,
@@ -190,7 +190,7 @@ const DiscussionThreadDetail = () => {
       const token =
         localStorage.getItem("adminToken") || localStorage.getItem("token");
       await axios.put(
-        `https://api.onesolutionsekam.in/api/admin/discussions/threads/${thread.id}/status`,
+        `https://api.zorvixetechnologies.in/api/admin/discussions/threads/${thread.id}/status`,
         {
           is_important: important,
         },

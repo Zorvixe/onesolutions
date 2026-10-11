@@ -110,7 +110,7 @@ const CourseManagement = () => {
   const fetchGoals = async () => {
     try {
       const res = await fetch(
-        "https://api.onesolutionsekam.in/api/admin/course/goals",
+        "https://api.zorvixetechnologies.in/api/admin/course/goals",
         {
           headers: { Authorization: `Bearer ${getToken()}` },
         }
@@ -132,7 +132,7 @@ const CourseManagement = () => {
 
     try {
       const res = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/goals/${goalId}/modules`,
+        `https://api.zorvixetechnologies.in/api/admin/course/goals/${goalId}/modules`,
         {
           headers: { Authorization: `Bearer ${getToken()}` },
         }
@@ -162,7 +162,7 @@ const CourseManagement = () => {
 
     try {
       const res = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/modules/${moduleId}/topics`,
+        `https://api.zorvixetechnologies.in/api/admin/course/modules/${moduleId}/topics`,
         {
           headers: { Authorization: `Bearer ${getToken()}` },
         }
@@ -192,7 +192,7 @@ const CourseManagement = () => {
 
     try {
       const res = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/topics/${topicId}/subtopics`,
+        `https://api.zorvixetechnologies.in/api/admin/course/topics/${topicId}/subtopics`,
         {
           headers: { Authorization: `Bearer ${getToken()}` },
         }
@@ -222,7 +222,7 @@ const CourseManagement = () => {
 
     try {
       const res = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/subtopics/${subtopicId}/content`,
+        `https://api.zorvixetechnologies.in/api/admin/course/subtopics/${subtopicId}/content`,
         {
           headers: { Authorization: `Bearer ${getToken()}` },
         }
@@ -486,7 +486,7 @@ const CourseManagement = () => {
         body = { subtopicId: targetParentId, orderedIds };
       }
 
-      const res = await fetch(`https://api.onesolutionsekam.in${endpoint}`, {
+      const res = await fetch(`https://api.zorvixetechnologies.in${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -512,7 +512,7 @@ const CourseManagement = () => {
     if (!newGoalName.trim()) return;
     try {
       const res = await fetch(
-        "https://api.onesolutionsekam.in/api/admin/course/goals",
+        "https://api.zorvixetechnologies.in/api/admin/course/goals",
         {
           method: "POST",
           headers: {
@@ -542,7 +542,7 @@ const CourseManagement = () => {
     if (!newModuleName.trim() || !selectedGoal) return;
     try {
       const res = await fetch(
-        "https://api.onesolutionsekam.in/api/admin/course/modules",
+        "https://api.zorvixetechnologies.in/api/admin/course/modules",
         {
           method: "POST",
           headers: {
@@ -574,7 +574,7 @@ const CourseManagement = () => {
     if (!newTopicName.trim() || !selectedModule) return;
     try {
       const res = await fetch(
-        "https://api.onesolutionsekam.in/api/admin/course/topics",
+        "https://api.zorvixetechnologies.in/api/admin/course/topics",
         {
           method: "POST",
           headers: {
@@ -606,7 +606,7 @@ const CourseManagement = () => {
     if (!newSubtopicName.trim() || !selectedTopic) return;
     try {
       const res = await fetch(
-        "https://api.onesolutionsekam.in/api/admin/course/subtopics",
+        "https://api.zorvixetechnologies.in/api/admin/course/subtopics",
         {
           method: "POST",
           headers: {
@@ -644,7 +644,7 @@ const CourseManagement = () => {
     if (!editGoalName.trim()) return;
     try {
       const res = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/goals/${goalId}`,
+        `https://api.zorvixetechnologies.in/api/admin/course/goals/${goalId}`,
         {
           method: "PUT",
           headers: {
@@ -688,7 +688,7 @@ const CourseManagement = () => {
     try {
       const token = getToken();
       const response = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/goals/${goalId}`,
+        `https://api.zorvixetechnologies.in/api/admin/course/goals/${goalId}`,
         {
           method: "DELETE",
           headers: {
@@ -737,7 +737,7 @@ const CourseManagement = () => {
     if (!editModuleName.trim()) return;
     try {
       const res = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/modules/${moduleId}`,
+        `https://api.zorvixetechnologies.in/api/admin/course/modules/${moduleId}`,
         {
           method: "PUT",
           headers: {
@@ -791,7 +791,7 @@ const CourseManagement = () => {
     try {
       const token = getToken();
       const response = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/modules/${moduleId}`,
+        `https://api.zorvixetechnologies.in/api/admin/course/modules/${moduleId}`,
         {
           method: "DELETE",
           headers: {
@@ -855,7 +855,7 @@ const CourseManagement = () => {
     if (!editTopicName.trim()) return;
     try {
       const res = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/topics/${topicId}`,
+        `https://api.zorvixetechnologies.in/api/admin/course/topics/${topicId}`,
         {
           method: "PUT",
           headers: {
@@ -909,7 +909,7 @@ const CourseManagement = () => {
     try {
       const token = getToken();
       const response = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/topics/${topicId}`,
+        `https://api.zorvixetechnologies.in/api/admin/course/topics/${topicId}`,
         {
           method: "DELETE",
           headers: {
@@ -974,7 +974,7 @@ const CourseManagement = () => {
     if (!editSubtopicName.trim()) return;
     try {
       const res = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/subtopics/${subtopicId}`,
+        `https://api.zorvixetechnologies.in/api/admin/course/subtopics/${subtopicId}`,
         {
           method: "PUT",
           headers: {
@@ -1028,7 +1028,7 @@ const CourseManagement = () => {
     try {
       const token = getToken();
       const response = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/subtopics/${subtopicId}`,
+        `https://api.zorvixetechnologies.in/api/admin/course/subtopics/${subtopicId}`,
         {
           method: "DELETE",
           headers: {
@@ -1099,7 +1099,7 @@ const CourseManagement = () => {
     try {
       const token = getToken();
       const response = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/content/${contentId}`,
+        `https://api.zorvixetechnologies.in/api/admin/course/content/${contentId}`,
         {
           method: "DELETE",
           headers: {

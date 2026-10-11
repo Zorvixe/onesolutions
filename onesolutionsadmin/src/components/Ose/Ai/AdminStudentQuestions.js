@@ -44,7 +44,7 @@ const AdminStudentQuestions = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/ai-content/student-questions?search=${searchTerm}`
+        `https://api.zorvixetechnologies.in/api/admin/ai-content/student-questions?search=${searchTerm}`
       );
       const data = await response.json();
       if (data.success) {
@@ -72,7 +72,7 @@ const AdminStudentQuestions = () => {
   const handleSaveAnswer = async () => {
     try {
       const response = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/ai-content/student-questions/${selectedQuestion.id}`,
+        `https://api.zorvixetechnologies.in/api/admin/ai-content/student-questions/${selectedQuestion.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -96,7 +96,7 @@ const AdminStudentQuestions = () => {
   const markImportant = async (id, isImportant) => {
     try {
       const response = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/ai-content/student-questions/${id}`,
+        `https://api.zorvixetechnologies.in/api/admin/ai-content/student-questions/${id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

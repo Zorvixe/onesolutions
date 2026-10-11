@@ -28,7 +28,7 @@ const Contact = () => {
 
     try {
       const response = await axios.post(
-        "https://apiose.onesolutionsekam.in/api/contact",
+        "https://apiose.zorvixetechnologies.in/api/contact",
         formData,
         {
           headers: {

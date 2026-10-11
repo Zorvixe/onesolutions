@@ -27,7 +27,7 @@ const AdminManagement = ({ currentUser }) => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get(`https://apiose.onesolutionsekam.in/api/admin/users`, {
+      const res = await axios.get(`https://apiose.zorvixetechnologies.in/api/admin/users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(res.data);
@@ -42,7 +42,7 @@ const AdminManagement = ({ currentUser }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `https://apiose.onesolutionsekam.in/api/admin/users/${userId}/role`,
+        `https://apiose.zorvixetechnologies.in/api/admin/users/${userId}/role`,
         { role: newRole },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -79,7 +79,7 @@ const AdminManagement = ({ currentUser }) => {
       if (editForm.password) payload.password = editForm.password;
 
       await axios.put(
-        `https://apiose.onesolutionsekam.in/api/admin/users/${selectedUser.id}`,
+        `https://apiose.zorvixetechnologies.in/api/admin/users/${selectedUser.id}`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -102,7 +102,7 @@ const AdminManagement = ({ currentUser }) => {
     if (!selectedUser) return;
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`https://apiose.onesolutionsekam.in/api/admin/users/${selectedUser.id}`, {
+      await axios.delete(`https://apiose.zorvixetechnologies.in/api/admin/users/${selectedUser.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("User deleted");
@@ -117,7 +117,7 @@ const AdminManagement = ({ currentUser }) => {
   try {
     const token = localStorage.getItem("token");
     await axios.put(
-      `https://apiose.onesolutionsekam.in/api/admin/users/${userId}/toggle-active`,
+      `https://apiose.zorvixetechnologies.in/api/admin/users/${userId}/toggle-active`,
       {},
       { headers: { Authorization: `Bearer ${token}` } }
     );

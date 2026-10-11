@@ -119,7 +119,7 @@ const JavaMCQCreator = ({ subtopicId, onClose, onSuccess, editData = null }) => 
       }));
 
       if (isEditing) {
-        url = `https://api.onesolutionsekam.in/admin/java/content/${editData.id}`;
+        url = `https://api.zorvixetechnologies.in/admin/java/content/${editData.id}`;
         method = 'PUT';
         body = {
           content_type: 'mcq',
@@ -128,7 +128,7 @@ const JavaMCQCreator = ({ subtopicId, onClose, onSuccess, editData = null }) => 
           allowed_student_types: allowedStudentTypes,
         };
       } else {
-        url = `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/mcq`;
+        url = `https://api.zorvixetechnologies.in/admin/java/subtopics/${subtopicId}/mcq`;
         method = 'POST';
         body = {
           title,

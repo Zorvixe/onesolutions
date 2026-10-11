@@ -93,14 +93,14 @@ const MCQCreator = ({ subtopicId, onClose, onSuccess, editData = null }) => {
       }));
 
       if (isEditing) {
-        url = `https://api.onesolutionsekam.in/api/admin/course/content/${editData.id}`;
+        url = `https://api.zorvixetechnologies.in/api/admin/course/content/${editData.id}`;
         method = 'PUT';
         body = {
           mcq_title: title,
           questions: payloadQuestions
         };
       } else {
-        url = `https://api.onesolutionsekam.in/api/admin/course/subtopics/${subtopicId}/mcq`;
+        url = `https://api.zorvixetechnologies.in/api/admin/course/subtopics/${subtopicId}/mcq`;
         method = 'POST';
         body = {
           title,

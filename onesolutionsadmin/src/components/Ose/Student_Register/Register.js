@@ -251,7 +251,7 @@ const Register = () => {
 
       // Direct API call to register endpoint
       const response = await fetch(
-        "https://api.onesolutionsekam.in/api/auth/register",
+        "https://api.zorvixetechnologies.in/api/auth/register",
         {
           method: "POST",
           body: submitData,

@@ -36,7 +36,7 @@ const DiscussionManagement = () => {
       setLoading(true);
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `https://api.onesolutionsekam.in/api/admin/discussions/threads`,
+        `https://api.zorvixetechnologies.in/api/admin/discussions/threads`,
         {
           headers: { Authorization: `Bearer ${token}` },
           params: {

@@ -71,7 +71,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
         return;
       }
       try {
-        const response = await fetch(`https://apiose.onesolutionsekam.in/api/admin/me`, {
+        const response = await fetch(`https://apiose.zorvixetechnologies.in/api/admin/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -98,7 +98,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await axios.get(`https://apiose.onesolutionsekam.in/api/chat/rooms`, {
+      const response = await axios.get(`https://apiose.zorvixetechnologies.in/api/chat/rooms`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setRooms(response.data);
@@ -116,10 +116,10 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
       setLoading(true);
       const token = localStorage.getItem("token");
       const [adminsResponse, statusResponse] = await Promise.all([
-        axios.get(`https://apiose.onesolutionsekam.in/api/admins/approved`, {
+        axios.get(`https://apiose.zorvixetechnologies.in/api/admins/approved`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axios.get(`https://apiose.onesolutionsekam.in/api/admins/status/individual`, {
+        axios.get(`https://apiose.zorvixetechnologies.in/api/admins/status/individual`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
@@ -147,7 +147,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
         setLoading(true);
         const token = localStorage.getItem("token");
         await axios.post(
-          `https://apiose.onesolutionsekam.in/api/chat/rooms`,
+          `https://apiose.zorvixetechnologies.in/api/chat/rooms`,
           { room_name: newRoomName },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -175,7 +175,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
       setLoading(true);
       const token = localStorage.getItem("token");
       await axios.put(
-        `https://apiose.onesolutionsekam.in/api/chat/rooms/${roomId}`,
+        `https://apiose.zorvixetechnologies.in/api/chat/rooms/${roomId}`,
         { room_name: newName },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -194,7 +194,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
       try {
         setLoading(true);
         const token = localStorage.getItem("token");
-        await axios.delete(`https://apiose.onesolutionsekam.in/api/chat/rooms/${roomId}`, {
+        await axios.delete(`https://apiose.zorvixetechnologies.in/api/chat/rooms/${roomId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         toast.success("Group deleted successfully");
@@ -208,7 +208,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
     }
   };
 
-  const socket = io(`https://apiose.onesolutionsekam.in/`); // Replace with your server URL
+  const socket = io(`https://apiose.zorvixetechnologies.in/`); // Replace with your server URL
   // In ChatRoomsList component
   useEffect(() => {
     if (socket) {

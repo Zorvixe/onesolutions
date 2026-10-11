@@ -146,7 +146,7 @@ const Header = () => {
 
         <a
           className="btn-student_login"
-          href="https://app.onesolutionsekam.in/"
+          href="https://app.zorvixetechnologies.in/"
           onClick={() => setMobileNavOpen(false)}
         >
           <svg

@@ -67,7 +67,7 @@ const JavaCodingPractice = ({
 
               try {
                 const res = await fetch(
-                  "https://api.onesolutionsekam.in/admin/java/upload-image",
+                  "https://api.zorvixetechnologies.in/admin/java/upload-image",
                   { method: "POST", body: formData }
                 );
                 const data = await res.json();
@@ -113,7 +113,7 @@ const JavaCodingPractice = ({
     setLoading(true);
     try {
       const res = await fetch(
-        `https://api.onesolutionsekam.in/admin/java/coding-practices/${practiceId}`
+        `https://api.zorvixetechnologies.in/admin/java/coding-practices/${practiceId}`
       );
       const data = await res.json();
       if (data.success) {
@@ -138,7 +138,7 @@ const JavaCodingPractice = ({
     }
     try {
       const res = await fetch(
-        `https://api.onesolutionsekam.in/admin/java/subtopics/${effectiveSid}/content`
+        `https://api.zorvixetechnologies.in/admin/java/subtopics/${effectiveSid}/content`
       );
       const data = await res.json();
       if (data.success) {
@@ -254,7 +254,7 @@ const JavaCodingPractice = ({
     if (!window.confirm("Delete this problem? This action cannot be undone.")) return;
 
     try {
-      const res = await fetch(`https://api.onesolutionsekam.in/admin/java/content/${problem.id}`, { method: "DELETE" });
+      const res = await fetch(`https://api.zorvixetechnologies.in/admin/java/content/${problem.id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success) {
         setProblems((prev) => prev.filter((_, i) => i !== index));
@@ -283,7 +283,7 @@ const JavaCodingPractice = ({
     setDeleting(true);
     try {
       const effectivePracticeId = practiceId || editData?.id;
-      const res = await fetch(`https://api.onesolutionsekam.in/admin/java/coding-practices/${effectivePracticeId}`, { method: "DELETE" });
+      const res = await fetch(`https://api.zorvixetechnologies.in/admin/java/coding-practices/${effectivePracticeId}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success) onSuccess();
       else alert("Failed to delete practice");
@@ -323,14 +323,14 @@ const JavaCodingPractice = ({
 
       // 1. Save or Update the Practice details
       if (isEditing) {
-        const res = await fetch(`https://api.onesolutionsekam.in/admin/java/coding-practices/${effectivePracticeId}`, {
+        const res = await fetch(`https://api.zorvixetechnologies.in/admin/java/coding-practices/${effectivePracticeId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(practice),
         });
         practiceResult = await res.json();
       } else {
-        const res = await fetch(`https://api.onesolutionsekam.in/admin/java/subtopics/${effectiveSid}/coding-practices`, {
+        const res = await fetch(`https://api.zorvixetechnologies.in/admin/java/subtopics/${effectiveSid}/coding-practices`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(practice),
@@ -345,7 +345,7 @@ const JavaCodingPractice = ({
       const problemPromises = problems.map(async (problem) => {
         if (problem.id && !problem.id.toString().startsWith("temp-")) {
           // UPDATE EXISTING PROBLEM
-          const res = await fetch(`https://api.onesolutionsekam.in/admin/java/content/${problem.id}`, {
+          const res = await fetch(`https://api.zorvixetechnologies.in/admin/java/content/${problem.id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -366,7 +366,7 @@ const JavaCodingPractice = ({
           if(!result.success) throw new Error(`Problem Update failed: ${result.message || result.error}`);
         } else {
           // CREATE NEW PROBLEM
-          const res = await fetch(`https://api.onesolutionsekam.in/admin/java/subtopics/${effectiveSid}/coding`, {
+          const res = await fetch(`https://api.zorvixetechnologies.in/admin/java/subtopics/${effectiveSid}/coding`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

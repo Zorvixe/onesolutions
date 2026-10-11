@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const STUDENT_BACKEND_URL = process.env.STUDENT_BACKEND_URL || 'https://api.onesolutionsekam.in';
+const STUDENT_BACKEND_URL = process.env.STUDENT_BACKEND_URL || 'https://api.zorvixetechnologies.in';
 const ADMIN_ACCESS_TOKEN = process.env.ADMIN_ACCESS_TOKEN;
 
 class StudentBackendService {

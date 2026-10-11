@@ -41,7 +41,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
           return;
         }
         const response = await axios.get(
-          `https://apiose.onesolutionsekam.in/api/chat/direct-messages/${user.phone}/${recipient.phone}`,
+          `https://apiose.zorvixetechnologies.in/api/chat/direct-messages/${user.phone}/${recipient.phone}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setMessages(response.data);
@@ -85,7 +85,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `https://apiose.onesolutionsekam.in/api/chat/direct-messages`,
+        `https://apiose.zorvixetechnologies.in/api/chat/direct-messages`,
         messagePayload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -162,7 +162,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `https://apiose.onesolutionsekam.in/api/chat/direct-messages/${messageId}`,
+        `https://apiose.zorvixetechnologies.in/api/chat/direct-messages/${messageId}`,
         { message: newText },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -183,7 +183,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `https://apiose.onesolutionsekam.in/api/chat/direct-messages/${messageId}`,
+        `https://apiose.zorvixetechnologies.in/api/chat/direct-messages/${messageId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
