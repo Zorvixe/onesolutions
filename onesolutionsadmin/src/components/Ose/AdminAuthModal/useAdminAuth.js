@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_BASE_URL = "https://api.zorvixetechnologies.in";
+const API_BASE_URL = "https://apione.zorvixetechnologies.in";
 
 export const useAdminAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

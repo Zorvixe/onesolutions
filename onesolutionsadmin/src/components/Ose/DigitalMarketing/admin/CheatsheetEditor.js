@@ -56,7 +56,7 @@ const CheatsheetEditor = ({ subtopicId, onCancel, onSuccess, initialData = null 
 
       if (isEditing) {
         // --- UPDATE MODE ---
-        url = `https://api.zorvixetechnologies.in/api/admin/course/content/${initialData.id}`;
+        url = `https://apione.zorvixetechnologies.in/api/admin/course/content/${initialData.id}`;
         method = "PUT";
         body = {
           cheatsheet_title: title,
@@ -64,7 +64,7 @@ const CheatsheetEditor = ({ subtopicId, onCancel, onSuccess, initialData = null 
         };
       } else {
         // --- CREATE MODE ---
-        url = `https://api.zorvixetechnologies.in/api/admin/course/subtopics/${subtopicId}/cheatsheet`;
+        url = `https://apione.zorvixetechnologies.in/api/admin/course/subtopics/${subtopicId}/cheatsheet`;
         method = "POST";
         body = {
           title: title,

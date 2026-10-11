@@ -77,7 +77,7 @@ const JavaCheatsheetEditor = ({ subtopicId, onCancel, onSuccess, initialData = n
       let url, method, body;
 
       if (isEditing) {
-        url = `https://api.zorvixetechnologies.in/admin/java/content/${initialData.id}`;
+        url = `https://apione.zorvixetechnologies.in/admin/java/content/${initialData.id}`;
         method = "PUT";
         body = {
           content_type: "cheatsheet",
@@ -86,7 +86,7 @@ const JavaCheatsheetEditor = ({ subtopicId, onCancel, onSuccess, initialData = n
           allowed_student_types: allowedStudentTypes,
         };
       } else {
-        url = `https://api.zorvixetechnologies.in/admin/java/subtopics/${subtopicId}/cheatsheet`;
+        url = `https://apione.zorvixetechnologies.in/admin/java/subtopics/${subtopicId}/cheatsheet`;
         method = "POST";
         body = {
           title: title,

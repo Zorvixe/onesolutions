@@ -82,7 +82,7 @@ const VideoUploadModal = ({
         console.log("Updating video details for ID:", editData.id);
 
         const response = await fetch(
-          `https://api.zorvixetechnologies.in/api/admin/course/content/${editData.id}`,
+          `https://apione.zorvixetechnologies.in/api/admin/course/content/${editData.id}`,
           {
             method: "PUT",
             headers: {
@@ -130,7 +130,7 @@ const VideoUploadModal = ({
         }
 
         const response = await fetch(
-          `https://api.zorvixetechnologies.in/api/admin/course/subtopics/${subtopicId}/video`,
+          `https://apione.zorvixetechnologies.in/api/admin/course/subtopics/${subtopicId}/video`,
           {
             method: "POST",
             headers: {

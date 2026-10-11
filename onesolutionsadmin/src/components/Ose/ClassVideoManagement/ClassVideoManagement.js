@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./ClassVideoManagement.css";
 import GoalsPDFView from "../GoalsPDFView/GoalsPDFView";
 
-const API_BASE_URL = "https://api.zorvixetechnologies.in";
+const API_BASE_URL = "https://apione.zorvixetechnologies.in";
 
 const ClassVideoManagement = () => {
   const [videos, setVideos] = useState([]);

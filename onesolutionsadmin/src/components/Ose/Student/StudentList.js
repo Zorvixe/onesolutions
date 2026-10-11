@@ -7,7 +7,7 @@ import "./StudentList.css";
 import AdminAuthModal from "../AdminAuthModal/AdminAuthModal";
 import { useAdminAuth } from "../AdminAuthModal/useAdminAuth";
 
-const API_BASE_URL = "https://api.zorvixetechnologies.in";
+const API_BASE_URL = "https://apione.zorvixetechnologies.in";
 
 const StudentList = () => {
   const [students, setStudents] = useState([]);

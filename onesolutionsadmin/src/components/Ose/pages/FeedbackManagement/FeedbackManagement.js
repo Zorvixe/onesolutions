@@ -45,7 +45,7 @@ const FeedbackManagement = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await axios.get(`https://api.zorvixetechnologies.in/api/admin/feedback`, {
+      const response = await axios.get(`https://apione.zorvixetechnologies.in/api/admin/feedback`, {
         headers: { Authorization: `Bearer ${token}` },
         params: {
           page,
@@ -69,7 +69,7 @@ const FeedbackManagement = () => {
   const fetchStats = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(`https://api.zorvixetechnologies.in/api/admin/feedback/stats`, {
+      const response = await axios.get(`https://apione.zorvixetechnologies.in/api/admin/feedback/stats`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setStats(response.data.data.stats);
